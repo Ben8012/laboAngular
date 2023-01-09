@@ -1,0 +1,14 @@
+<div class="container login">
+  <h4>Login</h4>
+  <form [formGroup]="FormLogin" (ngSubmit)="handleSubmitAction()" >
+      <div class="mb-3">
+        <label for="email" class="form-label">Email address</label>
+        <input type="text" class="form-control" formControlName="email" name="email" id="email" placeholder="Email" >
+      </div>
+      <div class="mb-3">
+        <label for="password" class="form-label">Password</label>
+        <input type="password" class="form-control" name="password" id="password" formControlName="password" placeholder="Password" >
+      </div>
+      <button type="submit" class="btn btn-dark">Login</button>
+  </form>
+</div>

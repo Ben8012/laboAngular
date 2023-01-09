@@ -1,0 +1,27 @@
+
+    <div class="row">
+        <div class="col s6">
+            <form [formGroup]="Form" (ngSubmit)="handleLoginAction()">
+                <input formControlName="username" placeholder="User Name">
+                <input formControlName="password" placeholder="Password">
+                <ng-container formArrayName="addresses">
+                    <ng-container *ngFor="let _ of AddressesField.controls; let i = index">
+                        <div [formGroupName]="i">
+                            <input formControlName="street" placeholder="Street">
+                            <input type="number" formControlName="number" placeholder="Number">
+                            <div class="input-field col s12">
+                              <select matSelect formControlName="country">
+                                  <option value="Belgique">Belgique</option>
+                                  <option value="France">France</option>
+                              </select>
+                            </div>
+                        </div>
+                        <button type="button" style="margin:5px" (click)="handleRemoveAddress(i)">Delete Adress</button>
+                    </ng-container>
+                    <button *ngIf="AddressesField.length < 5" style="margin:5px" type="button"(click)="handleAddAddressAction()">Add Adress</button>
+                </ng-container>
+                <button type="submit" style="margin:5px">Send</button>
+            </form>
+        </div>
+    </div>
+

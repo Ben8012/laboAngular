@@ -1,0 +1,11 @@
+<div class="container">
+    <br>
+    <br>
+    <app-form-user (formChange)="handleFormChange($event)" ></app-form-user>
+    <div *ngFor = "let user of formChange">
+        <p> {{user.firstname }}</p>
+        <div *ngFor = "let u of user.addresses">
+            <p>{{u |json}}</p>
+        </div>
+    </div>
+</div>
