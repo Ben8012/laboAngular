@@ -1,7 +1,7 @@
 <!-- {{ FormRegister.errors |json }} -->
-<div class="container register">
+<div class="register">
   <h4>Register</h4>
-  <form autocomplete="off"  [formGroup]="FormRegister" (ngSubmit)="handleSubmitAction()" >
+  <form [formGroup]="FormRegister" (ngSubmit)="handleSubmitAction()" >
       <br>
       <label for="firstname">FirstName</label>
       <div class="mb-3"  >

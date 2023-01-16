@@ -10,8 +10,8 @@ import { IUser } from "src/app/models/interfaces/user.model";
 })
 export class UserSessionService {
 
-    public user$: BehaviorSubject<string> = new BehaviorSubject("");
-    public user : any
+    public user$: BehaviorSubject<IUser> = new BehaviorSubject<IUser>({}as any);
+
 
     constructor(
         private router : Router
@@ -21,24 +21,25 @@ export class UserSessionService {
 
         if (token) {
             const data: any = jwt_decode(token);
-            this.user = data
+
             this.user$.next(data);
         }
     }
 
     saveSession(user: IUser) {
         sessionStorage.setItem('token', JSON.stringify(user.token))
-        sessionStorage.setItem('name', JSON.stringify(user.firstname))
-        const data: string = jwt_decode(user.token);
-        this.user = data
-        this.user$.next(data);
+        //sessionStorage.setItem('name', JSON.stringify(user.firstname))
+        //const token: string = jwt_decode(user.token);
+        this.user$.next(user);
+        // this.user$.subscribe((data : IUser)=> {
+        //   console.log(data)
+        // })
 
     }
 
     clearSession() {
         sessionStorage.clear()
-        this.user = ""
-        this.user$.next("")
+        this.user$.next({} as any)
     }
 
     isUserLoggedAndAccessTokenValid(): boolean {

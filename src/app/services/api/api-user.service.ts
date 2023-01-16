@@ -4,10 +4,11 @@ import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
 import { ILoginUser } from 'src/app/models/interfaces/login-user';
 import { IUser } from 'src/app/models/interfaces/user.model';
+import { IRegister } from 'src/app/models/interfaces/register-user';
 
 
 
- const apiUrl = "https://localhost:7022/api/User/";
+ const apiUrl = "https://localhost:7022/api/User";
 
 @Injectable({
   providedIn: 'root'
@@ -19,20 +20,13 @@ export class ApiUserService {
     private router : Router
   ) { }
 
-  // addUtilisateur(addUtilisateur : Utilisateur): Observable<Utilisateur>{
-  //   return this.http.post<Utilisateur>(apiLink,addUtilisateur )
-  // }
-
-  // addFournisseur(addFournisseur : Utilisateur){
-  //   return this.http.post(apiLink+'addfournisseur',addFournisseur)
-  // }
-
-  // updateUtilisateur(id: number,upadateUtilisateur : Utilisateur): Observable<AuthenticationResponse>{
-  //   return this.http.patch<AuthenticationResponse>(apiLink+'update/'+id,upadateUtilisateur )
-  // }
+  register(register : IRegister): Observable<any>{
+    console.log(register)
+    return this.http.post<any>(apiUrl,register)
+  }
 
   login(login : ILoginUser):Observable<IUser>{
-    return this.http.post<IUser>(apiUrl+'Login',login)
+    return this.http.post<IUser>(apiUrl+'/Login',login)
   }
 
   // getUserByEmail(email?: string): Observable<Utilisateur> {

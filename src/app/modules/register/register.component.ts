@@ -2,8 +2,7 @@
 import { Component } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { FRegister } from '../../models/forms/register.form';
-
-import {AbstractControl, ValidationErrors, ValidatorFn} from '@angular/forms';
+import { ApiUserService } from 'src/app/services/api/api-user.service';
 
 @Component({
   selector: 'app-register',
@@ -24,17 +23,13 @@ export class RegisterComponent {
   get ConfirmPassword():any {return this.formRegister.get('passwordConfirm');}
   get Errors():any{return this.formRegister.errors}
 
-  // constructor(
-  //   private $session: SessionService<{ id: number, label: string }>,
-  //   private $auth: AuthService,
-
-  //     ) { }
+  constructor(private _apiUserService: ApiUserService) { }
 
   handleSubmitAction(){
-    console.log(this.formRegister.valid, this.formRegister.value);
+    //console.log(this.formRegister.valid, this.formRegister.value);
     if (this.formRegister.valid) {
-      //const {email, password, username} = this.formRegister.value;
-      //this.$auth.register(this.formRegister.value);
+      delete this.FormRegister.value.passwordConfirm
+      this._apiUserService.register(this.formRegister.value)
     }
   }
 

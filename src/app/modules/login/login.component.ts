@@ -33,7 +33,7 @@ export class LoginComponent {
       this._apiUserService.login(this.formLogin.value)
         .subscribe((data :IUser) =>{
           this._session.saveSession(data)
-          console.log(data)
+          //console.log(data)
           //this._route.navigate(['']);
         }, error => {
           this.errorMessage = 'Login et / ou mot de passe incorrecte';
