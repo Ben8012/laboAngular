@@ -3,8 +3,6 @@ import { ContactRoutingModule } from './contact.routing.modules';
 import { ContactComponent } from './contact.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { SharedModule } from '../shared/shared.module';
-
 
 @NgModule({
   declarations: [
@@ -12,7 +10,6 @@ import { SharedModule } from '../shared/shared.module';
   ],
   imports: [
     CommonModule,
-    SharedModule,
     ContactRoutingModule,
     FormsModule
   ],

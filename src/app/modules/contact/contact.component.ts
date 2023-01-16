@@ -1,4 +1,4 @@
-import { User } from './../../models/user.model';
+import { IUser } from '../../models/interfaces/user.model';
 import { Component } from '@angular/core';
 
 @Component({
@@ -8,9 +8,9 @@ import { Component } from '@angular/core';
 })
 export class ContactComponent {
 
-  formChange: User[] = [];
+  formChange: IUser[] = [];
 
-  handleFormChange(e : User){
+  handleFormChange(e : IUser){
     this.formChange.push(e);
   }
 

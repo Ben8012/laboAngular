@@ -6,7 +6,7 @@ import {
     ActivatedRouteSnapshot
 } from '@angular/router';
 import { Observable, of } from 'rxjs';
-import { SessionService } from '../../security/services/session.service';
+//import { SessionService } from '../../security/services/session.service';
 
 
 @Injectable({
@@ -17,10 +17,10 @@ export class ProfilResolver implements Resolve<any> {
   private user: any|null = null;
 
     constructor(
-        private $session: SessionService<{ id: number }>,
+        //private $session: SessionService<{ id: number }>,
         private $http : HttpClient
     ) {
-        this.$session.subscribe(user => this.user = user)
+        //this.$session.subscribe(user => this.user = user)
     }
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> {

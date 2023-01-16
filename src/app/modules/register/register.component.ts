@@ -1,9 +1,8 @@
 
 import { Component } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { FRegister } from './forms/register.form';
-import { SessionService } from '../../modules/security/services/session.service';
-import { AuthService } from '../../modules/security/services/auth.service';
+import { FRegister } from '../../models/forms/register.form';
+
 import {AbstractControl, ValidationErrors, ValidatorFn} from '@angular/forms';
 
 @Component({
@@ -25,17 +24,17 @@ export class RegisterComponent {
   get ConfirmPassword():any {return this.formRegister.get('passwordConfirm');}
   get Errors():any{return this.formRegister.errors}
 
-  constructor(
-    private $session: SessionService<{ id: number, label: string }>,
-    private $auth: AuthService,
+  // constructor(
+  //   private $session: SessionService<{ id: number, label: string }>,
+  //   private $auth: AuthService,
 
-      ) { }
+  //     ) { }
 
   handleSubmitAction(){
     console.log(this.formRegister.valid, this.formRegister.value);
     if (this.formRegister.valid) {
       //const {email, password, username} = this.formRegister.value;
-      this.$auth.register(this.formRegister.value);
+      //this.$auth.register(this.formRegister.value);
     }
   }
 

@@ -1,6 +1,6 @@
-import { FProfil } from './forms/profil.form';
+import { FProfil } from '../../models/forms/profil.form';
 import { Component } from '@angular/core';
-import { SessionService } from '../../modules/security/services/session.service';
+// import { SessionService } from '../../services/session/user-session.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { FormControl, FormGroup, Validators } from "@angular/forms"
 import { ActivatedRoute, Route, Router } from '@angular/router';
@@ -24,12 +24,12 @@ export class ProfilComponent {
   get Birthdate():any {return this.formProfil.get('birthdate');}
 
   constructor(
-    private $session: SessionService<any>,
+    // private $session: SessionService<any>,
     private $http: HttpClient,
     private $route : ActivatedRoute
     )
   {
-    this.$session.subscribe(user => this.user = user)
+    // this.$session.subscribe(user => this.user = user)
 
   }
 

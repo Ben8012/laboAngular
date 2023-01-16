@@ -1,5 +1,5 @@
 import {AbstractControl, ValidationErrors, ValidatorFn} from '@angular/forms';
-import { FRegister } from '../../register/forms/register.form';
+
 
 export const checkPasswords: (field1: string, field2: string) => ValidatorFn = (f1, f2) => {
   return (group: AbstractControl) => {

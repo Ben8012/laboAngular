@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { SessionService } from '../../modules/security/services/session.service';
+import { UserSessionService } from 'src/app/services/session/user-session.service';
+// import { SessionService } from '../../modules/security/services/session.service';
 @Component({
   selector: 'app-sidebar',
   templateUrl: './sidebar.component.html',
@@ -9,13 +10,12 @@ export class SidebarComponent {
 
   user: { label: string } | null = null;
 
-  constructor(private $session: SessionService<{ id: number, label: string }>)
+  constructor( private _session : UserSessionService)
    {
-      $session.subscribe((user) => this.user = user);
-      console.log(this.user)
+
    }
 
   handleLogoutAction(){
-    this.$session.close();
+    this._session.clearSession();
   }
 }

@@ -1,24 +1,28 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { SharedModule } from './modules/shared/shared.module';
+import { NavbarComponent } from './components/navbar/navbar.component';
+import { ContactbarComponent } from './components/contactbar/contactbar.component';
+import { UserSessionService } from './services/session/user-session.service';
 
 @NgModule({
   declarations: [
     AppComponent,
-    SidebarComponent
+    SidebarComponent,
+    NavbarComponent,
+    ContactbarComponent,
+
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    SharedModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+
   ],
   providers: [],
   bootstrap: [AppComponent]
