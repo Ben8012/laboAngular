@@ -6,9 +6,7 @@ import { ILoginUser } from 'src/app/models/interfaces/login-user';
 import { IUser } from 'src/app/models/interfaces/user.model';
 import { IRegister } from 'src/app/models/interfaces/register-user';
 
-
-
- const apiUrl = "https://localhost:7022/api/User";
+const apiUrl = "https://localhost:7022/api/User";
 
 @Injectable({
   providedIn: 'root'
@@ -29,13 +27,19 @@ export class ApiUserService {
     return this.http.post<IUser>(apiUrl+'/Login',login)
   }
 
-  // getUserByEmail(email?: string): Observable<Utilisateur> {
-  //   return this.http.post<Utilisateur>(apiLink,email);
-  // }
+  getAllUsers(): Observable<any[]> {
+    return this.http.get<any[]>(apiUrl);
+  }
 
-  // changerMotDePasse(id : number,changerMotDePasse: ChangerMotDePasseUtilisateur) {
-  //   return this.http.patch(apiLink+'changepasswd/'+id,changerMotDePasse);
-  // }
+  getUserById(id : number) : Observable<any> {
+    return this.http.get(apiUrl+'/'+id);
+  }
+
+  like(likerId : number, likedId : number){
+    const send = { LikerId : likerId, LikedId : likedId}
+    console.log(send)
+    this.http.post(apiUrl+"/Like",send);
+  }
 
   // getAllClient():Observable<UserWithAdresse[]>{
   //   return this.http.get<UserWithAdresse[]>(apiLink+'clients');

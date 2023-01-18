@@ -15,13 +15,16 @@
   <a routerLink="/home" class="list-group-item list-group-item-action py-2 ripple mt-2">
     <i class="bi bi-house-door-fill fa-fw me-3"></i><span>Home</span>
   </a>
-  <a routerLink="/login" class="list-group-item list-group-item-action py-2 ripple">
+  <a *ngIf="!user?.id" a routerLink="/login" class="list-group-item list-group-item-action py-2 ripple">
     <i class="bi bi-box-arrow-in-right fa-fw me-3"></i><span>Login</span>
   </a>
-  <a routerLink="" class="list-group-item list-group-item-action py-2 ripple" (click)="handleLogoutAction()">
+  <a *ngIf="user?.id" routerLink="" class="list-group-item list-group-item-action py-2 ripple" (click)="handleLogoutAction()">
     <i class="bi bi-box-arrow-left fa-fw me-3"></i><span>Logout</span>
   </a>
-  <a routerLink="/register" class="list-group-item list-group-item-action py-2 ripple">
+  <a *ngIf="!user?.id" routerLink="/register" class="list-group-item list-group-item-action py-2 ripple">
     <i class="bi bi-r-square fa-fw me-3"></i><span>Register</span>
+  </a>
+  <a *ngIf="user?.id" routerLink="/contact" class="list-group-item list-group-item-action py-2 ripple">
+    <i class="bi bi-r-square fa-fw me-3"></i><span>Contact</span>
   </a>
 </div>

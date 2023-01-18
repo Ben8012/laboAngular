@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { IUser } from 'src/app/models/interfaces/user.model';
 import { UserSessionService } from 'src/app/services/session/user-session.service';
 // import { SessionService } from '../../modules/security/services/session.service';
@@ -7,16 +7,21 @@ import { UserSessionService } from 'src/app/services/session/user-session.servic
   templateUrl: './sidebar.component.html',
   styleUrls: ['./sidebar.component.scss']
 })
-export class SidebarComponent {
+export class SidebarComponent implements OnInit {
 
-  public user : IUser | null = null
+  private _user : IUser | null = null
+  get user(): IUser | null { return this._user; }
 
   constructor( private _session : UserSessionService)
-   {
-    this._session.user$.subscribe((user : any) => {
-      this.user  = user;
+  {}
+
+  ngOnInit(): void {
+    this._session.$user?.subscribe((user :IUser | null) =>{
+      this._user = user;
+      //console.log(this._user)
     })
-   }
+
+  }
 
   handleLogoutAction(){
     this._session.clearSession();

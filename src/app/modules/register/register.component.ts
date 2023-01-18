@@ -3,6 +3,8 @@ import { Component } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { FRegister } from '../../models/forms/register.form';
 import { ApiUserService } from 'src/app/services/api/api-user.service';
+import { IUser } from 'src/app/models/interfaces/user.model';
+import { UserSessionService } from 'src/app/services/session/user-session.service';
 
 @Component({
   selector: 'app-register',
@@ -11,8 +13,9 @@ import { ApiUserService } from 'src/app/services/api/api-user.service';
 })
 export class RegisterComponent {
 
-  private formRegister: FormGroup = FRegister();
+  public errorMessage: string = '';
 
+  private formRegister: FormGroup = FRegister();
   get FormRegister(): FormGroup { return this.formRegister; }
 
   get Lastname():any {return this.formRegister.get('lastname');}
@@ -23,13 +26,21 @@ export class RegisterComponent {
   get ConfirmPassword():any {return this.formRegister.get('passwordConfirm');}
   get Errors():any{return this.formRegister.errors}
 
-  constructor(private _apiUserService: ApiUserService) { }
+  constructor(
+    private _apiUserService: ApiUserService,
+    private _session : UserSessionService,
+    )
+    { }
 
   handleSubmitAction(){
     //console.log(this.formRegister.valid, this.formRegister.value);
     if (this.formRegister.valid) {
       delete this.FormRegister.value.passwordConfirm
-      this._apiUserService.register(this.formRegister.value)
+      this._apiUserService.register(this.formRegister.value).subscribe((data :IUser) =>{
+        this._session.saveSession(data)
+      }, error => {
+        this.errorMessage = 'Login et / ou mot de passe incorrecte';
+      }) ;
     }
   }
 
