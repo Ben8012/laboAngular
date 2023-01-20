@@ -28,14 +28,17 @@ export class LoginComponent {
 
 
 
-  handleSubmitAction(){
+  login(){
     if(this.formLogin.valid){
-      this._apiUserService.login(this.formLogin.value).subscribe((data :IUser) =>{
+      this._apiUserService.login(this.formLogin.value).subscribe({
+        next : (data :IUser) =>{
           this._session.saveSession(data)
           this._route.navigate(['/home'])
-        }, error => {
+        },
+        error : (error) => {
           this.errorMessage = 'Login et / ou mot de passe incorrecte';
-        }) ;
+          console.log(error)
+        }}) ;
     }
 
   }

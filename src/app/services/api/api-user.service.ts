@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Router } from '@angular/router';
 import { ILoginUser } from 'src/app/models/interfaces/login-user';
 import { IUser } from 'src/app/models/interfaces/user.model';
 import { IRegister } from 'src/app/models/interfaces/register-user';
@@ -15,7 +14,6 @@ export class ApiUserService {
 
   constructor(
     private http:HttpClient,
-    private router : Router
   ) { }
 
   register(register : IRegister): Observable<any>{
@@ -35,37 +33,24 @@ export class ApiUserService {
     return this.http.get(apiUrl+'/'+id);
   }
 
-  like(likerId : number, likedId : number){
+  like(likerId : number, likedId : number) : Observable<any>{
     const send = { LikerId : likerId, LikedId : likedId}
-    console.log(send)
-    this.http.post(apiUrl+"/Like",send);
+    return this.http.post(apiUrl+"/Like",send)
   }
 
-  // getAllClient():Observable<UserWithAdresse[]>{
-  //   return this.http.get<UserWithAdresse[]>(apiLink+'clients');
-  // }
+  unlike(likerId : number, likedId : number) : Observable<any>{
+    const send = { LikerId : likerId, LikedId : likedId}
+    return this.http.post(apiUrl+"/UnLike",send)
+  }
 
-  // getAllFournisseurs():Observable<UserWithAdresse[]>{
-  //   return this.http.get<UserWithAdresse[]>(apiLink+'fournisseurs');
-  // }
+  getUserByToken(token : string) : Observable<any>{
+    const send = { TokenString : token}
+    return this.http.post(apiUrl+'/Token',send)
+  }
 
-  // getAllPreparateurs():Observable<UserWithAdresse[]>{
-  //   return this.http.get<UserWithAdresse[]>(apiLink+'preparateurs');
-  // }
+  getFriends(id : number) : Observable<any>{
+    return this.http.get(apiUrl+'/Friends/'+id)
+  }
 
-  // deleteClient(id : number){
-  //   return this.http.delete(apiLink+'delete/'+id)
-  // }
 
-  // getUserById(id : any):Observable<Utilisateur>{
-  //   return this.http.get<Utilisateur>(apiLink+'getbyid/'+id)
-  // }
-
-  // changeRole(id : number, changeRole : any){
-  //   return this.http.patch(apiLink+'changerole/'+id,changeRole)
-  // }
-
-  // getFournisseurByArticle(articleId : number):Observable<any[]>{
-  //   return this.http.get<any[]>(apiLink+'fournisseurbyarticleid/'+articleId)
-  // }
 }

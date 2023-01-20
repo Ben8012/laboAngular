@@ -1,6 +1,6 @@
 <div class=" m-auto ">
   <h4>Login</h4>
-  <form [formGroup]="FormLogin" (ngSubmit)="handleSubmitAction()" >
+  <form [formGroup]="FormLogin" (ngSubmit)="login()" >
       <div class="mb-3">
         <label for="email" class="form-label">Email address</label>
         <input type="text" class="form-control" formControlName="email" name="email" id="email" placeholder="Email" >
