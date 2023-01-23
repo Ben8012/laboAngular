@@ -30,7 +30,7 @@ export class ObservableService implements OnInit {
         this._apiUserService.getFriends(this._user.id).subscribe({
           next : (data)=>{
           this.$friends.next(data)
-          console.log(data)
+          //console.log(data)
           },
           error : (error) =>{
             console.log(error)

@@ -25,7 +25,7 @@ export class ContactbarComponent implements OnInit {
         next : (friends :any) =>{
           if(Object.keys(friends).length != 0){
             this._friends = friends;
-            console.log(this.friends)
+            //console.log(this.friends)
           }
         },
         error : (error) =>{

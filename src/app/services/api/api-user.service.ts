@@ -52,5 +52,9 @@ export class ApiUserService {
     return this.http.get(apiUrl+'/Friends/'+id)
   }
 
+  getAllOrganisation() : Observable<any>{
+    return this.http.get(apiUrl+'/Organisation')
+  }
+
 
 }

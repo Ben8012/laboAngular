@@ -28,11 +28,11 @@ export class AppComponent implements OnInit {
 
   private getUser(){
     let token : any = (localStorage.getItem('token') ?? null);
-    //console.log(token)
     if(token != null){
       this._apiUserService.getUserByToken(JSON.parse(token)).subscribe({
         next : (user :IUser) =>{
           if(user){
+            console.log(user.id)
             this._session.$user.next(user)
           }else{
             this._session.$user.next({}as any)

@@ -1,32 +1,22 @@
 <div class="container">
   <h1>Contacts</h1>
-
-    <div *ngFor="let contact of contacts" >
-
-      <div *ngFor="let friend of friends" >
-
-        <div class="card" style="width: 18rem;">
-          <div class="card-body">
-            <h5 class="card-title">{{contact.firstname}} {{contact.lastname}}</h5>
-            <!-- <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's
-              content.</p> -->
-          </div>
-          <!-- <ul class="list-group list-group-flush">
-            <li class="list-group-item">An item</li>
-            <li class="list-group-item">A second item</li>
-            <li class="list-group-item">A third item</li>
-          </ul> -->
-          <div>
-            <div *ngIf="friend.id != contact.id" class="card-body">
-              <button class="btn btn-success m-2 hover" (click)="like(contact.id)">Aimer</button>
-            </div>
-            <div *ngIf="friend.id == contact.id" class="card-body">
-              <button class="btn btn-danger" (click)="unlike(contact.id)">Ne plus aimer</button>
+  <div *ngFor="let contact of contacts">
+      <div class="card" style="width: 18rem;">
+        <div class="card-body">
+          <h4 class="card-title">{{contact.firstname}} {{contact.lastname}}</h4>
+          <div *ngIf="contact.organisation">
+            <div *ngFor="let organisation of contact.organisation">
+              <h5  class="card-title">{{organisation.name}} : {{organisation.level}}</h5>
+              <img width="80px" src="../../../assets/organisations/{{organisation.organisationPicture}}" >
             </div>
           </div>
         </div>
-
+        <div *ngIf="!contact.isFriend" class="card-body">
+          <button class="btn btn-success m-2 hover" (click)="like(contact.id)">Aimer</button>
+        </div>
+        <div *ngIf="contact.isFriend" class="card-body">
+          <button class="btn btn-danger" (click)="unlike(contact.id)">Ne plus aimer</button>
+        </div>
       </div>
-    </div>
-
+  </div>
 </div>
