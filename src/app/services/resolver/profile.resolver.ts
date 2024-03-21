@@ -1,3 +1,4 @@
+import { UserSessionService } from './../session/user-session.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {
@@ -16,13 +17,19 @@ export class ProfilResolver implements Resolve<any> {
   private user: any|null = null;
 
     constructor(
-        private $http : HttpClient
+        private $http : HttpClient,
+        private _session: UserSessionService,
+
     ) {}
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> {
-      //return this.$http.get<any>(`http://localhost:3000/users/`+this.user.id);
-      console.log(this.user.token);
+      this._session.$user.subscribe(data => {
+        this.user = data
+      })
+      console.log(this.user);
       const headers = new HttpHeaders({'Authorization': `Bearer ${this.user.token}`});
-      return this.$http.get<any>(`https://localhost:7022/api/User/`+this.user.id, {headers});
+      return this.$http.get<any>(`https://localhost:7022/User/`+this.user.id
+      //, {headers}
+      );
     }
 }

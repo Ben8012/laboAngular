@@ -1,0 +1,11 @@
+
+<div class="container text-center">
+  <div *ngIf="!User.id">
+    <h1>Bienvenue sur Enjoy your Dive blabalbla</h1>   
+    <h2>Creer vous un compte</h2>
+    <button class="btn btn-primary" routerLink="/register">Ici</button>
+  </div>
+  <div *ngIf="User.id">
+    <h1>fil de l'actualitée</h1>
+  </div>
+</div>

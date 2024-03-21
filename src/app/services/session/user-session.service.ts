@@ -1,4 +1,4 @@
-import { ApiUserService } from 'src/app/services/api/api-user.service';
+import { UserHttpService } from 'src/app/services/http/user.http.service';
 import jwt_decode , { JwtPayload } from "jwt-decode";
 
 import { Injectable, OnInit } from "@angular/core";
@@ -24,6 +24,7 @@ export class UserSessionService implements OnInit {
   }
 
   saveSession(user: IUser) {
+      localStorage.clear();
       localStorage.setItem('token', JSON.stringify(user.token))
       this.$user.next(user);
   }

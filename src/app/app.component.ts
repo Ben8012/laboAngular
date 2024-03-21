@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { UserSessionService } from './services/session/user-session.service';
 import { Router } from '@angular/router';
 import { isEmpty } from 'rxjs';
-import { ApiUserService } from './services/api/api-user.service';
+import { UserHttpService } from './services/http/user.http.service';
 
 @Component({
   selector: 'app-root',
@@ -13,12 +13,12 @@ import { ApiUserService } from './services/api/api-user.service';
 export class AppComponent implements OnInit {
 
   private _user! : IUser
-  get user(): IUser { return this._user; }
+  get User(): IUser { return this._user; }
 
   constructor(
     private _router : Router,
     private _session : UserSessionService,
-    private _apiUserService : ApiUserService
+    private _userHttpService : UserHttpService
   )
   {}
 
@@ -29,11 +29,12 @@ export class AppComponent implements OnInit {
   private getUser(){
     let token : any = (localStorage.getItem('token') ?? null);
     if(token != null){
-      this._apiUserService.getUserByToken(JSON.parse(token)).subscribe({
+      this._userHttpService.getUserByToken(JSON.parse(token)).subscribe({
         next : (user :IUser) =>{
           if(user){
-            console.log(user.id)
+            //console.log(user)
             this._session.$user.next(user)
+            this._user = user;
           }else{
             this._session.$user.next({}as any)
           }

@@ -1,17 +1,14 @@
-
+<app-navbar></app-navbar>
   <div class="d-flex justify-content-between">
-     <div class="col-2 min-widht-sidebar">
+     <div class="col-2 ">
        <app-sidebar></app-sidebar>
      </div>
-     <div class="min-widht-center">
-      <div>
-        <app-navbar></app-navbar>
-      </div>
-      <div>
-        <router-outlet></router-outlet>
-      </div>
-     </div>
-     <div class="col-2 min-widht-contactbar" >
+     
+    <div class="container mt-2 col-8 min-size">
+      <router-outlet></router-outlet>
+    </div>
+   
+     <div class="col-2" >
         <app-contactbar></app-contactbar>
      </div>
  </div>
