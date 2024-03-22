@@ -12,13 +12,14 @@ import { ObservableService } from 'src/app/services/observable/observable.servic
 export class ContactComponent implements OnInit {
 
 
-  private _user!: IUser;
+  private _user!: any;
   private _friends: any[] = [];
   private _organisations: any[] = [];
-  private _users: any[] = [];
+ 
 
   get Users(): any[] { return this._users; }
-
+  private _users: any[] = [];
+  
   constructor(
     private _userHttpService: UserHttpService,
     private _session: UserSessionService,
@@ -27,46 +28,32 @@ export class ContactComponent implements OnInit {
 
   ngOnInit(): void {
     this.getUser();
-    this.getOrganisation();
     this.getAllUsers();
   }
 
   private getUser() {
     this._session.$user.subscribe((user: IUser) => {
       this._user = user;
-      setTimeout(() => {
-        this.getAllFriends();
-      }, 50);
-     
     })
   }
 
-  private getAllFriends() {
-    this._userHttpService.getFriends(this._user.id).subscribe({
-      next: (data: any[]) => {
-        this._friends = data
+  private refreshUser(){
+    this._userHttpService.getUserById(this._user.id).subscribe({
+      next : (data :IUser) =>{
+        this._session.saveSession(data)
+        this._user = data
+        console.log(data)
       },
-      error: (data: any) => {
-        console.log(data);
-      }
-    })
-  }
-
-  private getOrganisation() {
-    this._userHttpService.getAllOrganisation().subscribe({
-      next: (data: any) => {
-        this._organisations = data
-      },
-      error: (data: any) => {
-        console.log(data);
-      }
-    })
+      error : (error) => {
+        console.log(error)
+      }}) ;
   }
 
   private getAllUsers() {
     this._userHttpService.getAllUsers().subscribe({
       next: (data: any) => {
         this._users = data.filter((d: any) => d.id != this._user.id)
+        console.log(this._users)
         this.compareConctactFriends();
       },
       error: (data: any) => {
@@ -78,17 +65,21 @@ export class ContactComponent implements OnInit {
  
   like(likedId: number) {
     this._userHttpService.like(this._user.id, likedId).subscribe((data: any[]) => {
-      this._observableService.$friends.next(data);
-      this._friends = data;
+      //this._observableService.$friends.next(data);
+      console.log(data)
+      console.log(this._friends)
+      this.refreshUser()
       this.compareConctactFriends();
     });
   }
 
   unlike(likedId: number) {
     this._userHttpService.unlike(this._user.id, likedId).subscribe((data: any[]) => {
-      this._observableService.$friends.next(data);
+      //this._observableService.$friends.next(data);
       this._friends = data;
-      this.compareConctactFriends();
+      this.refreshUser()
+     this.compareConctactFriends();
+
     });
 
   }

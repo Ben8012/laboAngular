@@ -1,20 +1,16 @@
-<div class="container text-center">
-  <div class="d-flex justify-content-around m-2" *ngFor="let contact of Users">
-      <div class="card" style="width: 18rem;">
-        <div class="card-body">
-          <h4 class="card-title border-bottom py-2">{{contact.firstname}} {{contact.lastname}}</h4>
-          <div *ngIf="contact.organisation">
-            <div class="border-bottom py-2" *ngFor="let organisation of contact.organisation">
-              <h5  class="card-title"><img  width="50px" src="../../../assets/organisations/{{organisation.organisationPicture}}" > : {{organisation.level}}</h5>
-            </div>
+<div *ngFor="let contact of Users">
+  <div class="card m-1">
+    <div class="card-body">
+      <div class="d-flex justify-content-between">
+        <h4 class="card-title py-2">{{contact.firstname}} {{contact.lastname}}</h4>
+          <div class="py-2" *ngFor="let organisation of contact.organisations">
+            <h5>
+              <!-- <img  width="50px" src="../../../assets/organisations/{{organisation.organisationPicture}}" >  -->
+              {{organisation.name}} : {{organisation.level }}  </h5>
           </div>
-        </div>
-        <div *ngIf="!contact.isFriend" class="card-body">
-          <button class="btn btn-success m-2 hover" (click)="like(contact.id)">Aimer</button>
-        </div>
-        <div *ngIf="contact.isFriend" class="card-body">
-          <button class="btn btn-danger" (click)="unlike(contact.id)">Ne plus aimer</button>
-        </div>
-      </div>
+        <button *ngIf="!contact.isFriend" class="btn btn-light m-2 hover" (click)="like(contact.id)">Aimer</button>
+        <button *ngIf="contact.isFriend" class="btn btn-light mb-2 hover" (click)="unlike(contact.id)">Ne plus aimer</button>
+      </div>   
+    </div>
   </div>
 </div>

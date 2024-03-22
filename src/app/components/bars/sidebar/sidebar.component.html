@@ -5,7 +5,7 @@
   <a class="list-group-item list-group-item-action text-center" routerLink="/profil" role="button">
     <img src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img (31).webp" class="rounded-circle" height="100"Zalt="Avatar" loading="lazy" />
     <!-- <i  class="bi bi-person fa-fw me-1"></i> -->
-    <span *ngIf="user">{{user.firstname}}</span>
+    <div *ngIf="user">{{user.firstname}}</div>
   </a>
 
   <a *ngIf="!user?.id" a routerLink="/login" class="list-group-item list-group-item-action text-center">
@@ -14,9 +14,9 @@
   <a *ngIf="user?.id" routerLink="/" class="list-group-item list-group-item-action text-center" (click)="Logout()">
     <i class="bi bi-box-arrow-left fa-fw me-3"></i><span>Logout</span>
   </a>
-  <a routerLink="/" class="list-group-item list-group-item-action text-center">
+  <!-- <a routerLink="/" class="list-group-item list-group-item-action text-center">
     <i class="bi bi-house-door-fill fa-fw me-3"></i><span>Home</span>
-  </a>
+  </a> -->
   <a *ngIf="!user?.id" routerLink="/register" class="list-group-item list-group-item-action text-center">
     <i class="bi bi-r-square fa-fw me-3"></i><span>Register</span>
   </a>

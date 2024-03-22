@@ -1,0 +1,24 @@
+<div id="creatorModal" class="modal-container scroll">
+    <div class=" modal-content card m-1">
+        <div class="card-body">
+            <div class="d-flex justify-content-between">
+                <h4 class="mx-auto">{{ modalData.firstname}} {{modalData.lastname}}</h4>
+                <button mat-button class="btn btn-light " (click)="onClose()"><i class="bi bi-x-square"></i></button>
+            </div>
+            <hr>
+            <h6 class="text-underline text-center">Organisations :</h6>
+            <div *ngFor="let oragnisation of modalData.organisations">
+                <li>{{oragnisation.name}}</li>
+            </div>
+            <hr>
+            <h6 class="text-underline text-center">Clubs :</h6>
+            <div *ngFor="let club of modalData.clubs">
+                <li>{{club.name}}</li>
+            </div>
+            <hr>
+            <div class="text-center">
+                <button mat-button class="btn btn-light " (click)="onClose()">Fermer</button>
+            </div>
+        </div>
+    </div>
+</div>
