@@ -1,1 +1,77 @@
-<p>site works!</p>,
+<div *ngFor="let site of Sites">
+    <div class="card m-1">
+        <div class="card-body">
+            <table class="table">
+                <tbody>
+                    <tr class="d-flex justify-content-between ">
+                        <td class="m-auto w-25 border rounded">
+                            <h6>Note moyenne : {{site.avgVote}}/5</h6>
+                            <h6>Ma note : {{site.userVote}}/5</h6>
+                        </td>
+                        <td class="m-auto border rounded">
+                                <h5 class="m-3">{{site.name}}</h5> 
+                        </td>
+                        <td class="m-auto w-25 border rounded">
+                            <div class="d-flex justify-content-center">
+                                <h6 class="m-auto">Noter</h6> 
+                                    <select class="form-select w-25" [(ngModel)]="SelectedOption" (change)="onOptionChange(site.id)">
+                                        <option value="0">0</option>
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                        <option value="5">5</option>
+                                    </select>
+                               
+
+                            </div>
+                            
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <table class="table">
+                <tbody>
+                    <tr>
+                        <td class="text-center">
+                            <img [src]="'../../../../assets/sites/'+site.picture" alt="" class="size border rounded" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class=" text-center my-2">
+                            <h6>{{site.description}}</h6>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class=" text-center my-2">
+                            <h6>Profondeur : {{site.maxDepp}} mètres</h6>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class=" text-center my-2">
+                            <h6>Compresseur : {{site.compressor ? 'Oui' :'Non'}}</h6>
+                            <h6>Restauration : {{site.restoration ? 'Oui' :'Non'}}</h6>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class=" text-center my-2">
+                            <h6>Tarif : {{site.price}}€</h6>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class=" text-center my-2">
+                            <a class="btn btn-primary" [href]="site.url" target="_blank">Site Officiel</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class=" text-center my-2">
+                            <a class="btn btn-primary" [href]="'../../.././../assets/plans/'+site.map">Télécharger la carte</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>    
+
+
+

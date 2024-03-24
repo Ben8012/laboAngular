@@ -14,46 +14,32 @@ export class ContactComponent implements OnInit {
 
   private _user!: any;
   private _friends: any[] = [];
-  private _organisations: any[] = [];
- 
 
   get Users(): any[] { return this._users; }
   private _users: any[] = [];
   
   constructor(
     private _userHttpService: UserHttpService,
-    private _session: UserSessionService,
-    private _observableService: ObservableService
+    private _session: UserSessionService
   ) { }
 
   ngOnInit(): void {
     this.getUser();
     this.getAllUsers();
+    this.compareConctactFriends();
   }
 
   private getUser() {
     this._session.$user.subscribe((user: IUser) => {
       this._user = user;
+      this._friends = this._user.friends
     })
-  }
-
-  private refreshUser(){
-    this._userHttpService.getUserById(this._user.id).subscribe({
-      next : (data :IUser) =>{
-        this._session.saveSession(data)
-        this._user = data
-        console.log(data)
-      },
-      error : (error) => {
-        console.log(error)
-      }}) ;
   }
 
   private getAllUsers() {
     this._userHttpService.getAllUsers().subscribe({
       next: (data: any) => {
         this._users = data.filter((d: any) => d.id != this._user.id)
-        console.log(this._users)
         this.compareConctactFriends();
       },
       error: (data: any) => {
@@ -65,20 +51,17 @@ export class ContactComponent implements OnInit {
  
   like(likedId: number) {
     this._userHttpService.like(this._user.id, likedId).subscribe((data: any[]) => {
-      //this._observableService.$friends.next(data);
-      console.log(data)
-      console.log(this._friends)
-      this.refreshUser()
+      this._friends = data;
+      this._user = this._session.refreshUser(this._user.id)
       this.compareConctactFriends();
     });
   }
 
   unlike(likedId: number) {
     this._userHttpService.unlike(this._user.id, likedId).subscribe((data: any[]) => {
-      //this._observableService.$friends.next(data);
-      this._friends = data;
-      this.refreshUser()
-     this.compareConctactFriends();
+    this._friends = data;
+    this._user = this._session.refreshUser(this._user.id)
+    this.compareConctactFriends();
 
     });
 
@@ -93,25 +76,7 @@ export class ContactComponent implements OnInit {
           contact.isFriend = true;
         }
       });
-
-      contact.organisation = []
-      this._organisations.map(orga => {
-        //console.log(contact.id, orga.userId)
-        if (contact.id === orga.userId) {
-          let obj = {
-            name: orga.name,
-            level: orga.level,
-            refNumber: orga.refNunber,
-            organisationPicture: orga.picture
-          }
-          contact.organisation.push(obj)
-        }
-
-      })
-
     });
-
-    console.log('contacts =>', this._users);
   }
 }
 

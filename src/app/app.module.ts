@@ -3,7 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { NavbarComponent } from './components/bars/navbar/navbar.component';
 import { SidebarComponent } from './components/bars/sidebar/sidebar.component';
@@ -24,6 +24,9 @@ import { DiveplaceModalComponent } from './components/modals/diveplaceModal/dive
 import { ClubModalComponent } from './components/modals/clubModal/clubModal.component';
 import { TrainingModalComponent } from './components/modals/trainingModal/trainingModal.component';
 import { OrganisationModalComponent } from './components/modals/organisationModal/organisationModal.component';
+import { FormationComponent } from './components/cores/formation/formation.component';
+import { ClubComponent } from './components/cores/club/club.component';
+import { SiteComponent } from './components/cores/site/site.component';
 
 
 
@@ -40,6 +43,9 @@ import { OrganisationModalComponent } from './components/modals/organisationModa
     RegisterComponent,
     MessageComponent,
     EventComponent,
+    FormationComponent,
+    ClubComponent,
+    SiteComponent,
     CreatorModalComponent,
     DiveplaceModalComponent,
     ClubModalComponent,
@@ -53,6 +59,7 @@ import { OrganisationModalComponent } from './components/modals/organisationModa
     HttpClientModule,
     CommonModule,
     MatDialogModule,
+    FormsModule
 
   ],
   providers: [],

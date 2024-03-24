@@ -20,7 +20,7 @@ export class EventComponent implements OnInit {
   private _events : any [] = []
   get Events(): any []  { return this._events; }
 
-  get User(): any[] { return this._user; }
+  get User(): any { return this._user; }
   private _user!: any;
 
   constructor(
@@ -41,6 +41,7 @@ export class EventComponent implements OnInit {
       next : (data :any) =>{
         this._events = data
         this.checkIfParticipe()
+        this._events = this._events.filter(e => e.training == null)
         console.log(this._events)
       },
       error : (error) => {
@@ -54,19 +55,8 @@ export class EventComponent implements OnInit {
     })
   }
 
-  private refreshUser(){
-    this._userHttpService.getUserById(this._user.id).subscribe({
-      next : (data :any) =>{
-        this._session.saveSession(data)
-        this._user = data
-        //console.log(data)
-      },
-      error : (error) => {
-        console.log(error)
-      }}) ;
-  }
 
-   participe(id : any){
+  participe(id : any){
       this._eventHttpService.participe(this._user.id,id).subscribe({
         next : (data :any) =>{
           this.getAllEvents()

@@ -1,6 +1,4 @@
 import { UserHttpService } from 'src/app/services/http/user.http.service';
-import jwt_decode , { JwtPayload } from "jwt-decode";
-
 import { Injectable, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 import { BehaviorSubject, Subject } from "rxjs";
@@ -16,6 +14,7 @@ export class UserSessionService implements OnInit {
 
   constructor(
     private _router : Router,
+    private _userHttpService: UserHttpService,
     )
   {}
 
@@ -41,6 +40,17 @@ export class UserSessionService implements OnInit {
       }
       this._router.navigate(['login']);
       return false;
+    }
+
+  refreshUser(id : any){
+      this._userHttpService.getUserById(id).subscribe({
+        next : (data :IUser) =>{
+          this.saveSession(data)
+          return data
+        },
+        error : (error) => {
+          console.log(error)
+        }}) ;
     }
 
 }

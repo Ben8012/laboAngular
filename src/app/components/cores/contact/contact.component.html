@@ -8,8 +8,10 @@
               <!-- <img  width="50px" src="../../../assets/organisations/{{organisation.organisationPicture}}" >  -->
               {{organisation.name}} : {{organisation.level }}  </h5>
           </div>
-        <button *ngIf="!contact.isFriend" class="btn btn-light m-2 hover" (click)="like(contact.id)">Aimer</button>
-        <button *ngIf="contact.isFriend" class="btn btn-light mb-2 hover" (click)="unlike(contact.id)">Ne plus aimer</button>
+          <!-- <i class="bi bi-hand-thumbs-up-fill"></i> -->
+          <!-- <i class="bi bi-hand-thumbs-down-fill"></i> -->
+        <button *ngIf="!contact.isFriend" class="btn btn-success m-2" (click)="like(contact.id)"><i class="bi bi-emoji-smile"></i></button>
+        <button *ngIf="contact.isFriend" class="btn btn-warning m-2" (click)="unlike(contact.id)"><i class="bi bi-emoji-angry"></i></button>
       </div>   
     </div>
   </div>
