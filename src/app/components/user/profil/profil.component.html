@@ -1,56 +1,56 @@
-<div class="container profil">
-  <form [formGroup]="FormProfil" (ngSubmit)="handleSubmitAction()" >
 
-    <h4>Profil</h4>
-    <label for="firstname">FirstName</label>
-    <div class="mb-3"  >
-        <input type="text" class="form-control" [ngClass]="{'errors' : Firstname.invalid}" formControlName="firstname"  id="firstname" placeholder="Firstname">
-        <div *ngIf="Firstname.invalid && (Firstname.dirty || Firstname.touched)" >
-          <div class="errors" *ngIf="Firstname.errors['required']">Fistname est requis</div>
-          <div class="errors" *ngIf="Firstname.errors['minlength']">longueur minimum doit etre de 4 characteres </div>
-          <div class="errors" *ngIf="Firstname.errors['maxlength']">longueur maximum ne peut depasser 250 characteres</div>
+  <div class="text-center mt-4">
+      <form [formGroup]="FormProfil" (ngSubmit)="update()" >
+        <label for="firstname">FirstName</label>
+        <div class="mb-3 d-flex justify-content-center" >
+            <input type="text" class="form-control w-50" [ngClass]="{'errors' : Firstname.invalid}" formControlName="firstname"  id="firstname" placeholder="Firstname">
+            <div *ngIf="Firstname.invalid && (Firstname.dirty || Firstname.touched)" >
+              <div class="errors" *ngIf="Firstname.errors['required']">Fistname est requis</div>
+              <div class="errors" *ngIf="Firstname.errors['minlength']">longueur minimum doit etre de 4 characteres </div>
+              <div class="errors" *ngIf="Firstname.errors['maxlength']">longueur maximum ne peut depasser 250 characteres</div>
+            </div>
         </div>
-    </div>
-
-    <label for="lastname">LastName</label>
-    <div class="mb-3">
-        <input type="text" class="form-control" [ngClass]="{'errors' : Lastname.invalid}" formControlName="lastname"  id="lastname" placeholder="Lastname" >
-        <div *ngIf="Lastname.invalid && (Lastname.dirty || Lastname.touched)">
-          <div class="errors" *ngIf="Lastname.errors['required']">Lastname est requis</div>
-          <div class="errors" *ngIf="Lastname.errors['minlength']">longueur minimum doit etre de 4 characteres </div>
-          <div class="errors" *ngIf="Lastname.errors['maxlength']">longueur maximum ne peut depasser 250 characteres</div>
+    
+        <label for="lastname">LastName</label>
+        <div class="mb-3 d-flex justify-content-center">
+            <input type="text" class="form-control w-50" [ngClass]="{'errors' : Lastname.invalid}" formControlName="lastname"  id="lastname" placeholder="Lastname" >
+            <div *ngIf="Lastname.invalid && (Lastname.dirty || Lastname.touched)">
+              <div class="errors" *ngIf="Lastname.errors['required']">Lastname est requis</div>
+              <div class="errors" *ngIf="Lastname.errors['minlength']">longueur minimum doit etre de 4 characteres </div>
+              <div class="errors" *ngIf="Lastname.errors['maxlength']">longueur maximum ne peut depasser 250 characteres</div>
+            </div>
         </div>
-    </div>
-
-
-    <label for="birthdate">Birthdate</label>
-    <div class="mb-3">
-        <input type="date" class="form-control" [ngClass]="{'errors' : Birthdate.invalid}" formControlName="birthdate"  id="birthdate" placeholder="Birthdate" >
-        <div *ngIf="Birthdate.invalid && (Birthdate.dirty || Birthdate.touched)">
-          <div class="errors" *ngIf="Birthdate.errors['required']">Birthdate est requis</div>
+    
+    
+        <label for="birthdate">Birthdate</label>
+        <div class="mb-3 d-flex justify-content-center">
+            <input type="date" class="form-control w-50" [ngClass]="{'errors' : Birthdate.invalid}" formControlName="birthdate"  id="birthdate" placeholder="Birthdate" >
+            <div *ngIf="Birthdate.invalid && (Birthdate.dirty || Birthdate.touched)">
+              <div class="errors" *ngIf="Birthdate.errors['required']">Birthdate est requis</div>
+            </div>
         </div>
-    </div>
-
-    <label for="email">Email</label>
-    <div class="mb-3">
-        <input type="email" class="form-control" [ngClass]="{'errors' : Email.invalid}" formControlName="email"  id="email" placeholder="Email">
-        <div *ngIf="Email.invalid && (Email.dirty || Email.touched)">
-          <div class="errors" *ngIf="Email.errors['required']">Email est requis</div>
-          <div class="errors" *ngIf="Email.errors['email']">Email doit etre de type email</div>
+    
+        <label for="email">Email</label>
+        <div class="mb-3 d-flex justify-content-center">
+            <input type="email" class="form-control w-50" [ngClass]="{'errors' : Email.invalid}" formControlName="email"  id="email" placeholder="Email">
+            <div *ngIf="Email.invalid && (Email.dirty || Email.touched)">
+              <div class="errors" *ngIf="Email.errors['required']">Email est requis</div>
+              <div class="errors" *ngIf="Email.errors['email']">Email doit etre de type email</div>
+            </div>
         </div>
-    </div>
-
-    <label for="image">Photo</label>
-    <div class="mb-3">
-        <input type="file" class="form-control" [ngClass]="{'errors' : Image.invalid}" formControlName="image"  id="image" placeholder="image">
-        <div *ngIf="Image.invalid && (Image.dirty || Image.touched)">
-          <!-- <div class="errors" *ngIf="Image.errors['required']">image est requis</div>
-          <div class="errors" *ngIf="Image.errors['image']">image doit etre de type image</div> -->
+    
+        <label for="image">Photo</label>
+        <div class="mb-3 d-flex justify-content-center">
+            <input type="file" (change)="onFileSelected($event)" class="form-control w-50" 
+            [ngClass]="{'errors' : Image.invalid}" formControlName="image"  id="image" placeholder="image"
+            enctype="multipart/form-data">
+            <div *ngIf="Image.invalid && (Image.dirty || Image.touched)">
+              <!-- <div class="errors" *ngIf="Image.errors['required']">image est requis</div>
+              <div class="errors" *ngIf="Image.errors['image']">image doit etre de type image</div> -->
+            </div>
         </div>
-    </div>
+    
+        <button type="submit" class="btn btn-dark">Change</button>
+    </form>
+  </div>
 
-    <button type="submit" class="btn btn-dark">Change</button>
-</form>
-<br>
-
-</div>

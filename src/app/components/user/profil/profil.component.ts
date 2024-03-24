@@ -5,6 +5,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { FormControl, FormGroup, Validators } from "@angular/forms"
 import { ActivatedRoute, Route, Router } from '@angular/router';
 import { UserSessionService } from 'src/app/services/session/user-session.service';
+import { UserHttpService } from 'src/app/services/http/user.http.service';
+import { concatMap } from 'rxjs';
 
 
 @Component({
@@ -13,6 +15,7 @@ import { UserSessionService } from 'src/app/services/session/user-session.servic
   styleUrls: ['./profil.component.scss']
 })
 export class ProfilComponent {
+  selectedFile!: File;
 
   private userSessionId: number | null = null;
   private _user: any|null = null;
@@ -30,25 +33,35 @@ export class ProfilComponent {
     private _http: HttpClient,
     private _route : ActivatedRoute,
     private _router : Router,
-    private _session : UserSessionService
+    private _session : UserSessionService,
+    private _userHttpService : UserHttpService
     )
   {}
 
   ngOnInit() {
+    this.getUser();
+  }
+
+  private addToForm(){
+      let form = {
+        firstname : this._user.firstname,
+        lastname : this._user.lastname,
+        birthdate : this._user.birthdate.substring(0,10),
+        email : this._user.email,
+        photo : "",
+      }
+      this.formProfil.patchValue(form);
+  }
+
+  private getUser(){
     this._session.$user.subscribe({
       next: (data : any) => {
           this._user = data;
-          console.log(this._user)
-          if(this._user){
-            let form = {
-              firstname : this._user.firstname,
-              lastname : this._user.lastname,
-              birthdate : this._user.birthdate.substring(0,10),
-              email : this._user.email,
-              photo : "",
-            }
-            this.formProfil.patchValue(form);
+          if(this._user.id){
+            this.addToForm()
           }
+          console.log(this._user)
+          
       },
       error:(data :any) => {
         console.log(data);
@@ -56,20 +69,34 @@ export class ProfilComponent {
     })
   }
 
-  handleSubmitAction() {
-    if (this.formProfil.valid ) {
-      console.log(this.formProfil.value.image)
-      //console.log(this.userSessionId)
-      this.formProfil.value.image = btoa(this.formProfil.value.image)
-
-      //const headers = new HttpHeaders({'Authorization': `Bearer ${this.user.token}`});
-
-      this._http.put<any>('https://localhost:7231/api/User/'+this._user.id, this.formProfil.value
-     // ,{headers}
-      )
-        .subscribe(user => console.log(user));
-        //this._router.navigate(['/home'])
-    }
+  onFileSelected(event :any): void {
+    this.selectedFile = event.target.files[0];
   }
 
+  update() {
+    if (this.formProfil.valid) {
+      if (!this.selectedFile) {
+        console.error('No file selected');
+        return;
+      }
+      console.log(this.selectedFile)
+      const formData = new FormData();
+      formData.append('image', this.selectedFile, this._user.firstname+" "+this._user.lastname);
+  
+      delete this.formProfil.value.image;
+  
+      this._userHttpService.update(this.formProfil.value, this._user.id).pipe(
+        concatMap(() => {
+          return this._userHttpService.updateImageProfile(formData, this._user.id)
+        })
+      ).subscribe({
+        next: (data: any) => {
+          console.log(data);
+        },
+        error: (error) => {
+          console.log(error);
+        }
+      });
+    }
+  }
 }
