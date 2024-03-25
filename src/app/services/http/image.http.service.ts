@@ -1,0 +1,64 @@
+import { Injectable } from '@angular/core';
+import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { ILoginUser } from 'src/app/models/interfaces/login-user';
+import { IUser } from 'src/app/models/interfaces/user.model';
+import { IRegister } from 'src/app/models/interfaces/register-user';
+import { environment } from 'src/app/environnements/environnement';
+
+const apiUrl = environment.apiUrl+"Image/"
+
+@Injectable({
+  providedIn: 'root'
+})
+export class ImageHttpService {
+
+  constructor(
+    private http:HttpClient,
+  ) { }
+
+ 
+
+  insertProfilImage(formData : any, id : any): Observable<any>{
+    const headers = new HttpHeaders();
+    headers.append('Content-Type', 'multipart/form-data');
+    return this.http.post<any>(apiUrl+'ProfilImage/'+id,formData, { headers: headers })
+  }
+
+  getProfilImage(imageName: string): Observable<Blob> {
+    return this.http.get(apiUrl+'ProfilImage/'+imageName, { responseType: 'blob' });
+  }
+
+  insertInsuranceImage(formData : any, id : any): Observable<any>{
+    const headers = new HttpHeaders();
+    headers.append('Content-Type', 'multipart/form-data');
+    return this.http.post<any>(apiUrl+'InsuranceImage/'+id,formData, { headers: headers })
+  }
+
+  getInsuranceImage(imageName: string): Observable<Blob> {
+    return this.http.get(apiUrl+'InsuranceImage/'+imageName, { responseType: 'blob' });
+  }
+
+  insertLevelImage(formData : any, id : any): Observable<any>{
+    const headers = new HttpHeaders();
+    headers.append('Content-Type', 'multipart/form-data');
+    return this.http.post<any>(apiUrl+'LevelImage/'+id,formData, { headers: headers })
+  }
+
+  getLevelImage(imageName: string): Observable<Blob> {
+    return this.http.get(apiUrl+'LevelImage/'+imageName, { responseType: 'blob' });
+  }
+
+  insertCertificatImage(formData : any, id : any): Observable<any>{
+    const headers = new HttpHeaders();
+    headers.append('Content-Type', 'multipart/form-data');
+    return this.http.post<any>(apiUrl+'CertificatImage/'+id,formData, { headers: headers })
+  }
+
+  getCertificatImage(imageName: string): Observable<Blob> {
+    return this.http.get(apiUrl+'CertificatImage/'+imageName, { responseType: 'blob' });
+  }
+
+ 
+
+}

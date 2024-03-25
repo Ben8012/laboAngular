@@ -3,6 +3,7 @@ import { Injectable, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 import { BehaviorSubject, Subject } from "rxjs";
 import { IUser } from "src/app/models/interfaces/user.model";
+import { ImageHttpService } from '../http/image.http.service';
 
 
 @Injectable({
@@ -52,5 +53,4 @@ export class UserSessionService implements OnInit {
           console.log(error)
         }}) ;
     }
-
 }

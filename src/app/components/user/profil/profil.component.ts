@@ -7,6 +7,7 @@ import { ActivatedRoute, Route, Router } from '@angular/router';
 import { UserSessionService } from 'src/app/services/session/user-session.service';
 import { UserHttpService } from 'src/app/services/http/user.http.service';
 import { concatMap } from 'rxjs';
+import { ImageHttpService } from 'src/app/services/http/image.http.service';
 
 
 @Component({
@@ -15,7 +16,10 @@ import { concatMap } from 'rxjs';
   styleUrls: ['./profil.component.scss']
 })
 export class ProfilComponent {
-  selectedFile!: File;
+  selectedFilePhoto!: File;
+  selectedFileInsurance!: File;
+  selectedFileLevel!: File;
+  selectedFileCertificat!: File;
 
   private userSessionId: number | null = null;
   private _user: any|null = null;
@@ -27,19 +31,52 @@ export class ProfilComponent {
   get Firstname():any {return this.formProfil.get('firstname');}
   get Email():any {return this.formProfil.get('email');}
   get Birthdate():any {return this.formProfil.get('birthdate');}
-  get Image():any {return this.formProfil.get('image');}
+
+  private _imageInsurance : any
+  get ImageInsurance(): any  { return this._imageInsurance; }
+
+  private _imageLevel : any
+  get ImageLevel(): any  { return this._imageLevel; }
+
+  private _imageCertificat : any
+  get ImageCertificat(): any  { return this._imageCertificat; }
 
   constructor(
     private _http: HttpClient,
     private _route : ActivatedRoute,
     private _router : Router,
     private _session : UserSessionService,
-    private _userHttpService : UserHttpService
+    private _userHttpService : UserHttpService,
+    private _imageHttpService : ImageHttpService
     )
   {}
 
   ngOnInit() {
     this.getUser();
+  }
+
+  private getImages(){
+    this._imageHttpService.getInsuranceImage(this._user.guidInsurance).subscribe(imageData => {
+      const reader = new FileReader();
+      reader.onload = (e: any) => {
+        this._imageInsurance = e.target.result;
+      }
+      reader.readAsDataURL(imageData);
+    });
+    this._imageHttpService.getLevelImage(this._user.guidLevel).subscribe(imageData => {
+      const reader = new FileReader();
+      reader.onload = (e: any) => {
+        this._imageLevel = e.target.result;
+      }
+      reader.readAsDataURL(imageData);
+    });
+    this._imageHttpService.getCertificatImage(this._user.guidCertificat).subscribe(imageData => {
+      const reader = new FileReader();
+      reader.onload = (e: any) => {
+        this._imageCertificat = e.target.result;
+      }
+      reader.readAsDataURL(imageData);
+    });
   }
 
   private addToForm(){
@@ -59,6 +96,7 @@ export class ProfilComponent {
           this._user = data;
           if(this._user.id){
             this.addToForm()
+            this.getImages()
           }
           console.log(this._user)
           
@@ -69,34 +107,114 @@ export class ProfilComponent {
     })
   }
 
-  onFileSelected(event :any): void {
-    this.selectedFile = event.target.files[0];
+  onFileSelectedPhoto(event :any): void {
+    this.selectedFilePhoto = event.target.files[0];
   }
+
+  onFileSelectedInsurance(event :any): void {
+    this.selectedFileInsurance = event.target.files[0];
+  }
+
+  onFileSelectedLevel(event :any): void {
+    this.selectedFileLevel = event.target.files[0];
+  }
+
+  onFileSelectedCertificat(event :any): void {
+    this.selectedFileCertificat = event.target.files[0];
+  }
+
+
 
   update() {
     if (this.formProfil.valid) {
-      if (!this.selectedFile) {
-        console.error('No file selected');
-        return;
-      }
-      console.log(this.selectedFile)
-      const formData = new FormData();
-      formData.append('image', this.selectedFile, this._user.firstname+" "+this._user.lastname);
-  
-      delete this.formProfil.value.image;
-  
-      this._userHttpService.update(this.formProfil.value, this._user.id).pipe(
-        concatMap(() => {
-          return this._userHttpService.updateImageProfile(formData, this._user.id)
-        })
-      ).subscribe({
+      this._userHttpService.update(this.formProfil.value, this._user.id).subscribe({
         next: (data: any) => {
-          console.log(data);
+          this._session.refreshUser(this._user.id)
         },
         error: (error) => {
           console.log(error);
         }
       });
     }
+  }
+
+  addPhoto(){
+    if (!this.selectedFilePhoto) {
+      console.error('No file selected');
+      return;
+    }
+    const formData = new FormData();
+    formData.append('image', this.selectedFilePhoto, this._user.firstname+" "+this._user.lastname);
+
+    delete this.formProfil.value.image;
+
+    this._imageHttpService.insertProfilImage(formData,this._user.id).subscribe({
+      next: (data: any) => {
+        this._session.refreshUser(this._user.id)
+      },
+      error: (error) => {
+        console.log(error);
+      }
+    });
+  }
+
+  addInsurance(){
+    if (!this.selectedFileInsurance) {
+      console.error('No file selected');
+      return;
+    }
+    const formData = new FormData();
+    formData.append('image', this.selectedFileInsurance, this._user.firstname+" "+this._user.lastname);
+
+    delete this.formProfil.value.image;
+
+    this._imageHttpService.insertInsuranceImage(formData,this._user.id).subscribe({
+      next: (data: any) => {
+        this._session.refreshUser(this._user.id)
+      },
+      error: (error) => {
+        console.log(error);
+      }
+    });
+  }
+
+  addLevel(){
+    if (!this.selectedFileLevel) {
+      console.error('No file selected');
+      return;
+    }
+    const formData = new FormData();
+    formData.append('image', this.selectedFileLevel, this._user.firstname+" "+this._user.lastname);
+
+    delete this.formProfil.value.image;
+
+    this._imageHttpService.insertLevelImage(formData,this._user.id).subscribe({
+      next: (data: any) => {
+        this._session.refreshUser(this._user.id)
+      },
+      error: (error) => {
+        console.log(error);
+      }
+    });
+  }
+
+  addCertificate(){
+    if (!this.selectedFileCertificat) {
+      console.error('No file selected');
+      return;
+    }
+    const formData = new FormData();
+    formData.append('image', this.selectedFileCertificat, this._user.firstname+" "+this._user.lastname);
+
+    delete this.formProfil.value.image;
+
+    this._imageHttpService.insertCertificatImage(formData,this._user.id).subscribe({
+      next: (data: any) => {
+        this._session.refreshUser(this._user.id)
+      },
+      error: (error) => {
+        console.log(error);
+      }
+    });
   }
 }

@@ -38,19 +38,54 @@
               <div class="errors" *ngIf="Email.errors['email']">Email doit etre de type email</div>
             </div>
         </div>
-    
-        <label for="image">Photo</label>
-        <div class="mb-3 d-flex justify-content-center">
-            <input type="file" (change)="onFileSelected($event)" class="form-control w-50" 
-            [ngClass]="{'errors' : Image.invalid}" formControlName="image"  id="image" placeholder="image"
-            enctype="multipart/form-data">
-            <div *ngIf="Image.invalid && (Image.dirty || Image.touched)">
-              <!-- <div class="errors" *ngIf="Image.errors['required']">image est requis</div>
-              <div class="errors" *ngIf="Image.errors['image']">image doit etre de type image</div> -->
-            </div>
-        </div>
-    
         <button type="submit" class="btn btn-dark">Change</button>
-    </form>
+      </form>
+    
+      <div class="mt-5">
+        <label for="image">Photo</label>
+        <div class="mb-3 d-flex justify-content-center m-2">
+            <input type="file" (change)="onFileSelectedPhoto($event)" class="form-control w-50 m-2" 
+            id="image" placeholder="image"
+            enctype="multipart/form-data">
+            <button type="submit" class="btn btn-dark m-2" (click)="addPhoto()">Ajouter</button>
+        </div>
+      </div>
+      <div class="mt-5 border rounded">
+
+        <div>
+          <img *ngIf="ImageInsurance" [src]="ImageInsurance" class="p-2" height="250vh"alt="Avatar" loading="lazy" />
+        </div>
+        <label for="image">Assurance</label>
+        <div class="mb-3 d-flex justify-content-center m-2">
+            <input type="file" (change)="onFileSelectedInsurance($event)" class="form-control w-50 m-2" 
+            id="insurance" placeholder="insurance"
+            enctype="multipart/form-data">
+            <button type="submit" class="btn btn-dark m-2" (click)="addInsurance()">Ajouter</button>
+        </div>
+
+        <div>
+          <img *ngIf="ImageLevel" [src]="ImageLevel" class="p-2" height="250vh"alt="Avatar" loading="lazy" />
+        </div>
+        <label for="image">Niveau</label>
+        <div class="mb-3 d-flex justify-content-center m-2">
+            <input type="file" (change)="onFileSelectedLevel($event)" class="form-control w-50 m-2" 
+            id="level" placeholder="level"
+            enctype="multipart/form-data">
+            <button type="submit" class="btn btn-dark m-2" (click)="addLevel()">Ajouter</button>
+        </div>
+
+        <div>
+          <img *ngIf="ImageCertificat" [src]="ImageCertificat" class="p-2" height="250vh"alt="Avatar" loading="lazy" />
+        </div>
+        <label for="image">Certificat</label>
+        <div class="mb-3 d-flex justify-content-center m-2">
+            <input type="file" (change)="onFileSelectedCertificat($event)" class="form-control w-50 m-2" 
+            id="certificat" placeholder="certificat"
+            enctype="multipart/form-data">
+            <button type="submit" class="btn btn-dark m-2" (click)="addCertificate()">Ajouter</button>
+        </div>
+      </div>
+    
+ 
   </div>
 

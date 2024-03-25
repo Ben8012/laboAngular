@@ -30,13 +30,7 @@ export class UserHttpService {
   update(user:any, id : any): Observable<any>{
     return this.http.put<any>(apiUrl+id,user)
   }
-
-  updateImageProfile(formData : any,id : any): Observable<any>{
-    const headers = new HttpHeaders();
-    headers.append('Content-Type', 'multipart/form-data');
-    return this.http.put<any>(apiUrl+"ImageProfil/"+id,formData, { headers: headers })
-  }
-
+  
   getAllUsers(): Observable<any[]> {
     return this.http.get<any[]>(apiUrl);
   }

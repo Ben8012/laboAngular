@@ -5,6 +5,7 @@ import { ObservableService } from 'src/app/services/observable/observable.servic
 import { UserSessionService } from 'src/app/services/session/user-session.service';
 import { UserHttpService } from 'src/app/services/http/user.http.service';
 import { Router } from '@angular/router';
+import { ImageHttpService } from 'src/app/services/http/image.http.service';
 
 
 
@@ -25,19 +26,39 @@ export class ContactbarComponent implements OnInit {
     private _observableService: ObservableService,
     private _session : UserSessionService,
     private _userHttpService : UserHttpService,
-    private _route : Router
+    private _route : Router,
+    private _imageHttpService : ImageHttpService
   ){ }
 
   ngOnInit(): void {
       this._session.$user.subscribe(data => {
         this._user = data
         this._friends = this._user.friends
+       console.log(this._friends)
+       if(this._friends){
+         this._friends.forEach((friend : any) =>{
+          if(friend.guidImage){
+            this._imageHttpService.getProfilImage(friend.guidImage).subscribe(imageData => {
+              const reader = new FileReader();
+              reader.onload = (e: any) => {
+                friend.imageUrl = e.target.result;
+              }
+              reader.readAsDataURL(imageData);
+            });
+          }
+         })
+
+       }
+       
+       
       })  
   }
 
   getMessage(id : any){
     this._route.navigate(['/message', id]);
   }
+
+ 
 
 
 
