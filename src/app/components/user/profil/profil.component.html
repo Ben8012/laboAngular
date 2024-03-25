@@ -41,16 +41,18 @@
         <button type="submit" class="btn btn-dark">Change</button>
       </form>
     
-      <div class="mt-5">
-        <label for="image">Photo</label>
+   
+      <div class="mt-5 border rounded">
+        <div>
+          <img *ngIf="ImageProfil" [src]="ImageProfil" class="p-2" height="250vh"alt="Avatar" loading="lazy" />
+        </div>
+        <label for="image">Profil</label>
         <div class="mb-3 d-flex justify-content-center m-2">
             <input type="file" (change)="onFileSelectedPhoto($event)" class="form-control w-50 m-2" 
             id="image" placeholder="image"
             enctype="multipart/form-data">
             <button type="submit" class="btn btn-dark m-2" (click)="addPhoto()">Ajouter</button>
         </div>
-      </div>
-      <div class="mt-5 border rounded">
 
         <div>
           <img *ngIf="ImageInsurance" [src]="ImageInsurance" class="p-2" height="250vh"alt="Avatar" loading="lazy" />

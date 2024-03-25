@@ -41,6 +41,9 @@ export class ProfilComponent {
   private _imageCertificat : any
   get ImageCertificat(): any  { return this._imageCertificat; }
 
+  private _imageProfil : any
+  get ImageProfil(): any  { return this._imageProfil; }
+
   constructor(
     private _http: HttpClient,
     private _route : ActivatedRoute,
@@ -74,6 +77,13 @@ export class ProfilComponent {
       const reader = new FileReader();
       reader.onload = (e: any) => {
         this._imageCertificat = e.target.result;
+      }
+      reader.readAsDataURL(imageData);
+    });
+    this._imageHttpService.getProfilImage(this._user.guidImage).subscribe(imageData => {
+      const reader = new FileReader();
+      reader.onload = (e: any) => {
+        this._imageProfil = e.target.result;
       }
       reader.readAsDataURL(imageData);
     });
