@@ -11,6 +11,7 @@ import { FormationComponent } from './components/cores/formation/formation.compo
 import { ClubComponent } from './components/cores/club/club.component';
 import { SiteComponent } from './components/cores/site/site.component';
 import { MessageComponent } from './components/cores/message/message.component';
+import { MyEventsComponent } from './components/cores/my-events/my-events.component';
 
 const routes: Routes = [
   { path: '', component : HomeComponent},
@@ -24,6 +25,8 @@ const routes: Routes = [
   { path: 'site', component : SiteComponent},
   { path: 'contact', component : ContactComponent},
   { path: 'message/:id', component : MessageComponent},
+
+  { path: 'my-events', component : MyEventsComponent},
   
   { path: '**', component : HomeComponent},
 

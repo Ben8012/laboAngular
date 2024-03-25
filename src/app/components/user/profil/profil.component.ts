@@ -59,34 +59,42 @@ export class ProfilComponent {
   }
 
   private getImages(){
-    this._imageHttpService.getInsuranceImage(this._user.guidInsurance).subscribe(imageData => {
-      const reader = new FileReader();
-      reader.onload = (e: any) => {
-        this._imageInsurance = e.target.result;
-      }
-      reader.readAsDataURL(imageData);
-    });
-    this._imageHttpService.getLevelImage(this._user.guidLevel).subscribe(imageData => {
-      const reader = new FileReader();
-      reader.onload = (e: any) => {
-        this._imageLevel = e.target.result;
-      }
-      reader.readAsDataURL(imageData);
-    });
-    this._imageHttpService.getCertificatImage(this._user.guidCertificat).subscribe(imageData => {
-      const reader = new FileReader();
-      reader.onload = (e: any) => {
-        this._imageCertificat = e.target.result;
-      }
-      reader.readAsDataURL(imageData);
-    });
-    this._imageHttpService.getProfilImage(this._user.guidImage).subscribe(imageData => {
-      const reader = new FileReader();
-      reader.onload = (e: any) => {
-        this._imageProfil = e.target.result;
-      }
-      reader.readAsDataURL(imageData);
-    });
+    if(this._user.guidInsurance != ''){
+      this._imageHttpService.getInsuranceImage(this._user.guidInsurance).subscribe(imageData => {
+        const reader = new FileReader();
+        reader.onload = (e: any) => {
+          this._imageInsurance = e.target.result;
+        }
+        reader.readAsDataURL(imageData);
+      });
+    }
+    if(this._user.guidLevel != ''){
+      this._imageHttpService.getLevelImage(this._user.guidLevel).subscribe(imageData => {
+        const reader = new FileReader();
+        reader.onload = (e: any) => {
+          this._imageLevel = e.target.result;
+        }
+        reader.readAsDataURL(imageData);
+      });
+    }
+    if(this._user.guidCertificat != ''){
+      this._imageHttpService.getCertificatImage(this._user.guidCertificat).subscribe(imageData => {
+        const reader = new FileReader();
+        reader.onload = (e: any) => {
+          this._imageCertificat = e.target.result;
+        }
+        reader.readAsDataURL(imageData);
+      });
+    }
+    if(this._user.guidImage != ''){
+      this._imageHttpService.getProfilImage(this._user.guidImage).subscribe(imageData => {
+        const reader = new FileReader();
+        reader.onload = (e: any) => {
+          this._imageProfil = e.target.result;
+        }
+        reader.readAsDataURL(imageData);
+      });
+    }
   }
 
   private addToForm(){

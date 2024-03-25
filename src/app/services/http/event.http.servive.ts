@@ -27,6 +27,10 @@ export class EventHttpService {
     return this.http.get(apiUrl+"UnParticipate/"+userId+"/"+eventId)
   }
 
+  getEventByUserId(id :any) : Observable<any>{
+    return this.http.get(apiUrl+"GetEventByUserId/"+id)
+  }
+
 
 
 }

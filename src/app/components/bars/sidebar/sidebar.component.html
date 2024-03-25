@@ -1,7 +1,7 @@
 <!-- Sidebar -->
 
 
-<div class="list-group list-group-flush boder-left min-size">
+<div class="list-group list-group-flush boder-left min-size border rounded">
   <a class="list-group-item list-group-item-action text-center" routerLink="/profil" role="button">
     <img [src]="ImageUrl" class="rounded-circle" height="100"Zalt="Avatar" loading="lazy" />
     <!-- <i  class="bi bi-person fa-fw me-1"></i> -->
@@ -21,6 +21,9 @@
     <i class="bi bi-r-square fa-fw me-3"></i><span>Register</span>
   </a>
   <a *ngIf="user?.id" routerLink="/carnet" class="list-group-item list-group-item-action text-center">
-    <i class="bi bi-r-square fa-fw me-3"></i><span>Carnet</span>
+    <i class="bi bi-book fa-fw me-3"></i><span>Mon Carnet</span>
+  </a>
+  <a *ngIf="user?.id" routerLink="/my-events" class="list-group-item list-group-item-action text-center">
+    <i class="bi bi-calendar-event fa-fw me-3"></i><span>Mes Events</span>
   </a>
 </div>

@@ -1,7 +1,4 @@
-<div class="list-group list-group-flush boder-left min-size">
-
-  
-
+<div class="list-group list-group-flush boder-left min-size border rounded">
     <div *ngFor="let friend of Friends">
       <!-- [routerLink]="['/message',friend.id]" -->
       <button (click)="getMessage(friend.id)" class="list-group-item list-group-item-action text-center">
@@ -11,7 +8,4 @@
         </div>
       </button>
     </div>
-  
-
-
 </div>

@@ -27,6 +27,7 @@ import { OrganisationModalComponent } from './components/modals/organisationModa
 import { FormationComponent } from './components/cores/formation/formation.component';
 import { ClubComponent } from './components/cores/club/club.component';
 import { SiteComponent } from './components/cores/site/site.component';
+import { MyEventsComponent } from './components/cores/my-events/my-events.component';
 
 
 
@@ -51,6 +52,7 @@ import { SiteComponent } from './components/cores/site/site.component';
     ClubModalComponent,
     TrainingModalComponent,
     OrganisationModalComponent,
+    MyEventsComponent
   ],
   imports: [
     BrowserModule,

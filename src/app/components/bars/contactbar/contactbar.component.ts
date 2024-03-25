@@ -34,10 +34,10 @@ export class ContactbarComponent implements OnInit {
       this._session.$user.subscribe(data => {
         this._user = data
         this._friends = this._user.friends
-       console.log(this._friends)
+       //console.log(this._friends)
        if(this._friends){
          this._friends.forEach((friend : any) =>{
-          if(friend.guidImage){
+          if(friend.guidImage != ''){
             this._imageHttpService.getProfilImage(friend.guidImage).subscribe(imageData => {
               const reader = new FileReader();
               reader.onload = (e: any) => {

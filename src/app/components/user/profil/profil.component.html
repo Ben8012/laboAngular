@@ -1,48 +1,59 @@
 
-  <div class="text-center mt-4">
-      <form [formGroup]="FormProfil" (ngSubmit)="update()" >
-        <label for="firstname">FirstName</label>
+  <div class="text-center ">
+      <form class="border rounded p-2" [formGroup]="FormProfil" (ngSubmit)="update()" >
+        <label for="firstname">Prénom</label>
         <div class="mb-3 d-flex justify-content-center" >
             <input type="text" class="form-control w-50" [ngClass]="{'errors' : Firstname.invalid}" formControlName="firstname"  id="firstname" placeholder="Firstname">
-            <div *ngIf="Firstname.invalid && (Firstname.dirty || Firstname.touched)" >
-              <div class="errors" *ngIf="Firstname.errors['required']">Fistname est requis</div>
-              <div class="errors" *ngIf="Firstname.errors['minlength']">longueur minimum doit etre de 4 characteres </div>
-              <div class="errors" *ngIf="Firstname.errors['maxlength']">longueur maximum ne peut depasser 250 characteres</div>
-            </div>
         </div>
+        <div class="mb-3 d-flex justify-content-center" >
+          <div *ngIf="Firstname.invalid && (Firstname.dirty || Firstname.touched)" >
+            <div class="errors" *ngIf="Firstname.errors['required']">Fistname est requis</div>
+            <div class="errors" *ngIf="Firstname.errors['minlength']">longueur minimum doit etre de 4 characteres </div>
+            <div class="errors" *ngIf="Firstname.errors['maxlength']">longueur maximum ne peut depasser 250 characteres</div>
+          </div>      
+        </div>
+        
     
-        <label for="lastname">LastName</label>
+        <label for="lastname">Nom</label>
         <div class="mb-3 d-flex justify-content-center">
             <input type="text" class="form-control w-50" [ngClass]="{'errors' : Lastname.invalid}" formControlName="lastname"  id="lastname" placeholder="Lastname" >
-            <div *ngIf="Lastname.invalid && (Lastname.dirty || Lastname.touched)">
-              <div class="errors" *ngIf="Lastname.errors['required']">Lastname est requis</div>
-              <div class="errors" *ngIf="Lastname.errors['minlength']">longueur minimum doit etre de 4 characteres </div>
-              <div class="errors" *ngIf="Lastname.errors['maxlength']">longueur maximum ne peut depasser 250 characteres</div>
-            </div>
         </div>
-    
-    
-        <label for="birthdate">Birthdate</label>
         <div class="mb-3 d-flex justify-content-center">
-            <input type="date" class="form-control w-50" [ngClass]="{'errors' : Birthdate.invalid}" formControlName="birthdate"  id="birthdate" placeholder="Birthdate" >
-            <div *ngIf="Birthdate.invalid && (Birthdate.dirty || Birthdate.touched)">
-              <div class="errors" *ngIf="Birthdate.errors['required']">Birthdate est requis</div>
-            </div>
+          <div *ngIf="Lastname.invalid && (Lastname.dirty || Lastname.touched)">
+            <div class="errors" *ngIf="Lastname.errors['required']">Lastname est requis</div>
+            <div class="errors" *ngIf="Lastname.errors['minlength']">longueur minimum doit etre de 4 characteres </div>
+            <div class="errors" *ngIf="Lastname.errors['maxlength']">longueur maximum ne peut depasser 250 characteres</div>
+          </div>
         </div>
+        
+    
+        <label for="birthdate">Date de naissance</label>
+        <div class="mb-3 d-flex justify-content-center">
+            <input type="date" class="form-control w-50" [ngClass]="{'errors' : Birthdate.invalid}" formControlName="birthdate"  id="birthdate" placeholder="Birthdate" >           
+        </div>
+        <div class="mb-3 d-flex justify-content-center">
+          <div *ngIf="Birthdate.invalid && (Birthdate.dirty || Birthdate.touched)">
+            <div class="errors" *ngIf="Birthdate.errors['required']">Birthdate est requis</div>
+          </div>          
+        </div>
+        
     
         <label for="email">Email</label>
         <div class="mb-3 d-flex justify-content-center">
-            <input type="email" class="form-control w-50" [ngClass]="{'errors' : Email.invalid}" formControlName="email"  id="email" placeholder="Email">
-            <div *ngIf="Email.invalid && (Email.dirty || Email.touched)">
-              <div class="errors" *ngIf="Email.errors['required']">Email est requis</div>
-              <div class="errors" *ngIf="Email.errors['email']">Email doit etre de type email</div>
-            </div>
+            <input type="email" class="form-control w-50" [ngClass]="{'errors' : Email.invalid}" formControlName="email"  id="email" placeholder="Email">       
         </div>
-        <button type="submit" class="btn btn-dark">Change</button>
+        <div class="mb-3 d-flex justify-content-center">
+          <div *ngIf="Email.invalid && (Email.dirty || Email.touched)">
+            <div class="errors" *ngIf="Email.errors['required']">Email est requis</div>
+            <div class="errors" *ngIf="Email.errors['email']">Email doit etre de type email</div>
+          </div>     
+      </div>
+        
+        <button type="submit" class="btn btn-dark">Changer</button>
       </form>
     
    
-      <div class="mt-5 border rounded">
+      <div class="mt-2 border rounded">
         <div>
           <img *ngIf="ImageProfil" [src]="ImageProfil" class="p-2" height="250vh"alt="Avatar" loading="lazy" />
         </div>
