@@ -23,6 +23,9 @@ export class FormationComponent implements OnInit {
   get User(): any { return this._user; }
   private _user!: any;
 
+  get Today(): any { return this._today; }
+  private _today: any;
+
   constructor(
     private _eventHttpService: EventHttpService,
     private _userHttpService: UserHttpService,
@@ -32,6 +35,7 @@ export class FormationComponent implements OnInit {
     ) { }
 
   ngOnInit(): void {
+    this._today = new Date()
     this.getUser() 
     this.getAllEvents()
    }
@@ -42,6 +46,14 @@ export class FormationComponent implements OnInit {
         this._events = data
         this.checkIfParticipe()
         this._events = this._events.filter(e => e.training != null)
+        this._events.forEach((event : any) => {
+
+          event.participes.forEach((participe : any) => {
+            participe.insuranceDateValidation = new Date(participe.insuranceDateValidation)
+            participe.medicalDateValidation = new Date(participe.medicalDateValidation)
+          });
+          
+        });
         console.log(this._events)
       },
       error : (error) => {
