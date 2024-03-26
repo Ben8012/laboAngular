@@ -31,6 +31,17 @@ export class EventHttpService {
     return this.http.get(apiUrl+"GetEventByUserId/"+id)
   }
 
+  getEventById(id :any) : Observable<any>{
+    return this.http.get(apiUrl+id)
+  }
+
+  update(form : any): Observable<any>{
+    return this.http.put(apiUrl,form)
+  }
+
+  disable(id : any) : Observable<any>{
+    return this.http.patch(apiUrl+"Disable/"+id,{})
+  }
 
 
 }

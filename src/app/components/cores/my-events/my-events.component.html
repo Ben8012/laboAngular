@@ -10,7 +10,9 @@
                         </td>
                         <td class=" text-center"> 
                             <button *ngIf="!event.isParticipe && User.id != event.creator.id" class="btn btn-success m-2 hover" (click)="participe(event.id)"><i class="bi bi-hand-thumbs-up-fill"></i></button>
-                            <button *ngIf="event.isParticipe && User.id != event.creator.id" class="btn btn-warning hover" (click)="unparticipe(event.id)"><i class="bi bi-hand-thumbs-down-fill"></i></button>
+                            <button *ngIf="event.isParticipe && User.id != event.creator.id" class="btn btn-primary hover" (click)="unparticipe(event.id)"><i class="bi bi-hand-thumbs-down-fill"></i></button>
+                            <button *ngIf="User.id == event.creator.id" class="btn btn-warning hover m-2" (click)="updateEvent(event)"><i class="bi bi-arrow-clockwise"></i></button>
+                            <button *ngIf="User.id == event.creator.id" class="btn btn-danger hover" (click)="deleteEvent(event)"><i class="bi bi-trash"></i></button>
                         </td>
                     </tr>
                     <tr>

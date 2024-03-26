@@ -4,12 +4,12 @@ import { Observable } from 'rxjs';
 
 import { environment } from 'src/app/environnements/environnement';
 
-const apiUrl = environment.apiUrl+"Club/"
+const apiUrl = environment.apiUrl+"Training/"
 
 @Injectable({
   providedIn: 'root'
 })
-export class ClubHttpService {
+export class TrainingHttpService {
 
   constructor(
     private http:HttpClient,
@@ -18,15 +18,6 @@ export class ClubHttpService {
   getAll() : Observable<any>{
     return this.http.get(apiUrl)
   }
-
-  participe(userId : any, clubId : any): Observable<any>{
-    return this.http.get(apiUrl+"Participate/"+userId+"/"+clubId)
-  }
-
-  unParticipe(userId : any, clubId : any): Observable<any>{
-    return this.http.get(apiUrl+"UnParticipate/"+userId+"/"+clubId)
-  }
-
 
 
 

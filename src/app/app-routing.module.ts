@@ -12,6 +12,7 @@ import { ClubComponent } from './components/cores/club/club.component';
 import { SiteComponent } from './components/cores/site/site.component';
 import { MessageComponent } from './components/cores/message/message.component';
 import { MyEventsComponent } from './components/cores/my-events/my-events.component';
+import { UpdateEventComponent } from './components/cores/update-event/update-event.component';
 
 const routes: Routes = [
   { path: '', component : HomeComponent},
@@ -27,6 +28,7 @@ const routes: Routes = [
   { path: 'message/:id', component : MessageComponent},
 
   { path: 'my-events', component : MyEventsComponent},
+  { path: 'update-event/:id', component : UpdateEventComponent},
   
   { path: '**', component : HomeComponent},
 

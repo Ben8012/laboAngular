@@ -9,6 +9,8 @@ import { DiveplaceModalComponent } from '../../modals/diveplaceModal/diveplaceMo
 import { ClubModalComponent } from '../../modals/clubModal/clubModal.component';
 import { TrainingModalComponent } from '../../modals/trainingModal/trainingModal.component';
 import { OrganisationModalComponent } from '../../modals/organisationModal/organisationModal.component';
+import { Router } from '@angular/router';
+import { DeleteEventModelComponent } from '../../modals/delete-eventModel/delete-eventModel.component';
 
 @Component({
   selector: 'app-my-events',
@@ -30,6 +32,7 @@ export class MyEventsComponent implements OnInit {
     private _session: UserSessionService,
     private _modalDataService : ModalDataService,
     public dialog: MatDialog,
+    private _router : Router,
     ) { }
 
   ngOnInit(): void {
@@ -42,7 +45,7 @@ export class MyEventsComponent implements OnInit {
         this._events = data
         this.checkIfParticipe()
         //this._events = this._events.filter(e => e.training == null)
-        console.log(this._events)
+        //console.log(this._events)
       },
       error : (error) => {
         console.log(error)
@@ -52,15 +55,19 @@ export class MyEventsComponent implements OnInit {
    private getUser() {
     this._session.$user.subscribe((user: any) => {
       this._user = user;
-      console.log(this._user)
+      //console.log(this._user)
       if(this._user.id){
-        console.log(this._user.id)
+        //console.log(this._user.id)
         this.getEventsByUserId(this._user.id)
       }
     })
   }
 
+  updateEvent(event : any){
+    this._router.navigate(['update-event',event.id])
+  }
 
+ 
   participe(id : any){
       this._eventHttpService.participe(this._user.id,id).subscribe({
         next : (data :any) =>{
@@ -145,4 +152,16 @@ export class MyEventsComponent implements OnInit {
       document.body.classList.remove('modal-open'); 
     });
    }
+
+   deleteEvent(event : any){
+    this._modalDataService.setData(event);
+    document.body.classList.add('modal-open');
+    const dialogRef = this.dialog.open(DeleteEventModelComponent);
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('Le modal est fermé');
+      document.body.classList.remove('modal-open'); 
+    });
+   }
+ 
 }

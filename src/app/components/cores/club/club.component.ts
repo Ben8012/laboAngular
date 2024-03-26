@@ -31,7 +31,7 @@ export class ClubComponent implements OnInit {
    }
 
    getAllClubs(){
-    this._clubHttpService.getAllClub().subscribe({
+    this._clubHttpService.getAll().subscribe({
       next : (data :any) =>{
         this._clubs = data
         this.checkIfParticipe()
