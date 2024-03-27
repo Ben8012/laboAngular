@@ -17,20 +17,18 @@ import { RegisterComponent } from './components/user/register/register.component
 import { HomeComponent } from './components/cores/home/home.component';
 import { CommonModule } from '@angular/common';
 import { MessageComponent } from './components/cores/message/message.component';
-import { EventComponent } from './components/cores/event/event.component';
+import { EventComponent } from './components/cores/events/event/event.component';
 import { CreatorModalComponent } from './components/modals/CreatorModal/CreatorModal.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { DiveplaceModalComponent } from './components/modals/diveplaceModal/diveplaceModal.component';
 import { ClubModalComponent } from './components/modals/clubModal/clubModal.component';
 import { TrainingModalComponent } from './components/modals/trainingModal/trainingModal.component';
 import { OrganisationModalComponent } from './components/modals/organisationModal/organisationModal.component';
-import { FormationComponent } from './components/cores/formation/formation.component';
+import { FormationComponent } from './components/cores/events/formation/formation.component';
 import { ClubComponent } from './components/cores/club/club.component';
 import { SiteComponent } from './components/cores/site/site.component';
-import { MyEventsComponent } from './components/cores/my-events/my-events.component';
-import { UpdateEventComponent } from './components/cores/update-event/update-event.component';
-
-
+import { MyEventsComponent } from './components/cores/events/my-events/my-events.component';
+import { UpdateEventComponent } from './components/cores/events/update-event/update-event.component';
 
 @NgModule({
   declarations: [
@@ -55,6 +53,7 @@ import { UpdateEventComponent } from './components/cores/update-event/update-eve
     OrganisationModalComponent,
     MyEventsComponent,
     UpdateEventComponent
+ 
   ],
   imports: [
     BrowserModule,

@@ -4,21 +4,20 @@ import { UserHttpService } from 'src/app/services/http/user.http.service';
 import { ModalDataService } from 'src/app/services/modal/modal.data.service';
 import { UserSessionService } from 'src/app/services/session/user-session.service';
 import { MatDialog } from '@angular/material/dialog';
-import { CreatorModalComponent } from '../../modals/CreatorModal/CreatorModal.component';
-import { DiveplaceModalComponent } from '../../modals/diveplaceModal/diveplaceModal.component';
-import { ClubModalComponent } from '../../modals/clubModal/clubModal.component';
-import { TrainingModalComponent } from '../../modals/trainingModal/trainingModal.component';
-import { OrganisationModalComponent } from '../../modals/organisationModal/organisationModal.component';
+import { CreatorModalComponent } from '../../../modals/CreatorModal/CreatorModal.component';
+import { DiveplaceModalComponent } from '../../../modals/diveplaceModal/diveplaceModal.component';
+import { ClubModalComponent } from '../../../modals/clubModal/clubModal.component';
+import { TrainingModalComponent } from '../../../modals/trainingModal/trainingModal.component';
+import { OrganisationModalComponent } from '../../../modals/organisationModal/organisationModal.component';
 
 @Component({
-  selector: 'app-event',
-  templateUrl: './event.component.html',
-  styleUrls: ['./event.component.scss'],
+  selector: 'app-formation',
+  templateUrl: './formation.component.html',
+  styleUrls: ['./formation.component.scss'],
 })
-export class EventComponent implements OnInit {
+export class FormationComponent implements OnInit {
 
   private _events : any [] = []
-new: any;
   get Events(): any []  { return this._events; }
 
   get User(): any { return this._user; }
@@ -46,7 +45,7 @@ new: any;
       next : (data :any) =>{
         this._events = data
         this.checkIfParticipe()
-        this._events = this._events.filter(e => e.training == null)
+        this._events = this._events.filter(e => e.training != null)
         this._events.forEach((event : any) => {
 
           event.participes.forEach((participe : any) => {
@@ -153,5 +152,6 @@ new: any;
       document.body.classList.remove('modal-open'); 
     });
    }
+
 
 }

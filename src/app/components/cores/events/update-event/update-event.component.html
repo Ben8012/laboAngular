@@ -13,22 +13,24 @@
         </div>
         
         <label for="birthdate">Date de début</label>
+        <!-- [ngClass]="{'errors' : StartDate.invalid}" -->
         <div class="mb-3 d-flex justify-content-center">
-            <input type="datetime-local" class="form-control w-50" [ngClass]="{'errors' : StartDate.invalid}" formControlName="startdate"  id="startdate" placeholder="StartDate" >           
+            <input type="datetime-local" class="form-control w-50" formControlName="startdate"  id="startdate" placeholder="StartDate" >           
         </div>
         <div class="mb-3 d-flex justify-content-center">
-          <div *ngIf="StartDate.invalid && (StartDate.dirty || StartDate.touched)">
-            <div class="errors" *ngIf="StartDate.errors['required']">Date de début</div>
+          <div >
+            <div class="errors" *ngIf="FormEvent.getError('start') as error">{{error}}</div>
           </div>          
         </div>
-        
+    
         <label for="birthdate">Date de fin</label>
         <div class="mb-3 d-flex justify-content-center">
-            <input type="datetime-local" class="form-control w-50" [ngClass]="{'errors' : EndDate.invalid}" formControlName="enddate"  id="enddate" placeholder="EndDate" >           
+          <!-- [ngClass]="{'errors' : EndDate.invalid}" -->
+            <input type="datetime-local" class="form-control w-50"  formControlName="enddate"  id="enddate" placeholder="EndDate" >           
         </div>
         <div class="mb-3 d-flex justify-content-center">
-          <div *ngIf="EndDate.invalid && (EndDate.dirty || EndDate.touched)">
-            <div class="errors" *ngIf="EndDate.errors['required']">Date de fin</div>
+          <div>
+            <div class="errors" *ngIf="FormEvent.getError('end') as error">{{error}}</div>
           </div>          
         </div>
     

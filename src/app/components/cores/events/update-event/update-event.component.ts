@@ -15,6 +15,7 @@ import { UserSessionService } from 'src/app/services/session/user-session.servic
 })
 export class UpdateEventComponent implements OnInit {
   private _id :any
+  get Id(): any { return this._id; }
 
   private formEvent: FormGroup = FEvent();
   get FormEvent(): FormGroup { return this.formEvent; }
@@ -24,6 +25,7 @@ export class UpdateEventComponent implements OnInit {
   get DiveplaceId():any {return this.formEvent.get('diveplaceId');}
   get TrainingId():any {return this.formEvent.get('trainingId');}
   get CulbId():any {return this.formEvent.get('culbId');}
+  get Errors():any{return this.formEvent.errors}
 
   private _user! : any
   get User(): any { return this._user; }
@@ -58,7 +60,10 @@ export class UpdateEventComponent implements OnInit {
       this._id = (params['id']);
     });
     this.getUser()
-    this.getEventById(this._id)
+    console.log(this._id)
+    if(this._id){
+      this.getEventById(this._id)
+    }
  }
  private getUser(){
    this._session.$user.subscribe({
@@ -144,25 +149,43 @@ export class UpdateEventComponent implements OnInit {
     enddate : this._event.endDate,
     diveplaceId : this._event.diveplace.id,
     trainingId : this._event.training ? this._event.training : 0,
-    clubId : this._event.club ? this._event.club : 0,
-    creatorId : this._user.id
+    clubId : this._event.club ? this._event.club : 0
   }
   this.formEvent.patchValue(form);
 }
 
  update() {
+  this.formEvent.value.creatorId = this._user.id
   if (this.formEvent.valid) {
     console.log(this.formEvent.value)
-    this._eventHttpService.update(this.formEvent.value).subscribe({
-      next: (data: any) => {
-        this._event = data
-        this._router.navigate(['my-events'])
-      },
-      error: (error) => {
-        console.log(error);
+    if(this._id){
+      this._eventHttpService.update(this.formEvent.value).subscribe({
+        next: (data: any) => {
+          this._event = data
+          this._router.navigate(['my-events'])
+        },
+        error: (error) => {
+          console.log(error);
+        }
+      });
       }
-    });
     }
+    else{
+      console.log(this.formEvent.value)
+      this.formEvent.value.trainingId = this.formEvent.value.trainingId ? this.formEvent.value.trainingId : 0,
+      this.formEvent.value.clubId = this.formEvent.value.clubId ? this.formEvent.value.clubId : 0,
+      delete this.formEvent.value.id
+      this._eventHttpService.insert(this.formEvent.value).subscribe({
+        next: (data: any) => {
+          this._event = data
+          this._router.navigate(['my-events'])
+        },
+        error: (error) => {
+          console.log(error);
+        }
+      });
+      }
+    
   }
 
   unparticipe(id : any){

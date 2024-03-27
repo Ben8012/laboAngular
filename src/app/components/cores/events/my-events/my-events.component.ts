@@ -1,21 +1,24 @@
-import { Component, type OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
 import { EventHttpService } from 'src/app/services/http/event.http.servive';
 import { UserHttpService } from 'src/app/services/http/user.http.service';
 import { ModalDataService } from 'src/app/services/modal/modal.data.service';
 import { UserSessionService } from 'src/app/services/session/user-session.service';
-import { MatDialog } from '@angular/material/dialog';
-import { CreatorModalComponent } from '../../modals/CreatorModal/CreatorModal.component';
-import { DiveplaceModalComponent } from '../../modals/diveplaceModal/diveplaceModal.component';
-import { ClubModalComponent } from '../../modals/clubModal/clubModal.component';
-import { TrainingModalComponent } from '../../modals/trainingModal/trainingModal.component';
-import { OrganisationModalComponent } from '../../modals/organisationModal/organisationModal.component';
+import { CreatorModalComponent } from '../../../modals/CreatorModal/CreatorModal.component';
+import { DiveplaceModalComponent } from '../../../modals/diveplaceModal/diveplaceModal.component';
+import { ClubModalComponent } from '../../../modals/clubModal/clubModal.component';
+import { OrganisationModalComponent } from '../../../modals/organisationModal/organisationModal.component';
+import { DeleteEventModelComponent } from '../../../modals/delete-eventModel/delete-eventModel.component';
+import { TrainingModalComponent } from 'src/app/components/modals/trainingModal/trainingModal.component';
 
 @Component({
-  selector: 'app-formation',
-  templateUrl: './formation.component.html',
-  styleUrls: ['./formation.component.scss'],
+  selector: 'app-my-events',
+  templateUrl: './my-events.component.html',
+  styleUrls: ['./my-events.component.scss'],
 })
-export class FormationComponent implements OnInit {
+
+export class MyEventsComponent implements OnInit { 
 
   private _events : any [] = []
   get Events(): any []  { return this._events; }
@@ -32,29 +35,27 @@ export class FormationComponent implements OnInit {
     private _session: UserSessionService,
     private _modalDataService : ModalDataService,
     public dialog: MatDialog,
+    private _router : Router,
     ) { }
 
   ngOnInit(): void {
     this._today = new Date()
     this.getUser() 
-    this.getAllEvents()
    }
 
-   getAllEvents(){
-    this._eventHttpService.getAllEvent().subscribe({
+   getEventsByUserId(id : any){
+    this._eventHttpService.getEventByUserId(id).subscribe({
       next : (data :any) =>{
         this._events = data
+        console.log(this._events)
         this.checkIfParticipe()
-        this._events = this._events.filter(e => e.training != null)
         this._events.forEach((event : any) => {
-
           event.participes.forEach((participe : any) => {
             participe.insuranceDateValidation = new Date(participe.insuranceDateValidation)
             participe.medicalDateValidation = new Date(participe.medicalDateValidation)
           });
           
         });
-        console.log(this._events)
       },
       error : (error) => {
         console.log(error)
@@ -64,14 +65,23 @@ export class FormationComponent implements OnInit {
    private getUser() {
     this._session.$user.subscribe((user: any) => {
       this._user = user;
+      //console.log(this._user)
+      if(this._user.id){
+        //console.log(this._user.id)
+        this.getEventsByUserId(this._user.id)
+      }
     })
   }
 
+  updateEvent(event : any){
+    this._router.navigate(['update-event',event.id])
+  }
 
+ 
   participe(id : any){
       this._eventHttpService.participe(this._user.id,id).subscribe({
         next : (data :any) =>{
-          this.getAllEvents()
+          this.getEventsByUserId(this._user.id)
         },
         error : (error) => {
           console.log(error)
@@ -81,7 +91,7 @@ export class FormationComponent implements OnInit {
    unparticipe(id : any){
     this._eventHttpService.unParticipe(this._user.id,id).subscribe({
       next : (data :any) =>{
-        this.getAllEvents()
+        this.getEventsByUserId(this._user.id)
       },
       error : (error) => {
         console.log(error)
@@ -153,5 +163,15 @@ export class FormationComponent implements OnInit {
     });
    }
 
+   deleteEvent(event : any){
+    this._modalDataService.setData(event);
+    document.body.classList.add('modal-open');
+    const dialogRef = this.dialog.open(DeleteEventModelComponent);
 
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('Le modal est fermé');
+      document.body.classList.remove('modal-open'); 
+    });
+   }
+ 
 }

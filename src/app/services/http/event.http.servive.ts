@@ -39,6 +39,10 @@ export class EventHttpService {
     return this.http.put(apiUrl,form)
   }
 
+  insert(form : any): Observable<any>{
+    return this.http.post(apiUrl,form)
+  }
+
   disable(id : any) : Observable<any>{
     return this.http.patch(apiUrl+"Disable/"+id,{})
   }
