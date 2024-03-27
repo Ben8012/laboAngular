@@ -27,6 +27,23 @@ export class ClubHttpService {
     return this.http.get(apiUrl+"UnParticipate/"+userId+"/"+clubId)
   }
 
+  getClubByUserId(id :any) : Observable<any>{
+    return this.http.get(apiUrl+"GetClubByUserId/"+id)
+  }
+
+  getClubById(id : any): Observable<any>{
+    return this.http.get(apiUrl+id)
+  }
+
+  update(form : any): Observable<any>{
+    return this.http.put(apiUrl,form)
+  }
+
+  insert(form : any): Observable<any>{
+    return this.http.post(apiUrl,form)
+  }
+
+
 
 
 

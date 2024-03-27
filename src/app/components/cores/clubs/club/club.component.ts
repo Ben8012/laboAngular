@@ -3,7 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ClubHttpService } from 'src/app/services/http/club.http.service';
 import { ModalDataService } from 'src/app/services/modal/modal.data.service';
 import { UserSessionService } from 'src/app/services/session/user-session.service';
-import { CreatorModalComponent } from '../../modals/CreatorModal/CreatorModal.component';
+import { CreatorModalComponent } from '../../../modals/CreatorModal/CreatorModal.component';
 
 @Component({
   selector: 'app-club',

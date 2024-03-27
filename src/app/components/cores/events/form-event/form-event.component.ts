@@ -9,11 +9,11 @@ import { TrainingHttpService } from 'src/app/services/http/training.http.service
 import { UserSessionService } from 'src/app/services/session/user-session.service';
 
 @Component({
-  selector: 'app-update-event',
-  templateUrl: './update-event.component.html',
-  styleUrls: ['./update-event.component.scss'],
+  selector: 'app-form-event',
+  templateUrl: './form-event.component.html',
+  styleUrls: ['./form-event.component.scss'],
 })
-export class UpdateEventComponent implements OnInit {
+export class FormEventComponent implements OnInit {
   private _id :any
   get Id(): any { return this._id; }
 
@@ -148,17 +148,17 @@ export class UpdateEventComponent implements OnInit {
     startdate : this._event.startDate,
     enddate : this._event.endDate,
     diveplaceId : this._event.diveplace.id,
-    trainingId : this._event.training ? this._event.training : 0,
-    clubId : this._event.club ? this._event.club : 0
+    trainingId : this._event.training ? this._event.training.id : 0,
+    clubId : this._event.club ? this._event.club : 0,
+    creatorId : this._user.id
   }
   this.formEvent.patchValue(form);
 }
 
  update() {
-  this.formEvent.value.creatorId = this._user.id
   if (this.formEvent.valid) {
-    console.log(this.formEvent.value)
     if(this._id){
+      console.log('update')
       this._eventHttpService.update(this.formEvent.value).subscribe({
         next: (data: any) => {
           this._event = data
@@ -169,12 +169,14 @@ export class UpdateEventComponent implements OnInit {
         }
       });
       }
-    }
+   
     else{
-      console.log(this.formEvent.value)
+      this.formEvent.value.creatorId = this._user.id
       this.formEvent.value.trainingId = this.formEvent.value.trainingId ? this.formEvent.value.trainingId : 0,
       this.formEvent.value.clubId = this.formEvent.value.clubId ? this.formEvent.value.clubId : 0,
       delete this.formEvent.value.id
+      console.log('insert')
+      console.log(this.formEvent.value)
       this._eventHttpService.insert(this.formEvent.value).subscribe({
         next: (data: any) => {
           this._event = data
@@ -185,7 +187,7 @@ export class UpdateEventComponent implements OnInit {
         }
       });
       }
-    
+    }
   }
 
   unparticipe(id : any){

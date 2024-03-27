@@ -10,7 +10,7 @@ export const FEvent = function () {
         diveplaceId: new FormControl(null,[Validators.required] ),
         trainingId: new FormControl(null),
         clubId: new FormControl(null),
-        creatorId: new FormControl(null,[Validators.required]),
+        creatorId: new FormControl(null),
     },
     [ dateComparisonValidator('startdate', 'enddate') ]
    )

@@ -8,11 +8,13 @@ import { ContactComponent } from './components/cores/contact/contact.component';
 import { RegisterComponent } from './components/user/register/register.component';
 import { EventComponent } from './components/cores/events/event/event.component';
 import { FormationComponent } from './components/cores/events/formation/formation.component';
-import { ClubComponent } from './components/cores/club/club.component';
+import { ClubComponent } from './components/cores/clubs/club/club.component';
 import { SiteComponent } from './components/cores/site/site.component';
 import { MessageComponent } from './components/cores/message/message.component';
 import { MyEventsComponent } from './components/cores/events/my-events/my-events.component';
-import { UpdateEventComponent } from './components/cores/events/update-event/update-event.component';
+import { FormEventComponent } from './components/cores/events/form-event/form-event.component';
+import { FormClubComponent } from './components/cores/clubs/form-club/form-club.component';
+import { MyClubsComponent } from './components/cores/clubs/my-clubs/my-clubs.component';
 
 const routes: Routes = [
   { path: '', component : HomeComponent},
@@ -28,8 +30,12 @@ const routes: Routes = [
   { path: 'message/:id', component : MessageComponent},
 
   { path: 'my-events', component : MyEventsComponent},
-  { path: 'update-event/:id', component : UpdateEventComponent},
-  { path: 'insert-event', component : UpdateEventComponent},
+  { path: 'update-event/:id', component : FormEventComponent},
+  { path: 'insert-event', component : FormEventComponent},
+
+  { path: 'my-clubs', component : MyClubsComponent},
+  { path: 'update-club/:id', component : FormClubComponent},
+  { path: 'insert-club', component : FormClubComponent},
   
   { path: '**', component : HomeComponent},
 

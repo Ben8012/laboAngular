@@ -54,6 +54,8 @@ export class MyEventsComponent implements OnInit {
             participe.insuranceDateValidation = new Date(participe.insuranceDateValidation)
             participe.medicalDateValidation = new Date(participe.medicalDateValidation)
           });
+          event.startDate = new Date(event.startDate)
+          event.endDate = new Date(event.endDate)
           
         });
       },

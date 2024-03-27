@@ -1,0 +1,98 @@
+<div class="text-center">
+    <form class="border rounded p-2" [formGroup]="FormClub" (ngSubmit)="update()" >
+        <label for="name">Nom</label>
+        <div class="mb-3 d-flex justify-content-center" >
+            <input type="text" class="form-control w-50" [ngClass]="{'errors' : Name.invalid}" formControlName="name"  id="name" placeholder="Nom">
+        </div>
+        <div class="mb-3 d-flex justify-content-center" >
+          <div *ngIf="Name.invalid && (Name.dirty || Name.touched)" >
+            <div class="errors" *ngIf="Name.errors['required']">Fistname est requis</div>
+            <div class="errors" *ngIf="Name.errors['minlength']">longueur minimum doit etre de 4 characteres </div>
+            <div class="errors" *ngIf="Name.errors['maxlength']">longueur maximum ne peut depasser 250 characteres</div>
+          </div>      
+        </div>
+        
+        <label for="birthdate">Organistation</label>
+        <div class="mb-3 d-flex justify-content-center" *ngFor="let organisation of User.organisations">
+            {{ organisation.name }}
+        </div>
+
+        <form [formGroup]="FormAdress">
+            <label for="street">Rue</label>
+            <div class="mb-3 d-flex justify-content-center" >
+                <input type="text" class="form-control w-50" [ngClass]="{'errors' : Street.invalid}" formControlName="street"  id="street" placeholder="rue">
+            </div>
+            <div class="mb-3 d-flex justify-content-center" >
+                <div *ngIf="Street.invalid && (Street.dirty || Street.touched)" >
+                    <div class="errors" *ngIf="Street.errors['required']">Street est requis</div>
+                    <div class="errors" *ngIf="Street.errors['minlength']">longueur minimum doit etre de 4 characteres </div>
+                    <div class="errors" *ngIf="Street.errors['maxlength']">longueur maximum ne peut depasser 250 characteres</div>
+                </div>      
+            </div>
+
+            <label for="number">Numéro</label>
+            <div class="mb-3 d-flex justify-content-center" >
+                <input type="number" class="form-control w-50" [ngClass]="{'errors' : Number.invalid}" formControlName="number"  id="number" placeholder="numéro">
+            </div>
+            <!-- <div class="mb-3 d-flex justify-content-center" >
+                <div *ngIf="Number.invalid && (Number.dirty || Number.touched)" >
+                    <div class="errors" *ngIf="Number.errors['required']">Number est requis</div>
+                    <div class="errors" *ngIf="Number.errors['minlength']">longueur minimum doit etre de 4 characteres </div>
+                    <div class="errors" *ngIf="Number.errors['maxlength']">longueur maximum ne peut depasser 250 characteres</div>
+                </div>      
+            </div> -->
+
+            <label for="postCode">Code postal</label>
+            <div class="mb-3 d-flex justify-content-center" >
+                <input type="text" class="form-control w-50" [ngClass]="{'errors' : PostCode.invalid}" formControlName="postCode"  id="postCode" placeholder="code postal">
+            </div>
+            <div class="mb-3 d-flex justify-content-center" >
+                <div *ngIf="PostCode.invalid && (PostCode.dirty || PostCode.touched)" >
+                    <div class="errors" *ngIf="PostCode.errors['required']">PostCode est requis</div>
+                    <div class="errors" *ngIf="PostCode.errors['minlength']">longueur minimum doit etre de 4 characteres </div>
+                    <div class="errors" *ngIf="PostCode.errors['maxlength']">longueur maximum ne peut depasser 250 characteres</div>
+                </div>      
+            </div>
+
+            <label for="city">Ville</label>
+            <div class="mb-3 d-flex justify-content-center" >
+                <input type="text" class="form-control w-50" [ngClass]="{'errors' : City.invalid}" formControlName="city"  id="city" placeholder="ville">
+            </div>
+            <div class="mb-3 d-flex justify-content-center" >
+                <div *ngIf="City.invalid && (City.dirty || City.touched)" >
+                    <div class="errors" *ngIf="City.errors['required']">City est requis</div>
+                    <div class="errors" *ngIf="City.errors['minlength']">longueur minimum doit etre de 4 characteres </div>
+                    <div class="errors" *ngIf="City.errors['maxlength']">longueur maximum ne peut depasser 250 characteres</div>
+                </div>      
+            </div>
+
+            <label for="country">Pays</label>
+            <div class="mb-3 d-flex justify-content-center" >
+                <input type="text" class="form-control w-50" [ngClass]="{'errors' : Country.invalid}" formControlName="country"  id="country" placeholder="Pays">
+            </div>
+            <div class="mb-3 d-flex justify-content-center" >
+                <div *ngIf="Country.invalid && (Country.dirty || Country.touched)" >
+                    <div class="errors" *ngIf="Country.errors['required']">Country est requis</div>
+                    <div class="errors" *ngIf="Country.errors['minlength']">longueur minimum doit etre de 4 characteres </div>
+                    <div class="errors" *ngIf="Country.errors['maxlength']">longueur maximum ne peut depasser 250 characteres</div>
+                </div>      
+            </div>
+        </form>
+    
+        
+
+        <button type="submit" class="btn btn-dark mb-3">Changer</button>
+      </form>
+      <div class="border rounded mt-2 p-2 " *ngIf="Club && Club.participes && Club.participes.length > 0">
+          <h6>Retirer des participants</h6>
+          <div class="list-group">
+            <div *ngFor="let participe of Club.participes">
+                <button *ngIf="participe.id != User.id" type="button" class="list-group-item list-group-item-action w-50 mx-auto" (click)="unparticipe(participe.id)" >
+                    {{participe.firstname}}  {{participe.lastname}}
+                </button>
+            </div>
+             
+            </div>
+      </div>
+</div>
+

@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { NavbarComponent } from './components/bars/navbar/navbar.component';
@@ -25,10 +25,12 @@ import { ClubModalComponent } from './components/modals/clubModal/clubModal.comp
 import { TrainingModalComponent } from './components/modals/trainingModal/trainingModal.component';
 import { OrganisationModalComponent } from './components/modals/organisationModal/organisationModal.component';
 import { FormationComponent } from './components/cores/events/formation/formation.component';
-import { ClubComponent } from './components/cores/club/club.component';
+import { ClubComponent } from './components/cores/clubs/club/club.component';
 import { SiteComponent } from './components/cores/site/site.component';
 import { MyEventsComponent } from './components/cores/events/my-events/my-events.component';
-import { UpdateEventComponent } from './components/cores/events/update-event/update-event.component';
+import { FormEventComponent } from './components/cores/events/form-event/form-event.component';
+import { MyClubsComponent } from './components/cores/clubs/my-clubs/my-clubs.component';
+import { FormClubComponent } from './components/cores/clubs/form-club/form-club.component';
 
 @NgModule({
   declarations: [
@@ -52,7 +54,9 @@ import { UpdateEventComponent } from './components/cores/events/update-event/upd
     TrainingModalComponent,
     OrganisationModalComponent,
     MyEventsComponent,
-    UpdateEventComponent
+    FormEventComponent,
+    MyClubsComponent,
+    FormClubComponent
  
   ],
   imports: [
