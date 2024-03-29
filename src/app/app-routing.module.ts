@@ -12,7 +12,6 @@ import { SiteComponent } from './components/cores/site/site.component';
 import { MessageComponent } from './components/cores/message/message.component';
 import { FormEventComponent } from './components/cores/events/form-event/form-event.component';
 import { FormClubComponent } from './components/cores/clubs/form-club/form-club.component';
-import { MyClubsComponent } from './components/cores/clubs/my-clubs/my-clubs.component';
 
 const routes: Routes = [
   { path: '', component : HomeComponent},
@@ -23,16 +22,19 @@ const routes: Routes = [
   { path: 'event', component : EventComponent},
   { path: 'my-events', component : EventComponent},
   { path: 'formation', component : EventComponent},
+
   { path: 'club', component : ClubComponent},
+  { path: 'my-clubs', component : ClubComponent},
+
   { path: 'site', component : SiteComponent},
+
   { path: 'contact', component : ContactComponent},
   { path: 'message/:id', component : MessageComponent},
-
 
   { path: 'update-event/:id', component : FormEventComponent},
   { path: 'insert-event', component : FormEventComponent},
 
-  { path: 'my-clubs', component : MyClubsComponent},
+  
   { path: 'update-club/:id', component : FormClubComponent},
   { path: 'insert-club', component : FormClubComponent},
   

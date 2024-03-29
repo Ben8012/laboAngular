@@ -11,6 +11,8 @@
                         <td class=" text-center"> 
                             <button *ngIf="!club.isParticipe && User.id != club.creator.id" class="btn btn-success m-2 hover" (click)="participe(club.id)"><i class="bi bi-hand-thumbs-up-fill"></i></button>
                             <button *ngIf="club.isParticipe && User.id != club.creator.id" class="btn btn-warning hover" (click)="unparticipe(club.id)"><i class="bi bi-hand-thumbs-down-fill"></i></button>
+                            <button *ngIf="EnableButtons && User.id == club.creator.id" class="btn btn-warning hover m-1" (click)="updateClub(club)"><i class="bi bi-arrow-clockwise"></i></button>
+                            <button *ngIf="EnableButtons && User.id == club.creator.id" class="btn btn-danger hover m-1" (click)="deleteClub(club)"><i class="bi bi-trash"></i></button>
                         </td>
                     </tr>
                     <!-- <tr>
