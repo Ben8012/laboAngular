@@ -21,8 +21,8 @@ export class AppComponent implements OnInit {
 
   @HostListener('window:resize', ['$event'])
   onResize() {
-    console.log('phoneSize: '+this._phoneSize)
-    console.log(window.innerWidth)
+    // console.log('phoneSize: '+this._phoneSize)
+    // console.log(window.innerWidth)
     this._phoneSize = window.innerWidth <= 580;
   }
 

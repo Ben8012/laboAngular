@@ -50,7 +50,8 @@ export class ProfilComponent {
     private _router : Router,
     private _session : UserSessionService,
     private _userHttpService : UserHttpService,
-    private _imageHttpService : ImageHttpService
+    private _imageHttpService : ImageHttpService,
+  
     )
   {}
 
@@ -141,7 +142,11 @@ export class ProfilComponent {
     this.selectedFileCertificat = event.target.files[0];
   }
 
-
+  Logout(){
+    this._session.clearSession();
+   
+    this._router.navigate(['/home']);
+  }
 
   update() {
     if (this.formProfil.valid) {

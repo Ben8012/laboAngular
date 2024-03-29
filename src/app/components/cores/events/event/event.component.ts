@@ -10,6 +10,8 @@ import { ClubModalComponent } from '../../../modals/clubModal/clubModal.componen
 import { TrainingModalComponent } from '../../../modals/trainingModal/trainingModal.component';
 import { OrganisationModalComponent } from '../../../modals/organisationModal/organisationModal.component';
 import { DateHelperService } from 'src/app/services/helper/date.helper.service';
+import { DeleteEventModelComponent } from 'src/app/components/modals/delete-eventModel/delete-eventModel.component';
+import { ActivatedRoute, NavigationEnd, Params, Router } from '@angular/router';
 
 @Component({
   selector: 'app-event',
@@ -17,6 +19,8 @@ import { DateHelperService } from 'src/app/services/helper/date.helper.service';
   styleUrls: ['./event.component.scss'],
 })
 export class EventComponent implements OnInit {
+  private _url :any
+  private _urlSegements : any
 
   private _events : any [] = []
   get Events(): any []  { return this._events; }
@@ -33,13 +37,51 @@ export class EventComponent implements OnInit {
     private _session: UserSessionService,
     private _modalDataService : ModalDataService,
     public dialog: MatDialog,
-    private _dateHelperService : DateHelperService
+    private _dateHelperService : DateHelperService,
+    private _router : Router,
+    private route: ActivatedRoute,
     ) { }
 
   ngOnInit(): void {
     this._today = new Date()
-    this.getUser() 
-    this.getAllEvents()
+   
+    this.route.url.subscribe(segments => {
+      this._urlSegements = segments
+      this._url = segments.join('/');
+      console.log("L'URL a changé :", this._url);
+
+      this.getUser()
+
+      if (segments.length > 0 && segments[0].path === "event" || segments[0].path === "formation") {
+        console.log("URL contient 'event ou formation'");
+        this.getAllEvents();
+      }
+    });
+
+   }
+
+   getEventsByUserId(id : any){
+    this._eventHttpService.getEventByUserId(id).subscribe({
+      next : (data :any) =>{
+        this._events = data
+        this.checkIfParticipe()
+        this._events.forEach((event : any) => {
+          event.startDate = this._dateHelperService.formatDateToFrench(new Date(event.startDate))
+          event.endDate = this._dateHelperService.formatDateToFrench(new Date(event.endDate))
+          event.participes.forEach((participe : any) => {
+            participe.insuranceDateValidation = new Date(participe.insuranceDateValidation)
+            participe.medicalDateValidation = new Date(participe.medicalDateValidation)
+          });
+          event.startDate = new Date(event.startDate)
+          event.endDate = new Date(event.endDate)
+          event.type = "event"
+          
+        });
+        console.log(this._events)
+      },
+      error : (error) => {
+        console.log(error)
+      }}) ;
    }
 
    getAllEvents(){
@@ -47,15 +89,22 @@ export class EventComponent implements OnInit {
       next : (data :any) =>{
         this._events = data
         this.checkIfParticipe()
-        this._events = this._events.filter(e => e.training == null)
+        if(this._urlSegements[0].path === "event" ){
+          this._events = this._events.filter(e => e.training == null)
+        }
+        if(this._urlSegements[0].path === "formation" ){
+          this._events = this._events.filter(e => e.training != null)
+        }
         this._events.forEach((event : any) => {
-          event.startDate = this._dateHelperService.formatDateToFrench(new Date(event.startDate))
-          event.endDate = this._dateHelperService.formatDateToFrench(new Date(event.endDate))
+          event.startDateFrench = this._dateHelperService.formatDateToFrench(new Date(event.startDate))
+          event.endDateFrench = this._dateHelperService.formatDateToFrench(new Date(event.endDate))
           event.participes.forEach((participe : any) => {
             participe.insuranceDateValidation = new Date(participe.insuranceDateValidation)
             participe.medicalDateValidation = new Date(participe.medicalDateValidation)
-            participe.birthdate = new Date(participe.birthdate)
           });
+          event.startDate = new Date(event.startDate)
+          event.endDate = new Date(event.endDate)
+          event.type = "event"
           
         });
         console.log(this._events)
@@ -68,6 +117,10 @@ export class EventComponent implements OnInit {
    private getUser() {
     this._session.$user.subscribe((user: any) => {
       this._user = user;
+      if(this._urlSegements.length > 0 && this._urlSegements[0].path === "my-events" && this._user.id){
+        console.log("my-event")
+        this.getEventsByUserId(this._user.id)
+      }
     })
   }
 
@@ -176,5 +229,22 @@ export class EventComponent implements OnInit {
 
     return age;
     }
+
+    deleteEvent(event : any){
+      this._modalDataService.setData(event);
+      document.body.classList.add('modal-open');
+      const dialogRef = this.dialog.open(DeleteEventModelComponent);
+  
+      dialogRef.afterClosed().subscribe(result => {
+        console.log('Le modal est fermé');
+        document.body.classList.remove('modal-open'); 
+        this.getAllEvents()
+      });
+     }
+  
+     updateEvent(event : any){
+      this._router.navigate(['update-event',event.id])
+    }
+  
 
 }

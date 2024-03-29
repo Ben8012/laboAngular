@@ -1,6 +1,6 @@
 
 import { isEmpty } from 'rxjs';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ObservableService } from 'src/app/services/observable/observable.service';
 import { UserSessionService } from 'src/app/services/session/user-session.service';
 import { UserHttpService } from 'src/app/services/http/user.http.service';
@@ -16,6 +16,8 @@ import { ImageHttpService } from 'src/app/services/http/image.http.service';
 })
 export class ContactbarComponent implements OnInit {
   @Input() PhoneSize : boolean = false
+
+  @Output() HiddenContactBar: EventEmitter<string> = new EventEmitter<string>();
   
   private _friends : any [] = []
   get Friends(): any []  { return this._friends; }
@@ -56,7 +58,9 @@ export class ContactbarComponent implements OnInit {
   }
 
   getMessage(id : any){
+    this.HiddenContactBar.emit('hidden');
     this._route.navigate(['/message', id]);
+    
   }
 
  

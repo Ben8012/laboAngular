@@ -80,9 +80,6 @@ export class MyEventsComponent implements OnInit {
     })
   }
 
-  updateEvent(event : any){
-    this._router.navigate(['update-event',event.id])
-  }
 
  
   participe(id : any){
@@ -181,5 +178,10 @@ export class MyEventsComponent implements OnInit {
       this.getEventsByUserId(this._user.id)
     });
    }
+
+   updateEvent(event : any){
+    this._router.navigate(['update-event',event.id])
+  }
+
  
 }

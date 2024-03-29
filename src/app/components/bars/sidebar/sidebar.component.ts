@@ -13,6 +13,9 @@ export class SidebarComponent implements OnInit {
 
   @Input() PhoneSize : boolean = false
 
+  private _message : string = ''
+  get Message() : string {return this._message}
+
   private _isContactBarVisible : boolean = false
   get IsContactBarVisible() : boolean {return this._isContactBarVisible}
 
@@ -24,7 +27,6 @@ export class SidebarComponent implements OnInit {
 
   constructor(
     private _session : UserSessionService,
-    private _route : Router,
     private _imageHttpService : ImageHttpService
     )
   {
@@ -41,13 +43,6 @@ export class SidebarComponent implements OnInit {
 
   }
 
-  Logout(){
-    this._session.clearSession();
-    this._imageUrl =''
-    this._route.navigate(['/home']);
-  }
-
-  
   getUserImage(user : any){
     this._imageHttpService.getProfilImage(user.guidImage).subscribe(imageData => {
       const reader = new FileReader();
@@ -59,9 +54,17 @@ export class SidebarComponent implements OnInit {
     
   } 
  
-  ContactBarVisibility(){
+  contactBarVisibility(){
     console.log(this._isContactBarVisible)
     this._isContactBarVisible = !this._isContactBarVisible
+   
+  }
+
+  event(message: string) {
+    if(message == 'hidden'){
+      this._isContactBarVisible = false
+    }
+    
   }
 
 }

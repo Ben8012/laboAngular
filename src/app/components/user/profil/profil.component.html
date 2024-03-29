@@ -1,6 +1,14 @@
 
   <div class="text-center ">
+    
       <form class="border rounded p-2" [formGroup]="FormProfil" (ngSubmit)="update()" >
+        <div class="mb-3 d-flex justify-content-center " >
+          <a class=" btn btn-light text-center p-2 m-2 w-25 border rounded" (click)="Logout()" title="Logout">
+            <span>Logout </span>
+            <i class="bi bi-box-arrow-left fa-fw me-3"></i>
+          </a>
+        </div>
+      
         <label for="firstname">Prénom</label>
         <div class="mb-3 d-flex justify-content-center" >
             <input type="text" class="form-control w-50" [ngClass]="{'errors' : Firstname.invalid}" formControlName="firstname"  id="firstname" placeholder="Firstname">

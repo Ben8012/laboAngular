@@ -1,49 +1,45 @@
 <div *ngFor="let event of Events">
-   
-       
-            <table class="table border rounded">
-                <tbody>
-                    <tr>
-                        <td class=" text-center my-2">
-                            <h5>{{event.name}}</h5>
-                            <h6>Début le {{event.startDate }} </h6>
-                            <h6>Fin le {{event.endDate }} </h6>
-                        </td>
-                        <td class=" text-center"> 
-                            <button *ngIf="User.id && !event.isParticipe && User.id != event.creator.id" class="btn btn-success m-2 hover" (click)="participe(event.id)"><i class="bi bi-hand-thumbs-up-fill"></i></button>
-                            <button *ngIf="User.id && event.isParticipe && User.id != event.creator.id" class="btn btn-warning hover" (click)="unparticipe(event.id)"><i class="bi bi-hand-thumbs-down-fill"></i></button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="text-center">
-                            <p>Lieu : {{event.diveplace.name}}</p>
-                            <img [src]="'../../../../assets/sites/'+event.diveplace.picture" alt="" class="size border rounded" />
-                        </td>
-                        <td class="text-center"><button class="btn btn-light hover" (click)="diveplaceInfo(event.diveplace)"><i class="bi bi-info-circle"></i></button></td>
-                    </tr>
-                    <tr *ngIf="event.participes.length > 0">
-                        <app-participator-table [User]="User" [Participator]="event.participes" ></app-participator-table>
-                    </tr>
-                    <tr>
-                        <td>Créateur : {{event.creator.firstname}} {{event.creator.lastname}} </td>
-                        <td class="text-center"><button class="btn btn-light hover" (click)="creatorInfo(event.creator)"><i class="bi bi-info-circle"></i></button></td>
-                    </tr>
-                    <tr *ngIf="event.club">
-                        <td>Club : {{event.club.name}}</td>
-                        <td class="text-center"><button class="btn btn-light hover" (click)="clubInfo(event.club)"><i class="bi bi-info-circle"></i></button></td>
-                    </tr>
-                    <tr *ngIf="event.training">
-                        <td>Formation : {{event.training.name}}</td>
-                        <td class="text-center"><button class="btn btn-light hover" (click)="trainingInfo(event.training)"><i class="bi bi-info-circle"></i></button></td>
-                    </tr>
-                    <tr *ngIf="event.organisation" >
-                        <td >Oragnisation : {{event.organisation.name}}</td>
-                        <td class="text-center"><button class="btn btn-light hover" (click)="organisationInfo(event.organisation)"><i class="bi bi-info-circle"></i></button></td>
-                    </tr>
-                  
-                </tbody>
-            </table>
-       
+    <table class="table border rounded">
+        <tbody>
+            <tr>
+                <td class=" text-center my-2">
+                    <h5>{{event.name}}</h5>
+                    <h6>Début le {{event.startDate }} </h6>
+                    <h6>Fin le {{event.endDate }} </h6>
+                </td>
+                <td class=" text-center"> 
+                    <button *ngIf="User.id && !event.isParticipe && User.id != event.creator.id" class="btn btn-success m-2 hover" (click)="participe(event.id)"><i class="bi bi-hand-thumbs-up-fill"></i></button>
+                    <button *ngIf="User.id && event.isParticipe && User.id != event.creator.id" class="btn btn-warning hover" (click)="unparticipe(event.id)"><i class="bi bi-hand-thumbs-down-fill"></i></button>
+                </td>
+            </tr>
+            <tr>
+                <td class="text-center">
+                    <p>Lieu : {{event.diveplace.name}}</p>
+                    <img [src]="'../../../../assets/sites/'+event.diveplace.picture" alt="" class="size border rounded" />
+                </td>
+                <td class="text-center"><button class="btn btn-light hover" (click)="diveplaceInfo(event.diveplace)"><i class="bi bi-info-circle"></i></button></td>
+            </tr>
+            <tr *ngIf="event.participes.length > 0">
+                <app-participator-table [User]="User" [Participator]="event.participes" ></app-participator-table>
+            </tr>
+            <tr>
+                <td>Créateur : {{event.creator.firstname}} {{event.creator.lastname}} </td>
+                <td class="text-center"><button class="btn btn-light hover" (click)="creatorInfo(event.creator)"><i class="bi bi-info-circle"></i></button></td>
+            </tr>
+            <tr *ngIf="event.club">
+                <td>Club : {{event.club.name}}</td>
+                <td class="text-center"><button class="btn btn-light hover" (click)="clubInfo(event.club)"><i class="bi bi-info-circle"></i></button></td>
+            </tr>
+            <tr *ngIf="event.training">
+                <td>Formation : {{event.training.name}}</td>
+                <td class="text-center"><button class="btn btn-light hover" (click)="trainingInfo(event.training)"><i class="bi bi-info-circle"></i></button></td>
+            </tr>
+            <tr *ngIf="event.organisation" >
+                <td >Oragnisation : {{event.organisation.name}}</td>
+                <td class="text-center"><button class="btn btn-light hover" (click)="organisationInfo(event.organisation)"><i class="bi bi-info-circle"></i></button></td>
+            </tr>
+        </tbody>
+    </table>
 </div>    
 
 

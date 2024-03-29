@@ -23,13 +23,14 @@ const routes: Routes = [
   { path: 'register', component : RegisterComponent},
 
   { path: 'event', component : EventComponent},
-  { path: 'formation', component : FormationComponent},
+  { path: 'my-events', component : EventComponent},
+  { path: 'formation', component : EventComponent},
   { path: 'club', component : ClubComponent},
   { path: 'site', component : SiteComponent},
   { path: 'contact', component : ContactComponent},
   { path: 'message/:id', component : MessageComponent},
 
-  { path: 'my-events', component : MyEventsComponent},
+
   { path: 'update-event/:id', component : FormEventComponent},
   { path: 'insert-event', component : FormEventComponent},
 
