@@ -24,10 +24,8 @@ import { DiveplaceModalComponent } from './components/modals/diveplaceModal/dive
 import { ClubModalComponent } from './components/modals/clubModal/clubModal.component';
 import { TrainingModalComponent } from './components/modals/trainingModal/trainingModal.component';
 import { OrganisationModalComponent } from './components/modals/organisationModal/organisationModal.component';
-import { FormationComponent } from './components/cores/events/formation/formation.component';
 import { ClubComponent } from './components/cores/clubs/club/club.component';
 import { SiteComponent } from './components/cores/site/site.component';
-import { MyEventsComponent } from './components/cores/events/my-events/my-events.component';
 import { FormEventComponent } from './components/cores/events/form-event/form-event.component';
 import { MyClubsComponent } from './components/cores/clubs/my-clubs/my-clubs.component';
 import { FormClubComponent } from './components/cores/clubs/form-club/form-club.component';
@@ -47,7 +45,6 @@ import { ParticipatorTableComponent } from './components/view-parts/participator
     RegisterComponent,
     MessageComponent,
     EventComponent,
-    FormationComponent,
     ClubComponent,
     SiteComponent,
     CreatorModalComponent,
@@ -55,7 +52,6 @@ import { ParticipatorTableComponent } from './components/view-parts/participator
     ClubModalComponent,
     TrainingModalComponent,
     OrganisationModalComponent,
-    MyEventsComponent,
     FormEventComponent,
     MyClubsComponent,
     FormClubComponent,

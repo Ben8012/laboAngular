@@ -22,6 +22,9 @@ export class EventComponent implements OnInit {
   private _url :any
   private _urlSegements : any
 
+  private _enableButtons :any
+  get EnableButtons(): any []  { return this._enableButtons; }
+
   private _events : any [] = []
   get Events(): any []  { return this._events; }
 
@@ -55,28 +58,33 @@ export class EventComponent implements OnInit {
       if (segments.length > 0 && segments[0].path === "event" || segments[0].path === "formation") {
         console.log("URL contient 'event ou formation'");
         this.getAllEvents();
+        this._enableButtons = true
       }
     });
-
    }
+
+   formatEventForView(){
+    this._events.forEach((event : any) => {
+      event.startDateFrench = this._dateHelperService.formatDateToFrench(new Date(event.startDate))
+      event.endDateFrench = this._dateHelperService.formatDateToFrench(new Date(event.endDate))
+      event.participes.forEach((participe : any) => {
+        participe.insuranceDateValidation = new Date(participe.insuranceDateValidation)
+        participe.medicalDateValidation = new Date(participe.medicalDateValidation)
+      });
+      event.startDate = new Date(event.startDate)
+      event.endDate = new Date(event.endDate)
+      event.type = "event"
+      
+    });
+   }
+
 
    getEventsByUserId(id : any){
     this._eventHttpService.getEventByUserId(id).subscribe({
       next : (data :any) =>{
         this._events = data
         this.checkIfParticipe()
-        this._events.forEach((event : any) => {
-          event.startDate = this._dateHelperService.formatDateToFrench(new Date(event.startDate))
-          event.endDate = this._dateHelperService.formatDateToFrench(new Date(event.endDate))
-          event.participes.forEach((participe : any) => {
-            participe.insuranceDateValidation = new Date(participe.insuranceDateValidation)
-            participe.medicalDateValidation = new Date(participe.medicalDateValidation)
-          });
-          event.startDate = new Date(event.startDate)
-          event.endDate = new Date(event.endDate)
-          event.type = "event"
-          
-        });
+        this.formatEventForView()
         console.log(this._events)
       },
       error : (error) => {
@@ -89,24 +97,14 @@ export class EventComponent implements OnInit {
       next : (data :any) =>{
         this._events = data
         this.checkIfParticipe()
+        this._enableButtons = false
         if(this._urlSegements[0].path === "event" ){
           this._events = this._events.filter(e => e.training == null)
         }
         if(this._urlSegements[0].path === "formation" ){
           this._events = this._events.filter(e => e.training != null)
         }
-        this._events.forEach((event : any) => {
-          event.startDateFrench = this._dateHelperService.formatDateToFrench(new Date(event.startDate))
-          event.endDateFrench = this._dateHelperService.formatDateToFrench(new Date(event.endDate))
-          event.participes.forEach((participe : any) => {
-            participe.insuranceDateValidation = new Date(participe.insuranceDateValidation)
-            participe.medicalDateValidation = new Date(participe.medicalDateValidation)
-          });
-          event.startDate = new Date(event.startDate)
-          event.endDate = new Date(event.endDate)
-          event.type = "event"
-          
-        });
+        this.formatEventForView()
         console.log(this._events)
       },
       error : (error) => {
