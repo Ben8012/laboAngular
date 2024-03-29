@@ -10,81 +10,50 @@
             <table class="table">
                 <tbody>
                     <tr>
-                        <td class=" text-center my-2">
-                            <h5>{{event.name}}</h5>
-                            <h6>Du {{event.startDate | date : 'medium' }} au {{event.endDate | date : 'short'}}</h6>
+                        <td class="row">
+                            <div class="col-10 text-center">
+                                <h5>{{event.name}}</h5>
+                                <h6>Début le {{event.startDate }} </h6>
+                                <h6>Fin le {{event.endDate }} </h6>
+                            </div>
+                            <div class="col-2 text-center d-flex flex-column">
+                                <button *ngIf="!event.isParticipe && User.id != event.creator.id" class="btn btn-success hover mb-4" (click)="participe(event.id)"><i class="bi bi-hand-thumbs-up-fill"></i></button>
+                                <button *ngIf="event.isParticipe && User.id != event.creator.id" class="btn btn-primary hover mb-4" (click)="unparticipe(event.id)"><i class="bi bi-hand-thumbs-down-fill"></i></button>
+                                <button *ngIf="User.id == event.creator.id && event.startDate.getTime() > Today.getTime()" class="btn btn-warning hover m-1" (click)="updateEvent(event)"><i class="bi bi-arrow-clockwise"></i></button>
+                                <button *ngIf="User.id == event.creator.id" class="btn btn-danger hover m-1" (click)="deleteEvent(event)"><i class="bi bi-trash"></i></button>
+                            </div>
                         </td>
-                        <td class=" text-center d-flex flex-column "> 
-                            <button *ngIf="!event.isParticipe && User.id != event.creator.id" class="btn btn-success hover mb-4" (click)="participe(event.id)"><i class="bi bi-hand-thumbs-up-fill"></i></button>
-                            <button *ngIf="event.isParticipe && User.id != event.creator.id" class="btn btn-primary hover mb-4" (click)="unparticipe(event.id)"><i class="bi bi-hand-thumbs-down-fill"></i></button>
-                            <button *ngIf="User.id == event.creator.id && event.startDate.getTime() > Today.getTime()" class="btn btn-warning hover m-1" (click)="updateEvent(event)"><i class="bi bi-arrow-clockwise"></i></button>
-                            <button *ngIf="User.id == event.creator.id" class="btn btn-danger hover m-1" (click)="deleteEvent(event)"><i class="bi bi-trash"></i></button>
-                        </td>
+                       
                     </tr>
-                    <tr>
-                        <td class="text-center">
+                    <tr class="row">
+                        <div class="col-10 text-center">
                             <p>Lieu : {{event.diveplace.name}}</p>
                             <img [src]="'../../../../assets/sites/'+event.diveplace.picture" alt="" class="size border rounded" />
-                        </td>
-                        <td class="text-center"><button class="btn btn-light hover" (click)="diveplaceInfo(event.diveplace)"><i class="bi bi-info-circle"></i></button></td>
+                        </div>
+                        <div class="col-2 text-center d-flex flex-column ">
+                            <button class="btn btn-light hover m-1" (click)="diveplaceInfo(event.diveplace)"><i class="bi bi-info-circle"></i></button>
+                            <a class="btn btn-primary m-1" [href]="'https://www.google.com/maps?q='+event.diveplace.adress.number+' '+event.diveplace.adress.street+' '+event.diveplace.adress.postCode+' '+event.diveplace.adress.city+' '+event.diveplace.adress.country" 
+                                    target="_blank"><i class="bi bi-geo-alt"></i></a>
+                        </div>
                     </tr>
                     <tr *ngIf="event.participes.length > 0">
-                        <table class="table mt-2">
-                           <tr>
-                               <th class="border"><p class="text-underline text-center">Participants </p></th>
-                               <th class="border"><p class="text-underline text-center">Médical </p></th>
-                               <th class="border"><p class="text-underline text-center">Assurance </p></th>
-                               <th class="border"><p class="text-underline text-center">Niveau </p></th>
-
-                           </tr>
-                           
-                            <tr *ngFor="let participe of event.participes" >
-                                <td class="text-center border m-auto">
-                                    <p>{{participe.firstname}} {{participe.lastname}}</p>  
-                                </td>
-                                <td class="text-center border">
-                                    <ng-container *ngIf="participe.medicalDateValidation.getTime() <= Today.getTime(); else checkIcon">
-                                        <i class="bi bi-x" style="color:red"></i>
-                                      </ng-container>
-                                      <ng-template #checkIcon>
-                                        <i class="bi bi-check-lg" style="color:green"></i>
-                                      </ng-template>                                </td>
-                                <td class="text-center border">
-                                    <ng-container *ngIf="participe.insuranceDateValidation.getTime() <= Today.getTime(); else checkIcon">
-                                        <i class="bi bi-x" style="color:red"></i>
-                                      </ng-container>
-                                      <ng-template #checkIcon>
-                                        <i class="bi bi-check-lg" style="color:green"></i>
-                                      </ng-template>  
-                                   
-                                </td>
-                                <td class="text-center border">
-                                    <ng-container *ngIf="!participe.isLevelValid; else checkIcon">
-                                        <i class="bi bi-x" style="color:red;"></i>
-                                      </ng-container>
-                                      <ng-template #checkIcon>
-                                        <i class="bi bi-check-lg" style="color:green"></i>
-                                      </ng-template>  
-                                   
-                                </td>
-                            </tr>
-                        </table>
+                        <app-participator-table [User]="User" [Participator]="event.participes"></app-participator-table>
                     </tr>
-                    <tr>
-                        <td>Créateur : {{event.creator.firstname}} {{event.creator.lastname}} </td>
-                        <td class="text-center"><button class="btn btn-light hover" (click)="creatorInfo(event.creator)"><i class="bi bi-info-circle"></i></button></td>
+                    <tr class="row">
+                        <div class="col-10 text-center">Créateur : {{event.creator.firstname}} {{event.creator.lastname}} </div>
+                        <div class="col-2 text-center"><button class="btn btn-light hover" (click)="creatorInfo(event.creator)"><i class="bi bi-info-circle"></i></button></div>
                     </tr>
-                    <tr *ngIf="event.club">
-                        <td>Club : {{event.club.name}}</td>
-                        <td class="text-center"><button class="btn btn-light hover" (click)="clubInfo(event.club)"><i class="bi bi-info-circle"></i></button></td>
+                    <tr class="row" *ngIf="event.club">
+                        <div class="col-10 text-center">Club : {{event.club.name}}</div>
+                        <div class="col-2 text-center"><button class="btn btn-light hover" (click)="clubInfo(event.club)"><i class="bi bi-info-circle"></i></button></div>
                     </tr>
-                    <tr *ngIf="event.training">
-                        <td>Formation : {{event.training.name}}</td>
-                        <td class="text-center"><button class="btn btn-light hover" (click)="trainingInfo(event.training)"><i class="bi bi-info-circle"></i></button></td>
+                    <tr class="row" *ngIf="event.training">
+                        <div class="col-10 text-center">Formation : {{event.training.name}}</div>
+                        <div class="col-2 text-center"><button class="btn btn-light hover" (click)="trainingInfo(event.training)"><i class="bi bi-info-circle"></i></button></div>
                     </tr>
-                    <tr *ngIf="event.organisation" >
-                        <td >Oragnisation : {{event.organisation.name}}</td>
-                        <td class="text-center"><button class="btn btn-light hover" (click)="organisationInfo(event.organisation)"><i class="bi bi-info-circle"></i></button></td>
+                    <tr class="row" *ngIf="event.organisation" >
+                        <div class="col-10 text-center">Oragnisation : {{event.organisation.name}}</div>
+                        <div class="col-2 text-center"><button class="btn btn-light hover" (click)="organisationInfo(event.organisation)"><i class="bi bi-info-circle"></i></button></div>
                     </tr>
                 </tbody>
             </table>

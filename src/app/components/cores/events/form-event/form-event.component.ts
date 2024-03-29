@@ -149,7 +149,7 @@ export class FormEventComponent implements OnInit {
     enddate : this._event.endDate,
     diveplaceId : this._event.diveplace.id,
     trainingId : this._event.training ? this._event.training.id : 0,
-    clubId : this._event.club ? this._event.club : 0,
+    clubId : this._event.club ? this._event.club.id : 0,
     creatorId : this._user.id
   }
   this.formEvent.patchValue(form);

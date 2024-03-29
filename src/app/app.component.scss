@@ -2,5 +2,14 @@
   min-width: 50vh;
 }
 
+@media screen and (max-width: 768px) {
+
+
+  .min-size{
+    min-width: 10vh;
+  }
+}
+
+
 
 

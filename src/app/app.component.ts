@@ -1,5 +1,5 @@
 import { IUser } from './models/interfaces/user.model';
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { UserSessionService } from './services/session/user-session.service';
 import { Router } from '@angular/router';
 import { isEmpty } from 'rxjs';
@@ -12,8 +12,20 @@ import { UserHttpService } from './services/http/user.http.service';
 })
 export class AppComponent implements OnInit {
 
+  private _phoneSize : boolean = true
+  get PhoneSize() : boolean {return this._phoneSize}
+
+
   private _user! : IUser
   get User(): IUser { return this._user; }
+
+  @HostListener('window:resize', ['$event'])
+  onResize() {
+    console.log('phoneSize: '+this._phoneSize)
+    console.log(window.innerWidth)
+    this._phoneSize = window.innerWidth <= 580;
+  }
+
 
   constructor(
     private _router : Router,
@@ -49,4 +61,5 @@ export class AppComponent implements OnInit {
     }
   }
 
+ 
 }

@@ -106,51 +106,50 @@ private addToFormAdress(){
 }
 
 addValues(){
-  this.formClub.value.adress.id = this.formAdress.value.id
-  this.formClub.value.adress.street = this.formAdress.value.street
-  this.formClub.value.adress.number = this.formAdress.value.number
-  this.formClub.value.adress.city = this.formAdress.value.city
-  this.formClub.value.adress.postCode = this.formAdress.value.postCode
-  this.formClub.value.adress.country = this.formAdress.value.country
+  if(this.formAdress.value.id){this.formClub.value.adress.id = this.formAdress.value.id}
+  if(this.formAdress.value.street){this.formClub.value.adress.street = this.formAdress.value.street} 
+  if(this.formAdress.value.number){this.formClub.value.adress.number = this.formAdress.value.number} 
+  if(this.formAdress.value.city){this.formClub.value.adress.city = this.formAdress.value.city}
+  if(this.formAdress.value.postCode){this.formClub.value.adress.postCode = this.formAdress.value.postCode}
+  if(this.formAdress.value.country){this.formClub.value.adress.country = this.formAdress.value.country}
 }
 
 update() {
 this.formClub.value.creatorId = this._user.id
+this.addValues()
+// console.log(this.formClub)
+// console.log(this._id)
 if (this.formClub.valid) {
- 
   if(this._id){
-    this.addValues()
-    console.log(this.formClub.value)
     console.log('update')
-    // this._clubHttpService.update(this.formClub.value).subscribe({
-    //   next: (data: any) => {
-    //     this._club = data
-    //     this._router.navigate(['my-clubs'])
-    //   },
-    //   error: (error) => {
-    //     console.log(error);
-    //   }
-    // });
-    }
-  }
-  else{
-    this.addValues()
-    delete this.formClub.value.id
-    delete this.formClub.value.adress.id
-    console.log(this.formClub.value)
-    console.log(this._id)
-    // this._clubHttpService.insert(this.formClub.value).subscribe({
-    //   next: (data: any) => {
-    //     this._club = data
-    //     this._router.navigate(['my-events'])
-    //   },
-    //   error: (error) => {
-    //     console.log(error);
-    //   }
-    // });
+    this._clubHttpService.update(this.formClub.value).subscribe({
+      next: (data: any) => {
+        this._club = data
+        this._router.navigate(['my-clubs'])
+      },
+      error: (error) => {
+        console.log(error);
+      }
+    });
     }
   
+  else{
+    console.log(this.formClub)
+    console.log('insert')
+    delete this.formClub.value.id
+    this.formClub.value.adress.street ? this.addValues() : this.formClub.value.adress = null
+    this._clubHttpService.insert(this.formClub.value).subscribe({
+      next: (data: any) => {
+        this._club = data
+        this._router.navigate(['my-clubs'])
+      },
+      error: (error) => {
+        console.log(error);
+      }
+    });
+    }
   }
+}
 
   unparticipe(id : any){
     this._clubHttpService.unParticipe(id,this._club.id).subscribe({

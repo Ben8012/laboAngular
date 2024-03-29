@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { CreatorModalComponent } from 'src/app/components/modals/CreatorModal/CreatorModal.component';
 import { DeleteEventModelComponent } from 'src/app/components/modals/delete-eventModel/delete-eventModel.component';
+import { DateHelperService } from 'src/app/services/helper/date.helper.service';
 import { ClubHttpService } from 'src/app/services/http/club.http.service';
 import { UserHttpService } from 'src/app/services/http/user.http.service';
 import { ModalDataService } from 'src/app/services/modal/modal.data.service';
@@ -30,6 +31,8 @@ export class MyClubsComponent implements OnInit {
     private _modalDataService : ModalDataService,
     public dialog: MatDialog,
     private _router : Router,
+    private _dateHelperService : DateHelperService
+
     ) { }
 
 
@@ -45,10 +48,12 @@ export class MyClubsComponent implements OnInit {
         console.log(this._clubs)
         this.checkIfParticipe()
         this._clubs.forEach((club : any) => {
+          club.createdAt = this._dateHelperService.formatDateToFrench(new Date(club.createdAt))
           club.participes.forEach((participe : any) => {
             participe.insuranceDateValidation = new Date(participe.insuranceDateValidation)
             participe.medicalDateValidation = new Date(participe.medicalDateValidation)
           });
+          club.type="club"
           
         });
       },
@@ -121,6 +126,7 @@ export class MyClubsComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       console.log('Le modal est fermé');
       document.body.classList.remove('modal-open'); 
+      this.getClubsByUserId(this._user.id)
     });
    }
  

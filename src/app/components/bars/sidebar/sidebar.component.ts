@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { IUser } from 'src/app/models/interfaces/user.model';
 import { ImageHttpService } from 'src/app/services/http/image.http.service';
@@ -10,6 +10,11 @@ import { UserSessionService } from 'src/app/services/session/user-session.servic
   styleUrls: ['./sidebar.component.scss']
 })
 export class SidebarComponent implements OnInit {
+
+  @Input() PhoneSize : boolean = false
+
+  private _isContactBarVisible : boolean = false
+  get IsContactBarVisible() : boolean {return this._isContactBarVisible}
 
   private _user! : any
   get user(): any  { return this._user; }
@@ -53,6 +58,10 @@ export class SidebarComponent implements OnInit {
     });
     
   } 
-
+ 
+  ContactBarVisibility(){
+    console.log(this._isContactBarVisible)
+    this._isContactBarVisible = !this._isContactBarVisible
+  }
 
 }

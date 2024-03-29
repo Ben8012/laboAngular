@@ -39,7 +39,7 @@ export class SiteComponent implements OnInit {
       next : (data :any) =>{
         this._sites = data
         //this._sites = this._sites.filter(s => s.training != null)
-        //console.log(this._sites)
+        console.log(this._sites)
       },
       error : (error) => {
         console.log(error)

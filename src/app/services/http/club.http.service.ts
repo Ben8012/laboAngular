@@ -36,13 +36,18 @@ export class ClubHttpService {
   }
 
   update(form : any): Observable<any>{
-    return this.http.put(apiUrl,form)
+    return this.http.put(apiUrl+form.id,form)
   }
 
   insert(form : any): Observable<any>{
     return this.http.post(apiUrl,form)
   }
 
+  disable(id : any) : Observable<any>{
+    return this.http.patch(apiUrl+"Disable/"+id,{})
+  }
+  
+  
 
 
 

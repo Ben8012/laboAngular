@@ -11,6 +11,7 @@ import { ClubModalComponent } from '../../../modals/clubModal/clubModal.componen
 import { OrganisationModalComponent } from '../../../modals/organisationModal/organisationModal.component';
 import { DeleteEventModelComponent } from '../../../modals/delete-eventModel/delete-eventModel.component';
 import { TrainingModalComponent } from 'src/app/components/modals/trainingModal/trainingModal.component';
+import { DateHelperService } from 'src/app/services/helper/date.helper.service';
 
 @Component({
   selector: 'app-my-events',
@@ -36,6 +37,7 @@ export class MyEventsComponent implements OnInit {
     private _modalDataService : ModalDataService,
     public dialog: MatDialog,
     private _router : Router,
+    private _dateHelperService : DateHelperService
     ) { }
 
   ngOnInit(): void {
@@ -47,17 +49,20 @@ export class MyEventsComponent implements OnInit {
     this._eventHttpService.getEventByUserId(id).subscribe({
       next : (data :any) =>{
         this._events = data
-        console.log(this._events)
         this.checkIfParticipe()
         this._events.forEach((event : any) => {
+          event.startDate = this._dateHelperService.formatDateToFrench(new Date(event.startDate))
+          event.endDate = this._dateHelperService.formatDateToFrench(new Date(event.endDate))
           event.participes.forEach((participe : any) => {
             participe.insuranceDateValidation = new Date(participe.insuranceDateValidation)
             participe.medicalDateValidation = new Date(participe.medicalDateValidation)
           });
           event.startDate = new Date(event.startDate)
           event.endDate = new Date(event.endDate)
+          event.type = "event"
           
         });
+        console.log(this._events)
       },
       error : (error) => {
         console.log(error)
@@ -173,6 +178,7 @@ export class MyEventsComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       console.log('Le modal est fermé');
       document.body.classList.remove('modal-open'); 
+      this.getEventsByUserId(this._user.id)
     });
    }
  

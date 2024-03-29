@@ -9,6 +9,7 @@ import { DiveplaceModalComponent } from '../../../modals/diveplaceModal/diveplac
 import { ClubModalComponent } from '../../../modals/clubModal/clubModal.component';
 import { TrainingModalComponent } from '../../../modals/trainingModal/trainingModal.component';
 import { OrganisationModalComponent } from '../../../modals/organisationModal/organisationModal.component';
+import { DateHelperService } from 'src/app/services/helper/date.helper.service';
 
 @Component({
   selector: 'app-formation',
@@ -32,6 +33,7 @@ export class FormationComponent implements OnInit {
     private _session: UserSessionService,
     private _modalDataService : ModalDataService,
     public dialog: MatDialog,
+    private _dateHelperService : DateHelperService
     ) { }
 
   ngOnInit(): void {
@@ -47,10 +49,12 @@ export class FormationComponent implements OnInit {
         this.checkIfParticipe()
         this._events = this._events.filter(e => e.training != null)
         this._events.forEach((event : any) => {
-
+          event.startDate = this._dateHelperService.formatDateToFrench(new Date(event.startDate))
+          event.endDate = this._dateHelperService.formatDateToFrench(new Date(event.endDate))
           event.participes.forEach((participe : any) => {
             participe.insuranceDateValidation = new Date(participe.insuranceDateValidation)
             participe.medicalDateValidation = new Date(participe.medicalDateValidation)
+            participe.birthdate = new Date(participe.birthdate)
           });
           
         });
@@ -153,5 +157,24 @@ export class FormationComponent implements OnInit {
     });
    }
 
+   CalculerAge(dateNaissance : any) {
+    var dateActuelle = new Date();
+    var anneeActuelle = dateActuelle.getFullYear();
+    var moisActuel = dateActuelle.getMonth() + 1;
+    var jourActuel = dateActuelle.getDate();
+
+    var anneeNaissance = dateNaissance.getFullYear();
+    var moisNaissance = dateNaissance.getMonth() + 1;
+    var jourNaissance = dateNaissance.getDate();
+
+    var age = anneeActuelle - anneeNaissance;
+
+    // Vérifier si l'anniversaire est déjà passé cette année
+    if (moisActuel < moisNaissance || (moisActuel === moisNaissance && jourActuel < jourNaissance)) {
+        age--;
+    }
+
+    return age;
+    }
 
 }

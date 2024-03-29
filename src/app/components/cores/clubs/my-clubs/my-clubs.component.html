@@ -1,4 +1,10 @@
-<div *ngFor="let club of Clubs">
+
+<div class="boder text-center m-2">
+    <a class="btn btn-light" routerLink="/insert-club">
+        <i class="bi bi-plus-square"></i>
+        &nbsp;Créer
+    </a>
+</div><div *ngFor="let club of Clubs">
     <div class="card m-1">
         <div class="card-body">
             <table class="table">
@@ -6,7 +12,7 @@
                     <tr>
                         <td class=" text-center my-2">
                             <h5>{{club.name}}</h5>
-                            <h6>Date de création {{club.createdAt | date : 'medium' }}</h6>
+                            <h6>Date de création le {{club.createdAt}}</h6>
                         </td>
                         <td class=" text-center"> 
                             <button *ngIf="!club.isParticipe && User.id != club.creator.id" class="btn btn-success m-2 hover" (click)="participe(club.id)"><i class="bi bi-hand-thumbs-up-fill"></i></button>
@@ -27,7 +33,6 @@
                             <p class="text-underline">Organisations : </p>
                             <ul>
                                 <li *ngFor="let organisation of club.creator.organisations">
-                                 
                                       <span>{{organisation.name}}</span>  
                                 </li>
                             </ul>
@@ -35,63 +40,12 @@
                         <td></td>
                     </tr>
                     <tr *ngIf="club.participes.length > 0">
-                        <table class="table mt-2">
-                           <tr>
-                               <th class="border"><p class="text-underline text-center">Participants </p></th>
-                               <th class="border"><p class="text-underline text-center">Médical </p></th>
-                               <th class="border"><p class="text-underline text-center">Assurance </p></th>
-                               <th class="border"><p class="text-underline text-center">Niveau </p></th>
-
-                           </tr>
-                           
-                            <tr *ngFor="let participe of club.participes" >
-                                <td class="text-center border m-auto">
-                                    <p>{{participe.firstname}} {{participe.lastname}}</p>  
-                                </td>
-                                <td class="text-center border">
-                                    <ng-container *ngIf="participe.medicalDateValidation.getTime() <= Today.getTime(); else checkIcon">
-                                        <i class="bi bi-x" style="color:red"></i>
-                                      </ng-container>
-                                      <ng-template #checkIcon>
-                                        <i class="bi bi-check-lg" style="color:green"></i>
-                                      </ng-template>                                </td>
-                                <td class="text-center border">
-                                    <ng-container *ngIf="participe.insuranceDateValidation.getTime() <= Today.getTime(); else checkIcon">
-                                        <i class="bi bi-x" style="color:red"></i>
-                                      </ng-container>
-                                      <ng-template #checkIcon>
-                                        <i class="bi bi-check-lg" style="color:green"></i>
-                                      </ng-template>  
-                                   
-                                </td>
-                                <td class="text-center border">
-                                    <ng-container *ngIf="!participe.isLevelValid; else checkIcon">
-                                        <i class="bi bi-x" style="color:red;"></i>
-                                      </ng-container>
-                                      <ng-template #checkIcon>
-                                        <i class="bi bi-check-lg" style="color:green"></i>
-                                      </ng-template>  
-                                   
-                                </td>
-                            </tr>
-                        </table>
+                        <app-participator-table [User]="User" [Participator]="club.participes"></app-participator-table>
                     </tr>
                     <tr>
                         <td>Créateur : {{club.creator.firstname}} {{club.creator.lastname}} </td>
                         <td class="text-center"><button class="btn btn-light hover" (click)="creatorInfo(club.creator)">Info</button></td>
                     </tr>
-                    <!-- <tr *ngIf="club.creator.organisation">
-                        <td>Club : {{event.club.name}}</td>
-                        <td class="text-center"><button class="btn btn-light hover" (click)="clubInfo(event.club)">Info</button></td>
-                    </tr> -->
-                    <!-- <tr *ngIf="event.training">
-                        <td>Formation : {{event.training.name}}</td>
-                        <td class="text-center"><button class="btn btn-light hover" (click)="trainingInfo(event.training)">Info</button></td>
-                    </tr>
-                    <tr *ngIf="event.organisation" >
-                        <td >Oragnisation : {{event.organisation.name}}</td>
-                        <td class="text-center"><button class="btn btn-light hover" (click)="organisationInfo(event.organisation)">Info</button></td>
-                    </tr> -->
                 </tbody>
             </table>
         </div>

@@ -4,6 +4,7 @@ import { ClubHttpService } from 'src/app/services/http/club.http.service';
 import { ModalDataService } from 'src/app/services/modal/modal.data.service';
 import { UserSessionService } from 'src/app/services/session/user-session.service';
 import { CreatorModalComponent } from '../../../modals/CreatorModal/CreatorModal.component';
+import { DateHelperService } from 'src/app/services/helper/date.helper.service';
 
 @Component({
   selector: 'app-club',
@@ -23,6 +24,7 @@ export class ClubComponent implements OnInit {
     private _session: UserSessionService,
     private _modalDataService : ModalDataService,
     public dialog: MatDialog,
+    private _dateHelperService : DateHelperService
     ) { }
 
   ngOnInit(): void {
@@ -35,7 +37,15 @@ export class ClubComponent implements OnInit {
       next : (data :any) =>{
         this._clubs = data
         this.checkIfParticipe()
-        //this._clubs = this._clubs.filter(c => c.training == null)
+        this._clubs.forEach((club : any) => {
+          club.createdAt = this._dateHelperService.formatDateToFrench(new Date(club.createdAt))
+          club.participes.forEach((participe : any) => {
+            participe.insuranceDateValidation = new Date(participe.insuranceDateValidation)
+            participe.medicalDateValidation = new Date(participe.medicalDateValidation)
+          });
+          club.type="club"
+          
+        });
         console.log(this._clubs)
       },
       error : (error) => {

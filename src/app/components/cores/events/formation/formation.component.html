@@ -6,7 +6,8 @@
                     <tr>
                         <td class=" text-center my-2">
                             <h5>{{event.name}}</h5>
-                            <h6>Du {{event.startDate | date : 'medium' }} au {{event.endDate | date : 'short'}}</h6>
+                            <h6>Début le {{event.startDate }} </h6>
+                            <h6>Fin le {{event.endDate }} </h6>
                         </td>
                         <td class=" text-center"> 
                             <button *ngIf="!event.isParticipe && User.id != event.creator.id" class="btn btn-success m-2 hover" (click)="participe(event.id)"><i class="bi bi-hand-thumbs-up-fill"></i></button>
@@ -21,46 +22,7 @@
                         <td class="text-center"><button class="btn btn-light hover" (click)="diveplaceInfo(event.diveplace)"><i class="bi bi-info-circle"></i></button></td>
                     </tr>
                     <tr *ngIf="event.participes.length > 0">
-                        <table class="table mt-2">
-                           <tr>
-                               <th class="border"><p class="text-underline text-center">Participants </p></th>
-                               <th class="border"><p class="text-underline text-center">Médical </p></th>
-                               <th class="border"><p class="text-underline text-center">Assurance </p></th>
-                               <th class="border"><p class="text-underline text-center">Niveau </p></th>
-
-                           </tr>
-                           
-                            <tr *ngFor="let participe of event.participes" >
-                                <td class="text-center border">
-                                    <p>{{participe.firstname}} {{participe.lastname}}</p>  
-                                </td>
-                                <td class="text-center border">
-                                    <ng-container *ngIf="participe.medicalDateValidation.getTime() <= Today.getTime(); else checkIcon">
-                                        <i class="bi bi-x" style="color:red"></i>
-                                      </ng-container>
-                                      <ng-template #checkIcon>
-                                        <i class="bi bi-check-lg" style="color:green"></i>
-                                      </ng-template>                                </td>
-                                <td class="text-center border">
-                                    <ng-container *ngIf="participe.insuranceDateValidation.getTime() <= Today.getTime(); else checkIcon">
-                                        <i class="bi bi-x" style="color:red"></i>
-                                      </ng-container>
-                                      <ng-template #checkIcon>
-                                        <i class="bi bi-check-lg" style="color:green"></i>
-                                      </ng-template>  
-                                   
-                                </td>
-                                <td class="text-center border">
-                                    <ng-container *ngIf="!participe.isLevelValid; else checkIcon">
-                                        <i class="bi bi-x" style="color:red;"></i>
-                                      </ng-container>
-                                      <ng-template #checkIcon>
-                                        <i class="bi bi-check-lg" style="color:green"></i>
-                                      </ng-template>  
-                                   
-                                </td>
-                            </tr>
-                        </table>
+                        <app-participator-table [User]="User" [Participator]="event.participes"></app-participator-table>
                     </tr>
                     <tr>
                         <td>Créateur : {{event.creator.firstname}} {{event.creator.lastname}} </td>

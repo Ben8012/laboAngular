@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
+import { ClubHttpService } from 'src/app/services/http/club.http.service';
 import { EventHttpService } from 'src/app/services/http/event.http.servive';
 import { ModalDataService } from 'src/app/services/modal/modal.data.service';
 
@@ -16,7 +17,8 @@ export class DeleteEventModelComponent implements OnInit {
   constructor(
     public dialogRef: MatDialogRef<DeleteEventModelComponent>,
     private _modalDataService: ModalDataService,
-    private _eventHttpService : EventHttpService
+    private _eventHttpService : EventHttpService,
+    private _clubtHttpService : ClubHttpService,
   ) { }
 
   ngOnInit(): void {
@@ -28,14 +30,29 @@ export class DeleteEventModelComponent implements OnInit {
     this.dialogRef.close();
   }
 
-  deleteEvent(id: any){
-    this._eventHttpService.disable(id).subscribe({
-      next : (data :any) =>{
-        this.dialogRef.close();
-      },
-      error : (error) => {
-        console.log(error)
-      }}) ;
+  onDelete(id: any){
+    
+    if(this.modalData.type=="event"){
+     
+      this._eventHttpService.disable(id).subscribe({
+        next : (data :any) =>{
+          this.dialogRef.close();
+        },
+        error : (error) => {
+          console.log(error)
+        }}) ;
+    }
+
+    if(this.modalData.type=="club"){
+      
+      this._clubtHttpService.disable(id).subscribe({
+        next : (data :any) =>{
+          this.dialogRef.close();
+        },
+        error : (error) => {
+          console.log(error)
+        }}) ;
+    }
 
   }
  }

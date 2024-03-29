@@ -6,7 +6,7 @@
                     <tr>
                         <td class=" text-center my-2">
                             <h5>{{club.name}}</h5>
-                            <h6>Date de création {{club.createdAt | date : 'medium' }}</h6>
+                            <h6>Date de création le {{club.createdAt}}</h6>
                         </td>
                         <td class=" text-center"> 
                             <button *ngIf="!club.isParticipe && User.id != club.creator.id" class="btn btn-success m-2 hover" (click)="participe(club.id)"><i class="bi bi-hand-thumbs-up-fill"></i></button>
@@ -33,32 +33,13 @@
                         <td></td>
                     </tr>
                     <tr *ngIf="club.participes.length > 0" >
-                        <td>
-                            <p class="text-underline">Participants : </p>
-                            <ul>
-                                <li *ngFor="let participe of club.participes">
-                                    <span>{{participe.firstname}} {{participe.lastname}}</span>  
-                                </li>
-                            </ul>
-                        </td>
-                        <td></td>
+                        <app-participator-table [User]="User" [Participator]="club.participes"></app-participator-table>
                     </tr>
                     <tr>
                         <td>Créateur : {{club.creator.firstname}} {{club.creator.lastname}} </td>
                         <td class="text-center"><button class="btn btn-light hover" (click)="creatorInfo(club.creator)">Info</button></td>
                     </tr>
-                    <!-- <tr *ngIf="club.creator.organisation">
-                        <td>Club : {{event.club.name}}</td>
-                        <td class="text-center"><button class="btn btn-light hover" (click)="clubInfo(event.club)">Info</button></td>
-                    </tr> -->
-                    <!-- <tr *ngIf="event.training">
-                        <td>Formation : {{event.training.name}}</td>
-                        <td class="text-center"><button class="btn btn-light hover" (click)="trainingInfo(event.training)">Info</button></td>
-                    </tr>
-                    <tr *ngIf="event.organisation" >
-                        <td >Oragnisation : {{event.organisation.name}}</td>
-                        <td class="text-center"><button class="btn btn-light hover" (click)="organisationInfo(event.organisation)">Info</button></td>
-                    </tr> -->
+                    
                 </tbody>
             </table>
         </div>

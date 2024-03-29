@@ -1,6 +1,6 @@
 
 import { isEmpty } from 'rxjs';
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ObservableService } from 'src/app/services/observable/observable.service';
 import { UserSessionService } from 'src/app/services/session/user-session.service';
 import { UserHttpService } from 'src/app/services/http/user.http.service';
@@ -15,7 +15,8 @@ import { ImageHttpService } from 'src/app/services/http/image.http.service';
   styleUrls: ['./contactbar.component.scss']
 })
 export class ContactbarComponent implements OnInit {
-
+  @Input() PhoneSize : boolean = false
+  
   private _friends : any [] = []
   get Friends(): any []  { return this._friends; }
 

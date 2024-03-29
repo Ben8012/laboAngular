@@ -9,6 +9,7 @@ import { DiveplaceModalComponent } from '../../../modals/diveplaceModal/diveplac
 import { ClubModalComponent } from '../../../modals/clubModal/clubModal.component';
 import { TrainingModalComponent } from '../../../modals/trainingModal/trainingModal.component';
 import { OrganisationModalComponent } from '../../../modals/organisationModal/organisationModal.component';
+import { DateHelperService } from 'src/app/services/helper/date.helper.service';
 
 @Component({
   selector: 'app-event',
@@ -18,7 +19,6 @@ import { OrganisationModalComponent } from '../../../modals/organisationModal/or
 export class EventComponent implements OnInit {
 
   private _events : any [] = []
-new: any;
   get Events(): any []  { return this._events; }
 
   get User(): any { return this._user; }
@@ -33,6 +33,7 @@ new: any;
     private _session: UserSessionService,
     private _modalDataService : ModalDataService,
     public dialog: MatDialog,
+    private _dateHelperService : DateHelperService
     ) { }
 
   ngOnInit(): void {
@@ -48,10 +49,12 @@ new: any;
         this.checkIfParticipe()
         this._events = this._events.filter(e => e.training == null)
         this._events.forEach((event : any) => {
-
+          event.startDate = this._dateHelperService.formatDateToFrench(new Date(event.startDate))
+          event.endDate = this._dateHelperService.formatDateToFrench(new Date(event.endDate))
           event.participes.forEach((participe : any) => {
             participe.insuranceDateValidation = new Date(participe.insuranceDateValidation)
             participe.medicalDateValidation = new Date(participe.medicalDateValidation)
+            participe.birthdate = new Date(participe.birthdate)
           });
           
         });
@@ -153,5 +156,25 @@ new: any;
       document.body.classList.remove('modal-open'); 
     });
    }
+
+   CalculerAge(dateNaissance : any) {
+    var dateActuelle = new Date();
+    var anneeActuelle = dateActuelle.getFullYear();
+    var moisActuel = dateActuelle.getMonth() + 1;
+    var jourActuel = dateActuelle.getDate();
+
+    var anneeNaissance = dateNaissance.getFullYear();
+    var moisNaissance = dateNaissance.getMonth() + 1;
+    var jourNaissance = dateNaissance.getDate();
+
+    var age = anneeActuelle - anneeNaissance;
+
+    // Vérifier si l'anniversaire est déjà passé cette année
+    if (moisActuel < moisNaissance || (moisActuel === moisNaissance && jourActuel < jourNaissance)) {
+        age--;
+    }
+
+    return age;
+    }
 
 }

@@ -31,6 +31,8 @@ import { MyEventsComponent } from './components/cores/events/my-events/my-events
 import { FormEventComponent } from './components/cores/events/form-event/form-event.component';
 import { MyClubsComponent } from './components/cores/clubs/my-clubs/my-clubs.component';
 import { FormClubComponent } from './components/cores/clubs/form-club/form-club.component';
+import { ParticipatorTableComponent } from './components/view-parts/participator-table/participator-table.component';
+
 
 @NgModule({
   declarations: [
@@ -56,7 +58,9 @@ import { FormClubComponent } from './components/cores/clubs/form-club/form-club.
     MyEventsComponent,
     FormEventComponent,
     MyClubsComponent,
-    FormClubComponent
+    FormClubComponent,
+    ParticipatorTableComponent,
+
  
   ],
   imports: [

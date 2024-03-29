@@ -1,0 +1,49 @@
+<table class="table mt-2">
+    <tr>
+        <th class="border"><p class="text-underline text-center">Participants </p></th>
+        <th class="border"><p class="text-underline text-center">Age </p></th>
+        <th class="border"><p class="text-underline text-center">Médical </p></th>
+        <th class="border"><p class="text-underline text-center">Assurance </p></th>
+        <th class="border"><p class="text-underline text-center">Niveau </p></th>
+        <th class="border"><p class="text-underline text-center">Message </p></th>
+    </tr>
+    
+     <tr *ngFor="let participe of Participators" >
+         <td class="text-center border">
+             {{participe.firstname}} {{participe.lastname}} 
+         </td>
+         <td class="text-center border p-1">
+             {{participe.age}} ans
+         </td>
+         <td class="text-center border">
+             <ng-container *ngIf="participe.medicalDateValidation.getTime() <= Today.getTime(); else checkIcon">
+                 <i class="bi bi-x" style="color:red"></i>
+               </ng-container>
+               <ng-template #checkIcon>
+                 <i class="bi bi-check-lg" style="color:green"></i>
+               </ng-template>                                </td>
+         <td class="text-center border">
+             <ng-container *ngIf="participe.insuranceDateValidation.getTime() <= Today.getTime(); else checkIcon">
+                 <i class="bi bi-x" style="color:red"></i>
+               </ng-container>
+               <ng-template #checkIcon>
+                 <i class="bi bi-check-lg" style="color:green"></i>
+               </ng-template>  
+            
+         </td>
+         <td class="text-center border">
+             <ng-container *ngIf="!participe.isLevelValid; else checkIcon">
+                 <i class="bi bi-x" style="color:red;"></i>
+               </ng-container>
+               <ng-template #checkIcon>
+                 <i class="bi bi-check-lg" style="color:green"></i>
+               </ng-template>  
+         </td>
+        
+          <td class="text-center border">
+             <a *ngIf="User.id != participe.id" class="btn btn-light" [routerLink]="'/message/'+participe.id"><i class="bi bi-chat-text"></i></a>
+          </td>
+     
+        
+     </tr>
+ </table>
