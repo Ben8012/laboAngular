@@ -1,11 +1,10 @@
 <!-- {{ FormRegister.errors |json }} -->
-<div class="register">
-  <h4>Register</h4>
+<div class="text-center">
   <form [formGroup]="FormRegister" (ngSubmit)="handleSubmitAction()" >
       <br>
-      <label for="firstname">FirstName</label>
-      <div class="mb-3"  >
-          <input type="text" class="form-control" [ngClass]="{'errors' : Firstname.invalid}" formControlName="firstname" name="firstname" id="firstname" placeholder="Firstname">
+      <label for="firstname">Nom</label>
+      <div class="mb-3 d-flex justify-content-center"  >
+          <input type="text" class="form-control w-50" [ngClass]="{'errors' : Firstname.invalid}" formControlName="firstname" name="firstname" id="firstname" placeholder="Firstname">
           <div *ngIf="Firstname.invalid && (Firstname.dirty || Firstname.touched)" >
             <div class="errors" *ngIf="Firstname.errors['required']">Fistname est requis</div>
             <div class="errors" *ngIf="Firstname.errors['minlength']">longueur minimum doit etre de 4 characteres </div>
@@ -13,9 +12,9 @@
           </div>
       </div>
 
-      <label for="lastname">LastName</label>
-      <div class="mb-3">
-          <input type="text" class="form-control" [ngClass]="{'errors' : Lastname.invalid}" formControlName="lastname" name="lastname" id="lastname" placeholder="Lastname" >
+      <label for="lastname">Prénom</label>
+      <div class="mb-3 d-flex justify-content-center">
+          <input type="text" class="form-control w-50" [ngClass]="{'errors' : Lastname.invalid}" formControlName="lastname" name="lastname" id="lastname" placeholder="Lastname" >
           <div *ngIf="Lastname.invalid && (Lastname.dirty || Lastname.touched)">
             <div class="errors" *ngIf="Lastname.errors['required']">Lastname est requis</div>
             <div class="errors" *ngIf="Lastname.errors['minlength']">longueur minimum doit etre de 4 characteres </div>
@@ -24,26 +23,26 @@
       </div>
 
 
-      <label for="birthdate">Birthdate</label>
-      <div class="mb-3">
-          <input type="date" class="form-control" [ngClass]="{'errors' : Birthdate.invalid}" formControlName="birthdate" name="birthdate" id="birthdate" placeholder="Birthdate" >
+      <label for="birthdate">Date de naissance</label>
+      <div class="mb-3 d-flex justify-content-center">
+          <input type="date" class="form-control w-50" [ngClass]="{'errors' : Birthdate.invalid}" formControlName="birthdate" name="birthdate" id="birthdate" placeholder="Birthdate" >
           <div *ngIf="Birthdate.invalid && (Birthdate.dirty || Birthdate.touched)">
             <div class="errors" *ngIf="Birthdate.errors['required']">Birthdate est requis</div>
           </div>
       </div>
 
       <label for="email">Email</label>
-      <div class="mb-3">
-          <input type="email" class="form-control" [ngClass]="{'errors' : Email.invalid}" formControlName="email" name="email" id="email" placeholder="Email">
+      <div class="mb-3 d-flex justify-content-center">
+          <input type="email" class="form-control w-50" [ngClass]="{'errors' : Email.invalid}" formControlName="email" name="email" id="email" placeholder="Email">
           <div *ngIf="Email.invalid && (Email.dirty || Email.touched)">
             <div class="errors" *ngIf="Email.errors['required']">Email est requis</div>
             <div class="errors" *ngIf="Email.errors['email']">Email doit etre de type email</div>
           </div>
       </div>
 
-      <label for="password">Password</label>
-      <div class="mb-3">
-          <input type="password" class="form-control" [ngClass]="{'errors' : Password.invalid}" name="password" id="password" formControlName="password" placeholder="Password">
+      <label for="password">Mot de passe</label>
+      <div class="mb-3 d-flex justify-content-center">
+          <input type="password" class="form-control w-50" [ngClass]="{'errors' : Password.invalid}" name="password" id="password" formControlName="password" placeholder="Password">
           <div *ngIf="Password.invalid && (Password.dirty || Password.touched)">
             <!-- {{ Password.errors |json }} -->
             <div class="errors" *ngIf="Password.errors['required']">password est requis</div>
@@ -57,9 +56,9 @@
           </div>
       </div>
 
-      <label for="passwordConfirm">Password confirm</label>
-      <div class="mb-3">
-          <input type="password" class="form-control" [ngClass]="{'errors' : ConfirmPassword.invalid}" name="passwordConfirm" id="passwordConfirm" formControlName="passwordConfirm" placeholder="Password Confirm">
+      <label for="passwordConfirm">Confirmer votre mot de passe</label>
+      <div class="mb-3 d-flex justify-content-center">
+          <input type="password" class="form-control w-50" [ngClass]="{'errors' : ConfirmPassword.invalid}" name="passwordConfirm" id="passwordConfirm" formControlName="passwordConfirm" placeholder="Password Confirm">
           <div *ngIf="ConfirmPassword.invalid && (ConfirmPassword.dirty || ConfirmPassword.touched)">
             <!-- {{ ConfirmPassword.errors |json }} -->
             <div class="errors" *ngIf="ConfirmPassword.errors['required']">ConfirmPassword est requis</div>
@@ -74,7 +73,7 @@
       </div>
 
 
-      <button type="submit" class="btn btn-dark">Register</button>
+      <button type="submit" class="btn btn-dark">Valider</button>
   </form>
 </div>
 

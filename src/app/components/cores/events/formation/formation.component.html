@@ -1,7 +1,7 @@
 <div *ngFor="let event of Events">
-    <div class="card m-1">
-        <div class="card-body">
-            <table class="table">
+   
+       
+            <table class="table border rounded">
                 <tbody>
                     <tr>
                         <td class=" text-center my-2">
@@ -10,8 +10,8 @@
                             <h6>Fin le {{event.endDate }} </h6>
                         </td>
                         <td class=" text-center"> 
-                            <button *ngIf="!event.isParticipe && User.id != event.creator.id" class="btn btn-success m-2 hover" (click)="participe(event.id)"><i class="bi bi-hand-thumbs-up-fill"></i></button>
-                            <button *ngIf="event.isParticipe && User.id != event.creator.id" class="btn btn-warning hover" (click)="unparticipe(event.id)"><i class="bi bi-hand-thumbs-down-fill"></i></button>
+                            <button *ngIf="User.id && !event.isParticipe && User.id != event.creator.id" class="btn btn-success m-2 hover" (click)="participe(event.id)"><i class="bi bi-hand-thumbs-up-fill"></i></button>
+                            <button *ngIf="User.id && event.isParticipe && User.id != event.creator.id" class="btn btn-warning hover" (click)="unparticipe(event.id)"><i class="bi bi-hand-thumbs-down-fill"></i></button>
                         </td>
                     </tr>
                     <tr>
@@ -22,7 +22,7 @@
                         <td class="text-center"><button class="btn btn-light hover" (click)="diveplaceInfo(event.diveplace)"><i class="bi bi-info-circle"></i></button></td>
                     </tr>
                     <tr *ngIf="event.participes.length > 0">
-                        <app-participator-table [User]="User" [Participator]="event.participes"></app-participator-table>
+                        <app-participator-table [User]="User" [Participator]="event.participes" ></app-participator-table>
                     </tr>
                     <tr>
                         <td>Créateur : {{event.creator.firstname}} {{event.creator.lastname}} </td>
@@ -43,8 +43,8 @@
                   
                 </tbody>
             </table>
-        </div>
-    </div>    
+       
+</div>    
 
 
 

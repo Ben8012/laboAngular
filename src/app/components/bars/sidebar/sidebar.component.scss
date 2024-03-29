@@ -9,11 +9,12 @@ a:hover{
 }
 
 .min-size{
-  min-width: 20vh;
+  min-width: 23vh;
 }
 
 .contactBarPostion{
   position: fixed;
-  top: 100px;
+  top: 110px;
   right: 10px;
+  z-index: 1;
 }

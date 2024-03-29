@@ -5,7 +5,7 @@
         <th class="border"><p class="text-underline text-center">Médical </p></th>
         <th class="border"><p class="text-underline text-center">Assurance </p></th>
         <th class="border"><p class="text-underline text-center">Niveau </p></th>
-        <th class="border"><p class="text-underline text-center">Message </p></th>
+        <th *ngIf="User.id" class="border"><p class="text-underline text-center">Message </p></th>
     </tr>
     
      <tr *ngFor="let participe of Participators" >
@@ -40,7 +40,7 @@
                </ng-template>  
          </td>
         
-          <td class="text-center border">
+          <td *ngIf="User.id" class="text-center border">
              <a *ngIf="User.id != participe.id" class="btn btn-light" [routerLink]="'/message/'+participe.id"><i class="bi bi-chat-text"></i></a>
           </td>
      
