@@ -29,6 +29,8 @@ import { SiteComponent } from './components/cores/site/site.component';
 import { FormEventComponent } from './components/cores/events/form-event/form-event.component';
 import { FormClubComponent } from './components/cores/clubs/form-club/form-club.component';
 import { ParticipatorTableComponent } from './components/view-parts/participator-table/participator-table.component';
+import { VoteComponent } from './components/view-parts/vote/vote.component';
+import { FormAdressComponent } from './components/view-parts/form-adress/form-adress.component';
 
 
 @NgModule({
@@ -54,6 +56,8 @@ import { ParticipatorTableComponent } from './components/view-parts/participator
     FormEventComponent,
     FormClubComponent,
     ParticipatorTableComponent,
+    VoteComponent,
+    FormAdressComponent
 
  
   ],

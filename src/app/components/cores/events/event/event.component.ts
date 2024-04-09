@@ -20,10 +20,13 @@ import { ActivatedRoute, NavigationEnd, Params, Router } from '@angular/router';
 })
 export class EventComponent implements OnInit {
   private _url :any
-  private _urlSegements : any
 
-  private _enableButtons :any
-  get EnableButtons(): any []  { return this._enableButtons; }
+
+  private _urlSegements : any
+  get UrlSegements(): any { return this._urlSegements[0].path; }
+
+  private _activateButtons :any
+  get ActivateButtons(): any []  { return this._activateButtons; }
 
   private _events : any [] = []
   get Events(): any []  { return this._events; }
@@ -58,9 +61,10 @@ export class EventComponent implements OnInit {
       if (segments.length > 0 && segments[0].path === "event" || segments[0].path === "formation") {
         console.log("URL contient 'event ou formation'");
         this.getAllEvents();
-        this._enableButtons = true
+        this._activateButtons = false
       }
     });
+    console.log(this.UrlSegements)
    }
 
    formatEventForView(){
@@ -97,7 +101,7 @@ export class EventComponent implements OnInit {
       next : (data :any) =>{
         this._events = data
         this.checkIfParticipe()
-        this._enableButtons = false
+        this._activateButtons = false
         if(this._urlSegements[0].path === "event" ){
           this._events = this._events.filter(e => e.training == null)
         }
@@ -116,8 +120,9 @@ export class EventComponent implements OnInit {
     this._session.$user.subscribe((user: any) => {
       this._user = user;
       if(this._urlSegements.length > 0 && this._urlSegements[0].path === "my-events" && this._user.id){
-        console.log("my-event")
+        console.log("my-events")
         this.getEventsByUserId(this._user.id)
+        this._activateButtons = true
       }
     })
   }

@@ -1,3 +1,6 @@
+<div *ngIf="UrlSegements === 'my-clubs'" class="text-center">
+    <button class="btn btn-primary hover m-3" routerLink="/insert-club"><i class="bi bi-plus-square"></i></button>
+</div>
 <div *ngFor="let club of Clubs">
     <div class="card m-1">
         <div class="card-body">
@@ -9,10 +12,10 @@
                             <h6>Date de création le {{club.createdAt}}</h6>
                         </td>
                         <td class=" text-center"> 
-                            <button *ngIf="!club.isParticipe && User.id != club.creator.id" class="btn btn-success m-2 hover" (click)="participe(club.id)"><i class="bi bi-hand-thumbs-up-fill"></i></button>
-                            <button *ngIf="club.isParticipe && User.id != club.creator.id" class="btn btn-warning hover" (click)="unparticipe(club.id)"><i class="bi bi-hand-thumbs-down-fill"></i></button>
-                            <button *ngIf="EnableButtons && User.id == club.creator.id" class="btn btn-warning hover m-1" (click)="updateClub(club)"><i class="bi bi-arrow-clockwise"></i></button>
-                            <button *ngIf="EnableButtons && User.id == club.creator.id" class="btn btn-danger hover m-1" (click)="deleteClub(club)"><i class="bi bi-trash"></i></button>
+                            <button *ngIf="User.id && !club.isParticipe && User.id != club.creator.id" class="btn btn-success m-2 hover" (click)="participe(club.id)"><i class="bi bi-hand-thumbs-up-fill"></i></button>
+                            <button *ngIf="User.id && club.isParticipe && User.id != club.creator.id" class="btn btn-warning hover" (click)="unparticipe(club.id)"><i class="bi bi-hand-thumbs-down-fill"></i></button>
+                            <button *ngIf="User.id && EnableButtons && User.id == club.creator.id" class="btn btn-warning hover m-1" (click)="updateClub(club)"><i class="bi bi-arrow-clockwise"></i></button>
+                            <button *ngIf="User.id && EnableButtons && User.id == club.creator.id" class="btn btn-danger hover m-1" (click)="deleteClub(club)"><i class="bi bi-trash"></i></button>
                         </td>
                     </tr>
                     <!-- <tr>

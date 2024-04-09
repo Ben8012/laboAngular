@@ -15,8 +15,8 @@
         </div>
         <div class="mb-3 d-flex justify-content-center" >
           <div *ngIf="Firstname.invalid && (Firstname.dirty || Firstname.touched)" >
-            <div class="errors" *ngIf="Firstname.errors['required']">Fistname est requis</div>
-            <div class="errors" *ngIf="Firstname.errors['minlength']">longueur minimum doit etre de 4 characteres </div>
+            <div class="errors" *ngIf="Firstname.errors['required']">le prénom est requis</div>
+            <div class="errors" *ngIf="Firstname.errors['minlength']">longueur minimum doit etre de 3 characteres </div>
             <div class="errors" *ngIf="Firstname.errors['maxlength']">longueur maximum ne peut depasser 250 characteres</div>
           </div>      
         </div>
@@ -28,7 +28,7 @@
         </div>
         <div class="mb-3 d-flex justify-content-center">
           <div *ngIf="Lastname.invalid && (Lastname.dirty || Lastname.touched)">
-            <div class="errors" *ngIf="Lastname.errors['required']">Lastname est requis</div>
+            <div class="errors" *ngIf="Lastname.errors['required']">le nom est requis</div>
             <div class="errors" *ngIf="Lastname.errors['minlength']">longueur minimum doit etre de 4 characteres </div>
             <div class="errors" *ngIf="Lastname.errors['maxlength']">longueur maximum ne peut depasser 250 characteres</div>
           </div>
@@ -41,19 +41,19 @@
         </div>
         <div class="mb-3 d-flex justify-content-center">
           <div *ngIf="Birthdate.invalid && (Birthdate.dirty || Birthdate.touched)">
-            <div class="errors" *ngIf="Birthdate.errors['required']">Birthdate est requis</div>
+            <div class="errors" *ngIf="Birthdate.errors['required']">la date de naissance est requise</div>
           </div>          
         </div>
         
     
-        <label for="email">Email</label>
+        <label for="email">E-mail</label>
         <div class="mb-3 d-flex justify-content-center">
             <input type="email" class="form-control w-50" [ngClass]="{'errors' : Email.invalid}" formControlName="email"  id="email" placeholder="Email">       
         </div>
         <div class="mb-3 d-flex justify-content-center">
           <div *ngIf="Email.invalid && (Email.dirty || Email.touched)">
-            <div class="errors" *ngIf="Email.errors['required']">Email est requis</div>
-            <div class="errors" *ngIf="Email.errors['email']">Email doit etre de type email</div>
+            <div class="errors" *ngIf="Email.errors['required']">l'e-mail est requis</div>
+            <div class="errors" *ngIf="Email.errors['email']">l'e-mail n'est pas conforme a une adresse mail</div>
           </div>     
       </div>
         
@@ -70,7 +70,7 @@
             <input type="file" (change)="onFileSelectedPhoto($event)" class="form-control w-50 m-2" 
             id="image" placeholder="image"
             enctype="multipart/form-data">
-            <button type="submit" class="btn btn-dark m-2" (click)="addPhoto()">Ajouter</button>
+            <button type="submit" class="btn btn-dark m-2" (click)="addPhoto()">Changer</button>
         </div>
 
         <div>
@@ -81,7 +81,7 @@
             <input type="file" (change)="onFileSelectedInsurance($event)" class="form-control w-50 m-2" 
             id="insurance" placeholder="insurance"
             enctype="multipart/form-data">
-            <button type="submit" class="btn btn-dark m-2" (click)="addInsurance()">Ajouter</button>
+            <button type="submit" class="btn btn-dark m-2" (click)="addInsurance()">Changer</button>
         </div>
 
         <div>
@@ -92,7 +92,7 @@
             <input type="file" (change)="onFileSelectedLevel($event)" class="form-control w-50 m-2" 
             id="level" placeholder="level"
             enctype="multipart/form-data">
-            <button type="submit" class="btn btn-dark m-2" (click)="addLevel()">Ajouter</button>
+            <button type="submit" class="btn btn-dark m-2" (click)="addLevel()">Changer</button>
         </div>
 
         <div>
@@ -103,7 +103,7 @@
             <input type="file" (change)="onFileSelectedCertificat($event)" class="form-control w-50 m-2" 
             id="certificat" placeholder="certificat"
             enctype="multipart/form-data">
-            <button type="submit" class="btn btn-dark m-2" (click)="addCertificate()">Ajouter</button>
+            <button type="submit" class="btn btn-dark m-2" (click)="addCertificate()">Changer</button>
         </div>
       </div>
     

@@ -5,27 +5,27 @@
                 <tbody>
                     <tr class="d-flex justify-content-between ">
                         <td class="m-auto w-25 border rounded">
-                            <h6>Note moyenne : {{site.avgVote}}/5</h6>
-                            <h6>Ma note : {{site.userVote}}/5</h6>
+                            <app-vote [User]="User" [VoteAvg]="site.avgVote" [Vote]="site.userVote"></app-vote>
                         </td>
                         <td class="m-auto border rounded">
-                                <h5 class="m-3">{{site.name}}</h5> 
+                            <h5 class="m-3">{{site.name}}</h5>
                         </td>
                         <td class="m-auto w-25 border rounded">
                             <div class="d-flex justify-content-center">
-                                <h6 class="m-auto">Noter</h6> 
-                                    <select class="form-select w-25" [(ngModel)]="SelectedOption" (change)="onOptionChange(site.id)">
-                                        <option value="0">0</option>
-                                        <option value="1">1</option>
-                                        <option value="2">2</option>
-                                        <option value="3">3</option>
-                                        <option value="4">4</option>
-                                        <option value="5">5</option>
-                                    </select>
-                               
+                                <h6 class="m-auto">Noter</h6>
+                                <select class="form-select w-25" [(ngModel)]="SelectedOption"
+                                    (change)="onOptionChange(site.id)">
+                                    <option value="0">0</option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                </select>
+
 
                             </div>
-                            
+
                         </td>
                     </tr>
                 </tbody>
@@ -65,21 +65,21 @@
                     </tr>
                     <tr>
                         <td class=" text-center my-2">
-                            <a class="btn btn-primary" [href]="'../../.././../assets/plans/'+site.map">Télécharger la carte</a>
+                            <a class="btn btn-primary" [href]="'../../.././../assets/plans/'+site.map">Télécharger la
+                                carte</a>
                         </td>
                     </tr>
                     <tr>
                         <td class=" text-center my-2">
-                            <a class="btn btn-primary" [href]="'https://www.google.com/maps?q='+site.adress.number+' '+site.adress.street+' '+site.adress.postCode+' '+site.adress.city+' '+site.adress.country" 
-                            target="_blank">Y aller</a>
+                            <a class="btn btn-primary"
+                                [href]="'https://www.google.com/maps?q='+site.adress.number+' '+site.adress.street+' '+site.adress.postCode+' '+site.adress.city+' '+site.adress.country"
+                                target="_blank">Y aller</a>
                         </td>
                     </tr>
-                    
+
 
                 </tbody>
             </table>
         </div>
-    </div>    
-
-
-
+    </div>
+</div>

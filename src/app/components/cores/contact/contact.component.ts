@@ -32,6 +32,7 @@ export class ContactComponent implements OnInit {
   private getUser() {
     this._session.$user.subscribe((user: IUser) => {
       this._user = user;
+      console.log(user)
       this._friends = this._user.friends
     })
   }
@@ -68,6 +69,7 @@ export class ContactComponent implements OnInit {
   }
 
   private compareConctactFriends() {
+    console.log(this._friends)
     this._users.map((contact) => {
 
       contact.isFriend = false

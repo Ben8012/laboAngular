@@ -15,7 +15,9 @@ import { DeleteEventModelComponent } from 'src/app/components/modals/delete-even
 })
 export class ClubComponent implements OnInit {
   private _url :any
+  
   private _urlSegements : any
+  get UrlSegements(): any { return this._urlSegements[0].path; }
 
   private _enableButtons :any
   get EnableButtons(): any []  { return this._enableButtons; }

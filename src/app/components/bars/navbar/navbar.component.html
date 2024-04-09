@@ -19,7 +19,7 @@
       <i class="bi bi-pin-map fa-fw me-3"></i><span>Sites</span>
     </div>
   </a>
-  <a routerLink="/contact" class="list-group-item list-group-item-action mx-4 p-1" >
+  <a *ngIf="User.id" routerLink="/contact" class="list-group-item list-group-item-action mx-4 p-1" >
     <div class="d-flex flex-column align-items-center">
       <i class="bi bi-person-fill-add fa-fw me-3"></i>
       <span>Contacts</span>

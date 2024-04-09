@@ -1,0 +1,64 @@
+<form [formGroup]="FormAdress">
+    <label for="street">Rue</label>
+    <div class="mb-3 d-flex justify-content-center" >
+        <input type="text" class="form-control w-50" [ngClass]="{'errors' : Street.invalid}" 
+        formControlName="street"  id="street" placeholder="rue" (ngModelChange)="sendForm()">
+    </div>
+    <div class="mb-3 d-flex justify-content-center" >
+        <div *ngIf="Street.invalid && (Street.dirty || Street.touched)" >
+            <div class="errors" *ngIf="Street.errors['required']">Street est requis</div>
+            <div class="errors" *ngIf="Street.errors['minlength']">longueur minimum doit etre de 4 characteres </div>
+            <div class="errors" *ngIf="Street.errors['maxlength']">longueur maximum ne peut depasser 250 characteres</div>
+        </div>      
+    </div>
+
+    <label for="number">Numéro</label>
+    <div class="mb-3 d-flex justify-content-center" >
+        <input type="number" class="form-control w-50" [ngClass]="{'errors' : Number.invalid}" 
+        formControlName="number"  id="number" placeholder="numéro" (ngModelChange)="sendForm()">
+    </div>
+    <div class="mb-3 d-flex justify-content-center" >
+        <div *ngIf="Number.invalid && (Number.dirty || Number.touched)" >
+            <div class="errors" *ngIf="Number.errors['required']">Number est requis</div>
+        </div>      
+    </div>
+
+    <label for="postCode">Code postal</label>
+    <div class="mb-3 d-flex justify-content-center" >
+        <input type="text" class="form-control w-50" [ngClass]="{'errors' : PostCode.invalid}" 
+        formControlName="postCode"  id="postCode" placeholder="code postal" (ngModelChange)="sendForm()">
+    </div>
+    <div class="mb-3 d-flex justify-content-center" >
+        <div *ngIf="PostCode.invalid && (PostCode.dirty || PostCode.touched)" >
+            <div class="errors" *ngIf="PostCode.errors['required']">PostCode est requis</div>
+            <div class="errors" *ngIf="PostCode.errors['minlength']">longueur minimum doit etre de 4 characteres </div>
+            <div class="errors" *ngIf="PostCode.errors['maxlength']">longueur maximum ne peut depasser 250 characteres</div>
+        </div>      
+    </div>
+
+    <label for="city">Ville</label>
+    <div class="mb-3 d-flex justify-content-center" >
+        <input type="text" class="form-control w-50" [ngClass]="{'errors' : City.invalid}" 
+        formControlName="city"  id="city" placeholder="ville" (ngModelChange)="sendForm()">
+    </div>
+    <div class="mb-3 d-flex justify-content-center" >
+        <div *ngIf="City.invalid && (City.dirty || City.touched)" >
+            <div class="errors" *ngIf="City.errors['required']">City est requis</div>
+            <div class="errors" *ngIf="City.errors['minlength']">longueur minimum doit etre de 4 characteres </div>
+            <div class="errors" *ngIf="City.errors['maxlength']">longueur maximum ne peut depasser 250 characteres</div>
+        </div>      
+    </div>
+
+    <label for="country">Pays</label>
+    <div class="mb-3 d-flex justify-content-center" >
+        <input type="text" class="form-control w-50" [ngClass]="{'errors' : Country.invalid}" 
+        formControlName="country"  id="country" placeholder="Pays" (ngModelChange)="sendForm()">
+    </div>
+    <div class="mb-3 d-flex justify-content-center" >
+        <div *ngIf="Country.invalid && (Country.dirty || Country.touched)" >
+            <div class="errors" *ngIf="Country.errors['required']">Country est requis</div>
+            <div class="errors" *ngIf="Country.errors['minlength']">longueur minimum doit etre de 4 characteres </div>
+            <div class="errors" *ngIf="Country.errors['maxlength']">longueur maximum ne peut depasser 250 characteres</div>
+        </div>      
+    </div>
+</form>
