@@ -1,0 +1,149 @@
+<div class="text-center">
+    <form class="border rounded p-2" [formGroup]="FormSite" (ngSubmit)="send()">
+        <label for="name">Nom</label>
+        <div class="mb-3 d-flex justify-content-center">
+            <input type="text" class="form-control w-50" [ngClass]="{'errors' : Name.invalid}" formControlName="name"
+                id="name" placeholder="Nom">
+        </div>
+        <div class="mb-3 d-flex justify-content-center">
+            <div *ngIf="Name.invalid && (Name.dirty || Name.touched)">
+                <div class="errors" *ngIf="Name.errors['required']">Fistname est requis</div>
+                <div class="errors" *ngIf="Name.errors['minlength']">longueur minimum doit etre de 4 characteres </div>
+                <div class="errors" *ngIf="Name.errors['maxlength']">longueur maximum ne peut depasser 250 characteres
+                </div>
+            </div>
+        </div>
+
+        <label for="description">Description</label>
+        <div class="mb-3 d-flex justify-content-center">
+            <input type="text" class="form-control w-50" [ngClass]="{'errors' : Name.invalid}"
+                formControlName="description" id="description" placeholder="Description">
+        </div>
+        <div class="mb-3 d-flex justify-content-center">
+            <div *ngIf="Description.invalid && (Description.dirty || Description.touched)">
+                <div class="errors" *ngIf="Description.errors['required']">La description est requis</div>
+                <div class="errors" *ngIf="Description.errors['minlength']">longueur minimum doit etre de 4 characteres
+                </div>
+                <div class="errors" *ngIf="Description.errors['maxlength']">longueur maximum ne peut depasser 250
+                    characteres
+                </div>
+            </div>
+        </div>
+
+        <label for="price">Prix</label>
+        <div class="mb-3 d-flex justify-content-center">
+            <input type="number" class="form-control w-50"
+                formControlName="price" id="price" placeholder="Prix">
+        </div>
+        <!-- <div class="mb-3 d-flex justify-content-center">
+            <div *ngIf="Price.invalid && (Price.dirty || Price.touched)">
+                <div class="errors" *ngIf="Price.errors['required']">La Price est requis</div>
+                <div class="errors" *ngIf="Price.errors['minlength']">longueur minimum doit etre de 4 characteres
+                </div>
+                <div class="errors" *ngIf="Price.errors['maxlength']">longueur maximum ne peut depasser 250
+                    characteres
+                </div>
+            </div>
+        </div> -->
+
+        <label for="maxDeep">Profondeur</label>
+        <div class="mb-3 d-flex justify-content-center">
+            <input type="number" class="form-control w-50"
+                formControlName="maxDeep" id="maxDeep" placeholder="Profondeur">
+        </div>
+        <!-- <div class="mb-3 d-flex justify-content-center">
+            <div *ngIf="Price.invalid && (Price.dirty || Price.touched)">
+                <div class="errors" *ngIf="Price.errors['required']">La Price est requis</div>
+                <div class="errors" *ngIf="Price.errors['minlength']">longueur minimum doit etre de 4 characteres
+                </div>
+                <div class="errors" *ngIf="Price.errors['maxlength']">longueur maximum ne peut depasser 250
+                    characteres
+                </div>
+            </div>
+        </div> -->
+
+        <label for="url">URL du site Officiel</label>
+        <div class="mb-3 d-flex justify-content-center">
+            <input type="text" class="form-control w-50" [ngClass]="{'errors' : Url.invalid}"
+                formControlName="url" id="url" placeholder="URL du site Officiel">
+        </div>
+        <div class="mb-3 d-flex justify-content-center">
+            <div *ngIf="Url.invalid && (Url.dirty || Url.touched)">
+                <div class="errors" *ngIf="Url.errors['required']">L'Url est requis</div>
+                <div class="errors" *ngIf="Url.errors['minlength']">longueur minimum doit etre de 4 characteres
+                </div>
+                <div class="errors" *ngIf="Url.errors['maxlength']">longueur maximum ne peut depasser 250
+                    characteres
+                </div>
+            </div>
+        </div>
+
+        <label for="gps">Coordonnées GPS</label>
+        <div class="mb-3 d-flex justify-content-center">
+            <input type="text" class="form-control w-50" [ngClass]="{'errors' : Gps.invalid}"
+                formControlName="gps" id="gps" placeholder="Coordonnées GPS">
+        </div>
+        <div class="mb-3 d-flex justify-content-center">
+            <div *ngIf="Gps.invalid && (Gps.dirty || Gps.touched)">
+                <div class="errors" *ngIf="Gps.errors['required']">L'Gps est requis</div>
+                <div class="errors" *ngIf="Gps.errors['minlength']">longueur minimum doit etre de 4 characteres
+                </div>
+                <div class="errors" *ngIf="Gps.errors['maxlength']">longueur maximum ne peut depasser 250
+                    characteres
+                </div>
+            </div>
+        </div>
+
+        <div>
+            <img *ngIf="ImageSite" [src]="ImageSite" class="p-2" height="250vh" alt="Avatar" loading="lazy" />
+        </div>
+        <label for="image">Image</label>
+        <div class="mb-3 d-flex justify-content-center m-2">
+            <input type="file" (change)="onFileSelectedSite($event)" class="form-control w-50 m-2" id="certificat"
+                placeholder="certificat" enctype="multipart/form-data">
+        </div>
+
+        <div>
+            <img *ngIf="PlanSite" [src]="PlanSite" class="p-2" height="250vh" alt="Avatar" loading="lazy" />
+        </div>
+        <label for="image">Plan</label>
+        <div class="mb-3 d-flex justify-content-center m-2">
+            <input type="file" (change)="onFileSelectedPlan($event)" class="form-control w-50 m-2" id="certificat"
+                placeholder="certificat" enctype="multipart/form-data">
+        </div>
+
+        <label for="compressor">Compresseur</label>
+        <div class="mb-3 d-flex flex-column">
+            <label>
+                <input type="radio" formControlName="compressor" value="1"> Oui
+            </label>
+            <label>
+                <input type="radio" formControlName="compressor" value="0"> Non
+            </label>
+        </div>
+
+        <label for="restoration">Restauration</label>
+        <div class="mb-3 d-flex flex-column">
+            <label>
+                <input type="radio" formControlName="restoration" value="1"> Oui
+            </label>
+            <label>
+                <input type="radio" formControlName="restoration" value="0"> Non
+            </label>
+        </div>
+
+        <div>
+            <a class="btn btn-dark mb-3" (click)="toggleAddressForm()">
+                <span *ngIf="!showAddressForm && UrlSegements == 'update-site'">Modifier une adresse</span>
+                <span *ngIf="!showAddressForm && UrlSegements == 'insert-site'">Ajouter une adresse</span>
+                <span *ngIf="showAddressForm">Cachez l'adresse</span>
+            </a>
+            <app-form-adress *ngIf="showAddressForm && UrlSegements == 'update-site'" [Adress]="Site.adress"
+                (AddressAdded)="OutputAdress($event)"></app-form-adress>
+            <app-form-adress *ngIf="showAddressForm && UrlSegements == 'insert-site'"
+                (AddressAdded)="OutputAdress($event)"></app-form-adress>
+        </div>
+        <button type="submit" class="btn btn-dark mb-3">Changer</button>
+    </form>
+    
+</div>

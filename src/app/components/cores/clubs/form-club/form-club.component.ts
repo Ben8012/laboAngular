@@ -35,9 +35,6 @@ export class FormClubComponent implements OnInit {
   get FormClub(): FormGroup { return this.formClub; }
 
   get Name(): any { return this.formClub.get('name'); }
-  get Adress(): any { return this.formClub.get('adress'); }
-
-
   get Errors(): any { return this.formClub.errors }
 
   private _user!: any

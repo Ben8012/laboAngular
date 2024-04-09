@@ -34,9 +34,9 @@
           </div>          
         </div>
     
-        <label for="birthdate">Site</label>
+        <label for="diveplace">Site</label>
         <div class="mb-3 d-flex justify-content-center">
-            <select formControlName="diveplaceId" class="form-select w-50">
+            <select formControlName="diveplace" class="form-select w-50">
                 <option *ngFor="let site of Sites" [value]="site.id">{{ site.name }}</option>
               </select>
         </div>

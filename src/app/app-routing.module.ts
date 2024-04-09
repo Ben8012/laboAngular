@@ -8,10 +8,11 @@ import { ContactComponent } from './components/cores/contact/contact.component';
 import { RegisterComponent } from './components/user/register/register.component';
 import { EventComponent } from './components/cores/events/event/event.component';
 import { ClubComponent } from './components/cores/clubs/club/club.component';
-import { SiteComponent } from './components/cores/site/site.component';
+import { SiteComponent } from './components/cores/sites/site/site.component';
 import { MessageComponent } from './components/cores/message/message.component';
 import { FormEventComponent } from './components/cores/events/form-event/form-event.component';
 import { FormClubComponent } from './components/cores/clubs/form-club/form-club.component';
+import { FormSiteComponent } from './components/cores/sites/form-site/form-site.component';
 
 const routes: Routes = [
   { path: '', component : HomeComponent},
@@ -27,6 +28,8 @@ const routes: Routes = [
   { path: 'my-clubs', component : ClubComponent},
 
   { path: 'site', component : SiteComponent},
+  { path: 'insert-site', component : FormSiteComponent},
+  { path: 'update-site/:id', component : FormSiteComponent},
 
   { path: 'contact', component : ContactComponent},
   { path: 'message/:id', component : MessageComponent},

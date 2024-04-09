@@ -99,6 +99,7 @@ export class FormEventComponent implements OnInit {
   this._siteHttpService.getAllSite(id).subscribe({
     next : (data :any) =>{
       this._sites = data
+      this._sites = this._sites.filter((c : any) => c.isActive == 1 )
     },
     error : (error) => {
       console.log(error)
@@ -127,6 +128,7 @@ export class FormEventComponent implements OnInit {
   this._clubHtppService.getAll().subscribe({
     next : (data :any) =>{
       this._clubs = data
+      this._clubs = this._clubs.filter((c : any) => c.isActive == 1 )
       this._clubs.forEach((club : any)=>{
         club.participes.forEach((particpe : any) => {
           if(particpe.id == this._user.id){

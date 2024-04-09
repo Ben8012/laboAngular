@@ -25,12 +25,13 @@ import { ClubModalComponent } from './components/modals/clubModal/clubModal.comp
 import { TrainingModalComponent } from './components/modals/trainingModal/trainingModal.component';
 import { OrganisationModalComponent } from './components/modals/organisationModal/organisationModal.component';
 import { ClubComponent } from './components/cores/clubs/club/club.component';
-import { SiteComponent } from './components/cores/site/site.component';
+import { SiteComponent } from './components/cores/sites/site/site.component';
 import { FormEventComponent } from './components/cores/events/form-event/form-event.component';
 import { FormClubComponent } from './components/cores/clubs/form-club/form-club.component';
 import { ParticipatorTableComponent } from './components/view-parts/participator-table/participator-table.component';
 import { VoteComponent } from './components/view-parts/vote/vote.component';
 import { FormAdressComponent } from './components/view-parts/form-adress/form-adress.component';
+import { FormSiteComponent } from './components/cores/sites/form-site/form-site.component';
 
 
 @NgModule({
@@ -57,9 +58,9 @@ import { FormAdressComponent } from './components/view-parts/form-adress/form-ad
     FormClubComponent,
     ParticipatorTableComponent,
     VoteComponent,
-    FormAdressComponent
+    FormAdressComponent,
+    FormSiteComponent
 
- 
   ],
   imports: [
     BrowserModule,

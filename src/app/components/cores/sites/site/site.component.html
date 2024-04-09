@@ -1,3 +1,6 @@
+<div class="text-center">
+    <button class="btn btn-primary hover m-3" routerLink="/insert-site"><i class="bi bi-plus-square"></i></button>
+</div>
 <div *ngFor="let site of Sites">
     <div class="card m-1">
         <div class="card-body">
@@ -22,10 +25,11 @@
                                     <option value="4">4</option>
                                     <option value="5">5</option>
                                 </select>
-
-
                             </div>
-
+                        </td>
+                        <td>
+                            <button *ngIf="User.id"  class="btn btn-warning hover m-1" (click)="updateSite(site)"><i class="bi bi-arrow-clockwise"></i></button>
+                            <button *ngIf="User.id"  class="btn btn-danger hover m-1" (click)="deleteSite(site)"><i class="bi bi-trash"></i></button>
                         </td>
                     </tr>
                 </tbody>

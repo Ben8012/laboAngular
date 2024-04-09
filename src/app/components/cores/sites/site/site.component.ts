@@ -1,5 +1,7 @@
 import { Component, type OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { Router } from '@angular/router';
+import { DeleteEventModelComponent } from 'src/app/components/modals/delete-eventModel/delete-eventModel.component';
 import { SiteHttpService } from 'src/app/services/http/site.http.service';
 import { UserHttpService } from 'src/app/services/http/user.http.service';
 import { ModalDataService } from 'src/app/services/modal/modal.data.service';
@@ -23,7 +25,7 @@ export class SiteComponent implements OnInit {
 
   constructor(
     private _siteHttpService: SiteHttpService,
-    private _userHttpService: UserHttpService,
+    private _router : Router,
     private _session: UserSessionService,
     private _modalDataService : ModalDataService,
     public dialog: MatDialog,
@@ -71,6 +73,22 @@ export class SiteComponent implements OnInit {
       error : (error) => {
         console.log(error)
       }}) ;
+  }
+
+  deleteSite(event : any){
+    this._modalDataService.setData(event);
+    document.body.classList.add('modal-open');
+    const dialogRef = this.dialog.open(DeleteEventModelComponent);
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('Le modal est fermé');
+      document.body.classList.remove('modal-open'); 
+      this.getAllSites()
+    });
+   }
+
+   updateSite(event : any){
+    this._router.navigate(['update-site',event.id])
   }
 
 }
