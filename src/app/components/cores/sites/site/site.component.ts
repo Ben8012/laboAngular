@@ -1,7 +1,9 @@
 import { Component, type OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { DeleteEventModelComponent } from 'src/app/components/modals/delete-eventModel/delete-eventModel.component';
+import { ImageHttpService } from 'src/app/services/http/image.http.service';
 import { SiteHttpService } from 'src/app/services/http/site.http.service';
 import { UserHttpService } from 'src/app/services/http/user.http.service';
 import { ModalDataService } from 'src/app/services/modal/modal.data.service';
@@ -22,6 +24,11 @@ export class SiteComponent implements OnInit {
 
   SelectedOption: string = ''; 
   
+  private _imageSite : any
+  get ImageSite(): any  { return this._imageSite; }
+
+  private _planSite : any
+  get PlanSite(): any  { return this._planSite; }
 
   constructor(
     private _siteHttpService: SiteHttpService,
@@ -29,6 +36,8 @@ export class SiteComponent implements OnInit {
     private _session: UserSessionService,
     private _modalDataService : ModalDataService,
     public dialog: MatDialog,
+    private _imageHttpService : ImageHttpService,
+    private _sanitizer: DomSanitizer
     ) { }
 
   ngOnInit(): void {
@@ -40,6 +49,13 @@ export class SiteComponent implements OnInit {
     this._siteHttpService.getAllSite(this._user.id).subscribe({
       next : (data :any) =>{
         this._sites = data
+
+        this._sites.forEach((site : any) => {
+          if(site.guidImage != ''){
+            this.getImages(site)
+          }
+        });
+        
         //this._sites = this._sites.filter(s => s.training != null)
         console.log(this._sites)
       },
@@ -91,4 +107,24 @@ export class SiteComponent implements OnInit {
     this._router.navigate(['update-site',event.id])
   }
 
+  private getImages(site : any){
+    if(site.guidImage != null){
+      this._imageHttpService.getSiteImage(site.guidImage).subscribe(imageData => {
+        const reader = new FileReader();
+        reader.onload = (e: any) => {
+          site.image = e.target.result;
+        }
+        reader.readAsDataURL(imageData);
+      });
+    }
+    if(site.guidMap != null){
+      this._imageHttpService.getSiteMap(site.guidMap).subscribe(imageData => {
+        const reader = new FileReader();
+        reader.onload = (e: any) => {
+          site.map = this._sanitizer.bypassSecurityTrustResourceUrl(e.target.result);
+        }
+        reader.readAsDataURL(imageData);
+      });
+    }
+  }
 }

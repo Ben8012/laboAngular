@@ -38,7 +38,7 @@
                 <tbody>
                     <tr>
                         <td class="text-center">
-                            <img [src]="'../../../../assets/sites/'+site.picture" alt="" class="size border rounded" />
+                            <img *ngIf="site.image" [src]="site.image" class="p-2" height="250vh"alt="Avatar" loading="lazy" />
                         </td>
                     </tr>
                     <tr>
@@ -62,15 +62,16 @@
                             <h6>Tarif : {{site.price}}€</h6>
                         </td>
                     </tr>
-                    <tr>
+                  
+                    <tr *ngIf="site.map">
                         <td class=" text-center my-2">
-                            <a class="btn btn-primary" [href]="site.url" target="_blank">Site Officiel</a>
+                            <img [src]="site.map" class="p-2" height="280vh" alt="Avatar" loading="lazy" />
                         </td>
                     </tr>
-                    <tr>
+                    <tr *ngIf="site.url">
                         <td class=" text-center my-2">
-                            <a class="btn btn-primary" [href]="'../../.././../assets/plans/'+site.map">Télécharger la
-                                carte</a>
+                            <a class="btn btn-primary" [href]="site.url" target="_blank">Site Officiel</a>
+                          
                         </td>
                     </tr>
                     <tr>

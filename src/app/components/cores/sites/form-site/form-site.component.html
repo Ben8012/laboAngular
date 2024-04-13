@@ -94,23 +94,8 @@
             </div>
         </div>
 
-        <div>
-            <img *ngIf="ImageSite" [src]="ImageSite" class="p-2" height="250vh" alt="Avatar" loading="lazy" />
-        </div>
-        <label for="image">Image</label>
-        <div class="mb-3 d-flex justify-content-center m-2">
-            <input type="file" (change)="onFileSelectedSite($event)" class="form-control w-50 m-2" id="certificat"
-                placeholder="certificat" enctype="multipart/form-data">
-        </div>
-
-        <div>
-            <img *ngIf="PlanSite" [src]="PlanSite" class="p-2" height="250vh" alt="Avatar" loading="lazy" />
-        </div>
-        <label for="image">Plan</label>
-        <div class="mb-3 d-flex justify-content-center m-2">
-            <input type="file" (change)="onFileSelectedPlan($event)" class="form-control w-50 m-2" id="certificat"
-                placeholder="certificat" enctype="multipart/form-data">
-        </div>
+        <app-form-adress *ngIf="Site && Site.adress && UrlSegements == 'update-site'" [Adress]="Site.adress"(AddressAdded)="OutputAdress($event)"></app-form-adress>
+        <app-form-adress *ngIf="UrlSegements == 'insert-site'"(AddressAdded)="OutputAdress($event)"></app-form-adress>
 
         <label for="compressor">Compresseur</label>
         <div class="mb-3 d-flex flex-column">
@@ -131,19 +116,36 @@
                 <input type="radio" formControlName="restoration" value="0"> Non
             </label>
         </div>
-
-        <div>
-            <a class="btn btn-dark mb-3" (click)="toggleAddressForm()">
-                <span *ngIf="!showAddressForm && UrlSegements == 'update-site'">Modifier une adresse</span>
-                <span *ngIf="!showAddressForm && UrlSegements == 'insert-site'">Ajouter une adresse</span>
-                <span *ngIf="showAddressForm">Cachez l'adresse</span>
-            </a>
-            <app-form-adress *ngIf="showAddressForm && UrlSegements == 'update-site'" [Adress]="Site.adress"
-                (AddressAdded)="OutputAdress($event)"></app-form-adress>
-            <app-form-adress *ngIf="showAddressForm && UrlSegements == 'insert-site'"
-                (AddressAdded)="OutputAdress($event)"></app-form-adress>
-        </div>
         <button type="submit" class="btn btn-dark mb-3">Changer</button>
     </form>
+
+
+    <div class="mt-2 border rounded" *ngIf="Site && UrlSegements == 'update-site'">
+        <div>
+            <img *ngIf="ImageSite" [src]="ImageSite" class="p-2" height="250vh" alt="Avatar" loading="lazy" />
+            <!-- {{ImageSite | json}} -->
+        </div>
+        <label for="image">Image</label>
+        <div class="mb-3 d-flex justify-content-center m-2">
+            <input type="file" (change)="onFileSelectedSite($event)" class="form-control w-50 m-2" id="certificat"
+                placeholder="certificat" enctype="multipart/form-data">
+                <button type="submit" class="btn btn-dark m-2" (click)="addSite(Site)">Changer</button>
+        </div>
+    
+        <div>
+            <img *ngIf="PlanSite" [src]="PlanSite" class="p-2" height="250vh" alt="Avatar" loading="lazy" />
+            <!-- <embed *ngIf="PlanSite" [src]="PlanSite" type="application/pdf" class="p-2" height="250vh" alt="Avatar" loading="lazy"  /> -->
+            <!-- {{PlanSite |json}} -->
+        </div>
+        <label for="image">Plan</label>
+        <div class="mb-3 d-flex justify-content-center m-2">
+            <input type="file" (change)="onFileSelectedPlan($event)" class="form-control w-50 m-2" id="certificat"
+                placeholder="certificat" enctype="multipart/form-data">
+                <button type="submit" class="btn btn-dark m-2" (click)="addPlan(Site)">Changer</button>
+        </div>
+    </div>
+ 
+
+   
     
 </div>

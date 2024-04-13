@@ -1,8 +1,10 @@
 
 import { Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
+import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FSite } from 'src/app/models/forms/site.form';
+import { ConvertorsService } from 'src/app/services/helper/convertors.service';
 import { ImageHttpService } from 'src/app/services/http/image.http.service';
 import { SiteHttpService } from 'src/app/services/http/site.http.service';
 import { UserSessionService } from 'src/app/services/session/user-session.service';
@@ -20,7 +22,7 @@ export class FormSiteComponent implements OnInit {
 
   selectedFilePlan!: File;
   private _planSite : any
-  get PlanSite(): any  { return this._planSite; }
+  get PlanSite(): any  { return this._planSite}
 
   private formSite: FormGroup = FSite();
   get FormSite(): FormGroup { return this.formSite; }
@@ -65,6 +67,9 @@ export class FormSiteComponent implements OnInit {
     private _siteHttpService: SiteHttpService,
     private _router: Router,
     private _imageHttpService : ImageHttpService,
+    private _sanitizer: DomSanitizer,
+    private _convertor : ConvertorsService
+
   ) {}
 
   ngOnInit(): void {
@@ -104,6 +109,8 @@ export class FormSiteComponent implements OnInit {
         this._site = data
         if (this._site.id) {
           this.addToForm()
+          this.getImage()
+          this.getPlan()
           if (this._site.adress) {
             this.addAddressToForm(this._site.adress)
           }
@@ -157,31 +164,40 @@ export class FormSiteComponent implements OnInit {
   }
 
   send() {
-    console.log(this.formSite.value)
-    console.log(this.formSite)
+    // console.log(this.formSite.value)
+    // console.log(this.formSite)
     if (this.formSite.valid) {
       this._siteToSend.name = this.formSite.value.name
+      this._siteToSend.description = this.formSite.value.description
       this._siteToSend.creatorId = this._user.id
+      this._siteToSend.compressor = this.formSite.value.compressor == "1" ? true : false
+      this._siteToSend.restoration = this.formSite.value.restoration == "1" ? true : false
+      this._siteToSend.maxDeep = this.formSite.value.maxDeep
+      this._siteToSend.price = this.formSite.value.price
+      this._siteToSend.url = this.formSite.value.url
+      this._siteToSend.gps = this.formSite.value.gps
 
+      console.log(this._siteToSend)
+   
       if (this._urlSegements[0].path === "update-site") {
         this._siteToSend.id = this._site.id
         console.log('update')
         this._siteHttpService.update(this._siteToSend).subscribe({
           next: (data: any) => {
             this._site = data
-            this._router.navigate(['my-clubs'])
+            this._router.navigate(['site'])
           },
           error: (error) => {
             console.log(error);
           }
         });
       }
-      else if (this._urlSegements[0].path === "insert-club") {
+      else if (this._urlSegements[0].path === "insert-site") {
         console.log('insert')
         this._siteHttpService.insert(this._siteToSend).subscribe({
           next: (data: any) => {
             this._site = data
-            this._router.navigate(['my-sites'])
+            this._router.navigate(['site'])
           },
           error: (error) => {
             console.log(error);
@@ -199,19 +215,19 @@ export class FormSiteComponent implements OnInit {
     this.selectedFilePlan = event.target.files[0];
   }
 
-  addSite(){
+  addSite(site : any){
     if (!this.selectedFileSite) {
       console.error('No file selected');
       return;
     }
     const formData = new FormData();
-    formData.append('image', this.selectedFileSite, this._user.firstname+" "+this._user.lastname);
+    formData.append('image', this.selectedFileSite, site.name);
 
     delete this.formSite.value.image;
 
     this._imageHttpService.insertSiteImage(formData,this._user.id).subscribe({
       next: (data: any) => {
-        this._session.refreshUser(this._user.id)
+        this.getSiteById(this._id)
       },
       error: (error) => {
         console.log(error);
@@ -219,26 +235,59 @@ export class FormSiteComponent implements OnInit {
     });
   }
 
-  addPlan(){
+  addPlan(site : any){
     if (!this.selectedFilePlan) {
       console.error('No file selected');
       return;
     }
     const formData = new FormData();
-    formData.append('image', this.selectedFilePlan, this._user.firstname+" "+this._user.lastname);
+    formData.append('plan', this.selectedFilePlan, site.name);
 
     delete this.formSite.value.plan;
 
     this._imageHttpService.insertSitePlan(formData,this._user.id).subscribe({
       next: (data: any) => {
-        this._session.refreshUser(this._user.id)
+        this.getSiteById(this._id)
       },
       error: (error) => {
         console.log(error);
       }
     });
+
+    
   }
 
- 
+  private getImage(){
+    if(this._site.guidImage != null){
+      this._imageHttpService.getSiteImage(this._site.guidImage).subscribe(imageData => {
+        const reader = new FileReader();
+        reader.onload = (e: any) => {
+          //this._imageSite = e.target.result;
+          this._imageSite = this._sanitizer.bypassSecurityTrustResourceUrl(e.target.result);
+        }
+        reader.readAsDataURL(imageData);
+      });
+    }
+  }
+
+  private getPlan(){
+    if(this._site.guidMap != null){
+      this._imageHttpService.getSiteMap(this._site.guidMap).subscribe(imageData => {
+        console.log(imageData)
+        //this._planSite = this._sanitizer.bypassSecurityTrustResourceUrl(URL.createObjectURL(imageData));
+        
+        const reader = new FileReader();
+        reader.onload = (e: any) => {
+          //this._planSite = e.target.result
+          //this._planSite = this._planSite.replace(',', ',/9j/')
+          this._planSite = this._sanitizer.bypassSecurityTrustResourceUrl(e.target.result);
+          console.log(this._planSite)
+        }
+        reader.readAsDataURL(imageData);
+      });
+      
+    }
+  }
+
 
 }

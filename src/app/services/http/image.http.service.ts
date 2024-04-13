@@ -75,7 +75,7 @@ export class ImageHttpService {
     return this.http.post<any>(apiUrl+'SitePlan/'+id,formData, { headers: headers })
   }
 
-  getSitePlan(imageName: string): Observable<Blob> {
+  getSiteMap(imageName: string): Observable<Blob> {
     return this.http.get(apiUrl+'SitePlan/'+imageName, { responseType: 'blob' });
   }
 
