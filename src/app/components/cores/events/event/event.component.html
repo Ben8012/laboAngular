@@ -25,7 +25,7 @@
                 <td class="text-center"><button class="btn btn-light hover" (click)="diveplaceInfo(event.diveplace)"><i class="bi bi-info-circle"></i></button></td>
             </tr>
             <tr *ngIf="event.participes.length > 0">
-                <app-participator-table [User]="User" [Participator]="event.participes" ></app-participator-table>
+                <app-participator-table [UrlSegements]="UrlSegements" [User]="User" [Element]="event"></app-participator-table>
             </tr>
             <tr>
                 <td>Créateur : {{event.creator.firstname}} {{event.creator.lastname}} </td>

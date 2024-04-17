@@ -38,7 +38,7 @@
                         <td></td>
                     </tr>
                     <tr *ngIf="club.participes.length > 0" >
-                        <app-participator-table [User]="User" [Participator]="club.participes"></app-participator-table>
+                        <app-participator-table [UrlSegements]="UrlSegements" [User]="User" [Element]="club"></app-participator-table>
                     </tr>
                     <tr>
                         <td>Créateur : {{club.creator.firstname}} {{club.creator.lastname}} </td>

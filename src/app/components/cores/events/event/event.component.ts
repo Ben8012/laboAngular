@@ -56,7 +56,7 @@ export class EventComponent implements OnInit {
     this.route.url.subscribe(segments => {
       this._urlSegements = segments
       this._url = segments.join('/');
-      console.log("L'URL a changé :", this._url);
+      //console.log("L'URL a changé :", this._url);
 
       this.getUser()
 
@@ -66,7 +66,6 @@ export class EventComponent implements OnInit {
         this._activateButtons = false
       }
     });
-    console.log(this.UrlSegements)
    }
 
    formatEventForView(){
@@ -101,7 +100,7 @@ export class EventComponent implements OnInit {
         this._events = data
         this.checkIfParticipe()
         this.formatEventForView()
-        console.log(this._events)
+        //console.log(this._events)
       },
       error : (error) => {
         console.log(error)
@@ -121,7 +120,7 @@ export class EventComponent implements OnInit {
           this._events = this._events.filter(e => e.training != null)
         }
         this.formatEventForView()
-        console.log(this._events)
+        //console.log(this._events)
       },
       error : (error) => {
         console.log(error)
@@ -132,7 +131,7 @@ export class EventComponent implements OnInit {
     this._session.$user.subscribe((user: any) => {
       this._user = user;
       if(this._urlSegements.length > 0 && this._urlSegements[0].path === "my-events" && this._user.id){
-        console.log("my-events")
+        //console.log("my-events")
         this.getEventsByUserId(this._user.id)
         this._activateButtons = true
       }

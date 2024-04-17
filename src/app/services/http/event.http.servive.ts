@@ -47,5 +47,14 @@ export class EventHttpService {
     return this.http.patch(apiUrl+"Disable/"+id,{})
   }
 
+  validationParticipate(userId : any, clubId : any): Observable<any>{
+    return this.http.get(apiUrl+"ValidationParticipate/"+userId+"/"+clubId)
+  }
+
+  unValidationParticipate(userId : any, clubId : any): Observable<any>{
+    return this.http.get(apiUrl+"UnValidationParticipate/"+userId+"/"+clubId)
+  }
+
+
 
 }

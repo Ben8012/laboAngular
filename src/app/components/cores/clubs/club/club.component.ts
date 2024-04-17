@@ -73,7 +73,7 @@ export class ClubComponent implements OnInit {
         this._clubs = data
         this.checkIfParticipe()
         this.formatEventForView()    
-        console.log(this._clubs)
+        //console.log(this._clubs)
       },
       error : (error) => {
         console.log(error)
@@ -86,7 +86,7 @@ export class ClubComponent implements OnInit {
         this._clubs = data
         this.checkIfParticipe()
         this.formatEventForView()   
-        console.log(this._clubs) 
+        //console.log(this._clubs) 
       },
       error : (error) => {
         console.log(error)
