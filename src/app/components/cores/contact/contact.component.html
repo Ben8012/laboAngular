@@ -1,18 +1,79 @@
-<div *ngFor="let contact of Users">
-  <div class="card m-1">
-    <div class="card-body">
-      <div class="d-flex justify-content-between">
-        <h4 class="card-title py-2">{{contact.firstname}} {{contact.lastname}}</h4>
-          <div class="py-2" *ngFor="let organisation of contact.organisations">
-            <h5>
-              <!-- <img  width="50px" src="../../../assets/organisations/{{organisation.organisationPicture}}" >  -->
-              {{organisation.name}} : {{organisation.level }}  </h5>
-          </div>
-          <!-- <i class="bi bi-hand-thumbs-up-fill"></i> -->
-          <!-- <i class="bi bi-hand-thumbs-down-fill"></i> -->
-        <button *ngIf="!contact.isFriend" class="btn btn-success m-2" (click)="like(contact.id)"><i class="bi bi-emoji-smile"></i></button>
-        <button *ngIf="contact.isFriend" class="btn btn-warning m-2" (click)="unlike(contact.id)"><i class="bi bi-emoji-angry"></i></button>
-      </div>   
+<div class="border m-3">
+  <h1 class="text-center">En attente</h1>
+  <div *ngFor="let liked of Likeds">
+    <div class="card m-1">
+      <div class="card-body">
+        <div class="d-flex justify-content-around">
+          <h4 class="card-title py-2">{{liked.firstname}} {{liked.lastname}}</h4>
+            <div class="py-2" *ngFor="let organisation of liked.organisations">
+              <h5>
+                {{organisation.name}} : {{organisation.level }}  </h5>
+            </div>        
+        </div>   
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+<div class="border m-3">
+  <h1 class="text-center">En demande</h1>
+  <div *ngFor="let liker of Likers" >
+    <div class="card m-1">
+      <div class="card-body">
+        <div class="d-flex justify-content-between">
+          <h4 class="card-title py-2">{{liker.firstname}} {{liker.lastname}}</h4>
+            <div class="py-2" *ngFor="let organisation of liker.organisations">
+              <h5>
+                {{organisation.name}} : {{organisation.level }}  </h5>
+            </div>
+            <!-- <i class="bi bi-hand-thumbs-up-fill"></i> -->
+            <!-- <i class="bi bi-hand-thumbs-down-fill"></i> -->
+          <button  class="btn btn-success m-2" (click)="like(liker.id)"><i class="bi bi-emoji-smile"></i></button>
+        </div>   
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="border m-3">
+  <h1 class="text-center">Amis</h1>
+  <div *ngFor="let friend of Friends">
+    <div class="card m-1">
+      <div class="card-body">
+        <div class="d-flex justify-content-between">
+          <h4 class="card-title py-2">{{friend.firstname}} {{friend.lastname}}</h4>
+            <div class="py-2" *ngFor="let organisation of friend.organisations">
+              <h5>
+                {{organisation.name}} : {{organisation.level }}  </h5>
+            </div>
+            <!-- <i class="bi bi-hand-thumbs-up-fill"></i> -->
+            <!-- <i class="bi bi-hand-thumbs-down-fill"></i> -->
+          <button  class="btn btn-warning m-2" (click)="unlike(friend.id)"><i class="bi bi-emoji-angry"></i></button>
+        </div>   
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="border m-3">
+  <h1 class="text-center">Contacts</h1>
+  <div *ngFor="let user of Users">
+    <div class="card m-1">
+      <div class="card-body">
+        <div class="d-flex justify-content-between">
+          <h4 class="card-title py-2">{{user.firstname}} {{user.lastname}}</h4>
+            <div class="py-2" *ngFor="let organisation of user.organisations">
+              <h5>
+                {{organisation.name}} : {{organisation.level }}  </h5>
+            </div>
+            <!-- <i class="bi bi-hand-thumbs-up-fill"></i> -->
+            <!-- <i class="bi bi-hand-thumbs-down-fill"></i> -->
+          <button *ngIf="!user.isuser" class="btn btn-success m-2" (click)="like(user.id)"><i class="bi bi-emoji-smile"></i></button>
+        </div>   
+      </div>
     </div>
   </div>
 </div>

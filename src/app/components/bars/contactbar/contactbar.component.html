@@ -1,4 +1,6 @@
+
 <div class="list-group list-group-flush boder-left min-size border rounded">
+    <button (click)="close()" class="btn btn-light mb-2"><i class="bi bi-x-circle"></i></button>
     <div *ngFor="let friend of Friends">
       <!-- [routerLink]="['/message',friend.id]" -->
       <button (click)="getMessage(friend.id)" class="list-group-item list-group-item-action text-center">

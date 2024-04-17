@@ -63,6 +63,10 @@ export class ContactbarComponent implements OnInit {
     
   }
 
+  close(){
+    this.HiddenContactBar.emit('hidden');
+  }
+
  
 
 

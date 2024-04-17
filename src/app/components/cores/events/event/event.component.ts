@@ -12,6 +12,7 @@ import { OrganisationModalComponent } from '../../../modals/organisationModal/or
 import { DateHelperService } from 'src/app/services/helper/date.helper.service';
 import { DeleteEventModelComponent } from 'src/app/components/modals/delete-eventModel/delete-eventModel.component';
 import { ActivatedRoute, NavigationEnd, Params, Router } from '@angular/router';
+import { ImageHttpService } from 'src/app/services/http/image.http.service';
 
 @Component({
   selector: 'app-event',
@@ -46,6 +47,7 @@ export class EventComponent implements OnInit {
     private _dateHelperService : DateHelperService,
     private _router : Router,
     private route: ActivatedRoute,
+    private _imageHttpService : ImageHttpService
     ) { }
 
   ngOnInit(): void {
@@ -78,6 +80,16 @@ export class EventComponent implements OnInit {
       event.startDate = new Date(event.startDate)
       event.endDate = new Date(event.endDate)
       event.type = "event"
+      
+      if(event.diveplace.guidImage != null){
+        this._imageHttpService.getSiteImage(event.diveplace.guidImage).subscribe(imageData => {
+          const reader = new FileReader();
+          reader.onload = (e: any) => {
+            event.diveplace.image = e.target.result;
+          }
+          reader.readAsDataURL(imageData);
+        });
+      }
       
     });
    }
@@ -126,6 +138,7 @@ export class EventComponent implements OnInit {
       }
     })
   }
+
 
 
   participe(id : any){

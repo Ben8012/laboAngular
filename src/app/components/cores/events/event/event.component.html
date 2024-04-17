@@ -20,7 +20,7 @@
             <tr>
                 <td class="text-center">
                     <p>Lieu : {{event.diveplace.name}}</p>
-                    <img [src]="'../../../../assets/sites/'+event.diveplace.picture" alt="" class="size border rounded" />
+                    <img [src]="event.diveplace.image" alt="" class="size border rounded" />
                 </td>
                 <td class="text-center"><button class="btn btn-light hover" (click)="diveplaceInfo(event.diveplace)"><i class="bi bi-info-circle"></i></button></td>
             </tr>

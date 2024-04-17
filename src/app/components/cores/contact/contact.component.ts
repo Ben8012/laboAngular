@@ -3,6 +3,7 @@ import { UserSessionService } from 'src/app/services/session/user-session.servic
 import { Component, OnInit } from '@angular/core';
 import { UserHttpService } from 'src/app/services/http/user.http.service';
 import { ObservableService } from 'src/app/services/observable/observable.service';
+import { forEach } from 'jszip';
 
 @Component({
   selector: 'app-contact',
@@ -12,11 +13,20 @@ import { ObservableService } from 'src/app/services/observable/observable.servic
 export class ContactComponent implements OnInit {
 
 
-  private _user!: any;
+  private _user!: any; 
+
+  get Friends(): any[] { return this._friends; }
   private _friends: any[] = [];
+
+  get Likers(): any[] { return this._likers; }
+  private _likers: any[] = [];
+
+  get Likeds(): any[] { return this._likeds; }
+  private _likeds: any[] = [];
 
   get Users(): any[] { return this._users; }
   private _users: any[] = [];
+
   
   constructor(
     private _userHttpService: UserHttpService,
@@ -26,14 +36,15 @@ export class ContactComponent implements OnInit {
   ngOnInit(): void {
     this.getUser();
     this.getAllUsers();
-    this.compareConctactFriends();
   }
 
   private getUser() {
     this._session.$user.subscribe((user: IUser) => {
       this._user = user;
-      console.log(user)
-      this._friends = this._user.friends
+      if(this._user.id){
+        this.refreshFriends()
+        //console.log(user)
+      }
     })
   }
 
@@ -41,7 +52,7 @@ export class ContactComponent implements OnInit {
     this._userHttpService.getAllUsers().subscribe({
       next: (data: any) => {
         this._users = data.filter((d: any) => d.id != this._user.id)
-        this.compareConctactFriends();
+        this.getUser()
       },
       error: (data: any) => {
         console.log(data);
@@ -49,37 +60,43 @@ export class ContactComponent implements OnInit {
     })
   }
 
- 
   like(likedId: number) {
     this._userHttpService.like(this._user.id, likedId).subscribe((data: any[]) => {
-      this._friends = data;
       this._user = this._session.refreshUser(this._user.id)
-      this.compareConctactFriends();
+      this.refreshFriends();
     });
   }
 
   unlike(likedId: number) {
     this._userHttpService.unlike(this._user.id, likedId).subscribe((data: any[]) => {
-    this._friends = data;
     this._user = this._session.refreshUser(this._user.id)
-    this.compareConctactFriends();
+    this.refreshFriends();
+    });
+  }
 
+  private refreshFriends(){
+    
+    this._friends = this._user.friends
+    this._likeds = this._user.likeds
+    this._likers = this._user.likers
+    this._users = this._users.filter((u: any) => u.id != this._user.id)
+    
+    this._friends.map((friend : any) => {
+      this._likers = this._likers.filter((l: any) => l.id != friend.id)
+      this._likeds = this._likeds.filter((l: any) => l.id != friend.id)
+      this._users = this._users.filter((u: any) => u.id != friend.id)
+    });
+
+    this._likeds.map((liked : any) => {
+      this._users = this._users.filter((u: any) => u.id != liked.id)
+    });
+
+    this._likers.map((liker : any) => {
+      this._users = this._users.filter((u: any) => u.id != liker.id)
     });
 
   }
 
-  private compareConctactFriends() {
-    console.log(this._friends)
-    this._users.map((contact) => {
-
-      contact.isFriend = false
-      this._friends.map((friend) => {
-        if (friend.id == contact.id) {
-          contact.isFriend = true;
-        }
-      });
-    });
-  }
 }
 
 
