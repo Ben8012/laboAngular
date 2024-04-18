@@ -19,7 +19,8 @@
     <th *ngIf="User.id" class="border">
       <p class="text-underline text-center m-auto">Message </p>
     </th>
-    <th *ngIf="Element.creator.id == User.id && UrlSegements =='my-clubs'|| UrlSegements =='my-events'"
+    <th *ngIf="UrlSegements =='my-clubs'|| 
+                UrlSegements =='my-events'"
       class="border text-center m-auto"><i class="bi bi-dash-square"></i></th>
   </tr>
 
@@ -65,13 +66,17 @@
       <i class="bi bi-x"></i>
     </td>
 
-    <td [ngClass]="{'text-center border': User.id && UrlSegements =='my-clubs' || UrlSegements =='my-events'}">
+    <td [ngClass]="{'text-center border': User.id && UrlSegements =='my-clubs' || User.id && UrlSegements =='my-events'}">
       <ng-container
-        *ngIf="User.id && UrlSegements =='my-clubs' || UrlSegements =='my-events' && Element.creator.id == User.id && Element.creator.id != participe.id; else checkParticpe">
+        *ngIf="User.id == Element.creator.id &&  Element.creator.id != participe.id && UrlSegements =='my-clubs' || 
+                User.id == Element.creator.id && Element.creator.id != participe.id && UrlSegements =='my-events'; 
+                else checkParticpe">
         <a (click)="erase(participe.id,Element.id)" class="btn btn-light">-</a>
       </ng-container>
       <ng-template #checkParticpe>
-        <i *ngIf="Element.creator.id == User.id && UrlSegements =='my-clubs'|| UrlSegements =='my-events'" class="bi bi-x"></i>
+        <i *ngIf="Element.creator.id != participe.id && UrlSegements =='my-clubs' || 
+                  Element.creator.id != participe.id && UrlSegements =='my-events'"
+                  class="bi bi-x"></i>
       </ng-template>
     </td>
   </tr>
@@ -79,7 +84,7 @@
 
 
 
-<!-- <div *ngIf="Demands.length > 0"> -->
+<div *ngIf="Demands && Demands.length > 0">
   <h6 class="border text-underline text-center p-1">Demandes</h6>
   <table class="table mt-2">
     <tr>
@@ -101,9 +106,11 @@
       <th *ngIf="User.id" class="border">
         <p class="text-underline text-center m-auto">Message </p>
       </th>
-      <th *ngIf="Element.creator.id == User.id && UrlSegements =='my-clubs'|| UrlSegements =='my-events'"
+      <th *ngIf="UrlSegements =='my-clubs'|| 
+                  UrlSegements =='my-events'"
         class="border text-center m-auto"><i class="bi bi-plus-square"></i></th>
     </tr>
+
     <tr *ngFor="let demand of Demands">
       <td class="text-center border">
         {{demand.firstname}} {{demand.lastname}}
@@ -144,17 +151,21 @@
       <td *ngIf="User.id && demand.id == User.id" class="text-center border">
         <i class="bi bi-x"></i>
       </td>
-
+      
       <td [ngClass]="{'text-center border': User.id && UrlSegements =='my-clubs' || UrlSegements =='my-events'}">
         <ng-container
-          *ngIf="User.id && UrlSegements =='my-clubs' || UrlSegements =='my-events' && Element.creator.id == User.id && Element.creator.id != demand.id; else checkDemand">
+          *ngIf="User.id == Element.creator.id && Element.creator.id != demand.id && 
+                            (UrlSegements =='my-clubs' ||  UrlSegements =='my-events')
+                  ; else checkDemand">
           <a (click)="add(demand.id,Element.id)" class="btn btn-light">+</a>
         </ng-container>
         <ng-template #checkDemand>
-          <i *ngIf="Element.creator.id == User.id && UrlSegements =='my-clubs'|| UrlSegements =='my-events'" class="bi bi-x"></i>
+          <i *ngIf="Element.creator.id != demand.id && UrlSegements =='my-clubs' || 
+                    Element.creator.id != demand.id && UrlSegements =='my-events'"
+                    class="bi bi-x"></i>
         </ng-template>
       </td>
 
     </tr>
   </table>
-<!-- </div> -->
+</div>

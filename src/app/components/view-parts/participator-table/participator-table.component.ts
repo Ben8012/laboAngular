@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { drawRectangle } from 'pdf-lib';
 import { ClubHttpService } from 'src/app/services/http/club.http.service';
 import { EventHttpService } from 'src/app/services/http/event.http.servive';
 
@@ -13,8 +14,6 @@ export class ParticipatorTableComponent implements OnInit {
   @Input() Element: any;
   @Input() User : any
   @Input() UrlSegements : any
-
-  private _element : any
 
   private _participators : any [] = []
   get Participators(): any []  { return this._participators; }
@@ -32,21 +31,18 @@ export class ParticipatorTableComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+   
     this._today = new Date()
     this._participators = this.Element.participes
     this._demands = this.Element.demands
 
-    this.addDatesToParticipators()
-    this.addDatesToDemands()
+    this.formatDate(this._participators)
+    this.formatDate(this._demands)
 
- 
   }
 
-
-
-
-  private addDatesToParticipators(){
-    this._participators.forEach((participe : any) => {
+  private formatDate(elements : any){
+    elements.forEach((participe : any) => {
       participe.insuranceDateValidation = new Date(participe.insuranceDateValidation)
       participe.medicalDateValidation = new Date(participe.medicalDateValidation)
       participe.birthdate = new Date(participe.birthdate)
@@ -54,14 +50,6 @@ export class ParticipatorTableComponent implements OnInit {
     });
   }
 
-  private addDatesToDemands(){
-    this._demands.forEach((demand : any) => {
-      demand.insuranceDateValidation = new Date(demand.insuranceDateValidation)
-      demand.medicalDateValidation = new Date(demand.medicalDateValidation)
-      demand.birthdate = new Date(demand.birthdate)
-      demand.age = this.calculAge(demand.birthdate)
-    });
-  }
 
   private calculAge(dateNaissance : any) {
     var dateActuelle = new Date();
@@ -87,8 +75,7 @@ export class ParticipatorTableComponent implements OnInit {
       if(this.UrlSegements =='my-clubs' ){
         this._clubHttpService.validationParticipate(participeId,ElementId).subscribe({
           next : (data:any) =>{
-            this._participators = data.participes
-            this._demands = data.demands
+            this.addResultToView(data,ElementId)
           },
           error : (error) => {
             console.log(error)
@@ -97,22 +84,19 @@ export class ParticipatorTableComponent implements OnInit {
       if(this.UrlSegements =='my-events' ){
         this._eventHttpService.validationParticipate(participeId,ElementId).subscribe({
           next : (data:any) =>{
-            this._participators = data.participes
-            this._demands = data.demands
+            this.addResultToView(data,ElementId)
           },
           error : (error) => {
             console.log(error)
           }}) ;
       }
-
     }
 
     erase(participeId: any,ElementId : any){
       if(this.UrlSegements =='my-clubs' ){
         this._clubHttpService.unValidationParticipate(participeId,ElementId).subscribe({
           next : (data:any) =>{
-            this._participators = data.participes
-            this._demands = data.demands
+            this.addResultToView(data,ElementId)
           },
           error : (error) => {
             console.log(error)
@@ -121,12 +105,23 @@ export class ParticipatorTableComponent implements OnInit {
       if(this.UrlSegements =='my-events' ){
         this._eventHttpService.unValidationParticipate(participeId,ElementId).subscribe({
           next : (data:any) =>{
-            this._participators = data.participes
-            this._demands = data.demands
+            this.addResultToView(data,ElementId)
           },
           error : (error) => {
             console.log(error)
           }}) ;
       }
+
+    }
+
+    private addResultToView(data : any, ElementId : any){
+      // console.log(data)
+      let element = data.filter((d : any)=>d.id == ElementId)
+      this._participators = element[0].participes
+      this._demands =  element[0].demands
+      if(this._participators){this.formatDate(this._participators)}
+      if(this._demands){ this.formatDate(this._demands)}
+      console.log(this._participators)
+      console.log(this._demands)
     }
  }
