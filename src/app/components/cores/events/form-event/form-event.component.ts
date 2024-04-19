@@ -69,11 +69,9 @@ export class FormEventComponent implements OnInit {
    this._session.$user.subscribe({
     next : (data :any) =>{
       this._user = data
-      console.log(this._user)
       if(this._user.id){
         this.getAllDiveplace(this._user.id)
-        this.getAllTraining()
-        this.getAllClub()
+        this._user.trainings = this._user.trainings.filter((t : any) => t.name !== 'Instructor')
       }
     },
     error : (error) => {
@@ -106,42 +104,6 @@ export class FormEventComponent implements OnInit {
     }}) ;
  }
 
- private getAllTraining(){
-  this._traininghttpService.getAll().subscribe({
-    next : (data :any) =>{
-      this._trainings = data
-      this._user.organisations.forEach((organisation : any) => {
-        this._trainings.forEach((training : any)=> {
-          if(organisation.id == training.organisation.id && organisation.level =="Instructor"){
-            this._userTrainings.push(training)
-          }
-        })
-      });
-      //console.log(this._userTrainings)
-    },
-    error : (error) => {
-      console.log(error)
-    }}) ;
- }
-
- private getAllClub(){
-  this._clubHtppService.getAll().subscribe({
-    next : (data :any) =>{
-      this._clubs = data
-      this._clubs = this._clubs.filter((c : any) => c.isActive == 1 )
-      this._clubs.forEach((club : any)=>{
-        club.participes.forEach((particpe : any) => {
-          if(particpe.id == this._user.id){
-            this._userClubs.push(club)
-          }
-        })
-      })
-      //console.log(this._userClubs)
-    },
-    error : (error) => {
-      console.log(error)
-    }}) ;
- }
 
  private addToForm(){
   let form = {
@@ -158,6 +120,7 @@ export class FormEventComponent implements OnInit {
 }
 
  update() {
+  this.formEvent.value.creatorId = this._user.id
   if (this.formEvent.valid) {
     if(this._id){
       console.log('update')

@@ -38,8 +38,8 @@
 
 <div class="d-flex justify-content-center  border-bottom p-1 min-size">
   <a *ngIf="user?.id" class="list-group-item list-group-item-action text-center m-auto mx-4 p-2" routerLink="/profil" role="button" title="Mon profil">
-    <img [src]="ImageUrl" class="rounded-circle" height="25"Zalt="Avatar" loading="lazy" />
-    <!-- <div *ngIf="user">{{user.firstname}}</div> -->
+    <img *ngIf="ImageUrl" [src]="ImageUrl" class="rounded-circle" height="25"Zalt="Avatar" loading="lazy" />
+    <div *ngIf="!ImageUrl">{{user.firstname}}</div>
   </a>
   <a *ngIf="!user?.id" a routerLink="/login" class="list-group-item list-group-item-action text-center mx-5 p-2 w-25" title="Login">
     <i class="bi bi-box-arrow-in-right fa-fw me-3"></i>

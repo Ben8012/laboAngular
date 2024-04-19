@@ -41,23 +41,25 @@
               </select>
         </div>
 
-        <label for="birthdate">Organistation</label>
+        <!-- <label for="birthdate">Organistation</label>
         <div class="mb-3 d-flex justify-content-center" *ngFor="let organisation of User.organisations">
             {{ organisation.name }}
-        </div>
+        </div> -->
     
-        <label for="birthdate">Formation</label>
-        <div class="mb-3 d-flex justify-content-center">
-            <select formControlName="trainingId" class="form-select w-50">
-                <option *ngFor="let training of Trainings" [value]="training.id">{{ training.organisation.name }} : {{ training.name }}</option>
-              </select>
+        <div *ngIf="User.level=='Instructor'">
+          <label for="birthdate">Formation</label>
+          <div class="mb-3 d-flex justify-content-center">
+              <select formControlName="trainingId" class="form-select w-50">
+                  <option *ngFor="let training of User.trainings" [value]="training.id">{{ training.organisation.name }} : {{ training.name }}</option>
+                </select>
+          </div>
         </div>
 
         <label for="birthdate">Club</label>
         <div class="mb-3 d-flex justify-content-center">
             <select formControlName="clubId" class="form-select w-50">
-                <option *ngFor="let club of Clubs" [value]="club.id">{{ club.name }}</option>
-              </select>
+                <option *ngFor="let club of User.clubs" [value]="club.id">{{ club.name }}</option>
+            </select>
         </div>
 
         <button type="submit" class="btn btn-dark mb-3">Changer</button>

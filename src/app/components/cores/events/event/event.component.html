@@ -28,7 +28,10 @@
                 <app-participator-table [UrlSegements]="UrlSegements" [User]="User" [Element]="event"></app-participator-table>
             </tr>
             <tr>
-                <td>Créateur : {{event.creator.firstname}} {{event.creator.lastname}} </td>
+                <td class="d-flex justify-content-around ">
+                    <p><span style="font-weight: bold;">Créateur :</span> {{event.creator.firstname}} {{event.creator.lastname}} </p>
+                    <p><span style="font-weight: bold;">Niveau :</span> {{event.creator.level}}</p> 
+                </td>
                 <td class="text-center"><button class="btn btn-light hover" (click)="creatorInfo(event.creator)"><i class="bi bi-info-circle"></i></button></td>
             </tr>
             <tr *ngIf="event.club">

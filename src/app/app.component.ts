@@ -42,11 +42,18 @@ export class AppComponent implements OnInit {
     let token : any = (localStorage.getItem('token') ?? null);
     if(token != null){
       this._userHttpService.getUserByToken(JSON.parse(token)).subscribe({
-        next : (user :IUser) =>{
-          if(user){
-            //console.log(user)
+        next : (user :any) =>{
+          if(user.id){
+          
+            user.trainings.map((training : any)=>{
+              if(training.isMostLevel ==  true){
+                user.level = training.name
+                user.organisation = training.organisation.name
+              }
+            })
             this._session.$user.next(user)
             this._user = user;
+            console.log(user)
           }else{
             this._session.$user.next({}as any)
           }

@@ -100,7 +100,8 @@ export class EventComponent implements OnInit {
         this._events = data
         this.checkIfParticipe()
         this.formatEventForView()
-        //console.log(this._events)
+        this.addLevelToView(this._events) 
+        console.log(this._events)
       },
       error : (error) => {
         console.log(error)
@@ -120,7 +121,8 @@ export class EventComponent implements OnInit {
           this._events = this._events.filter(e => e.training != null)
         }
         this.formatEventForView()
-        //console.log(this._events)
+        this.addLevelToView(this._events) 
+        console.log(this._events)
       },
       error : (error) => {
         console.log(error)
@@ -253,13 +255,45 @@ export class EventComponent implements OnInit {
       dialogRef.afterClosed().subscribe(result => {
         console.log('Le modal est fermé');
         document.body.classList.remove('modal-open'); 
-        this.getAllEvents()
+        if(this._urlSegements[0].path === "my-events"){
+            this.getEventsByUserId(this._user.id)
+            this._activateButtons = true
+        }
+        if(this._urlSegements[0].path === "event" || this._urlSegements[0].path === "formation"){
+          this.getAllEvents()
+          this._activateButtons = false
+      }
+        
       });
      }
   
      updateEvent(event : any){
       this._router.navigate(['update-event',event.id])
     }
+
+    private addMostLevel(elements :any){
+      elements.map((element : any) => {
+        element.trainings.map((training : any)=>{
+          if(training.isMostLevel ==  true){
+            element.level = training.name
+            element.organisation = training.organisation.name
+          }
+        })
+      });
+     }
   
+     private addLevelToView(events :any){
+      events.forEach((club : any) => {
+        club.creator.trainings.forEach((training : any) =>{
+          if(training.isMostLevel == true){
+            club.creator.level = training.name
+            club.creator.organisation = training.organisation.name
+          }
+        });
+        this.addMostLevel(club.creator.friends)
+        this.addMostLevel(club.creator.likeds)
+        this.addMostLevel(club.creator.likers)
+      });
+     }
 
 }

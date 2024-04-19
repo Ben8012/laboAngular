@@ -72,8 +72,10 @@ export class ClubComponent implements OnInit {
       next : (data :any) =>{
         this._clubs = data
         this.checkIfParticipe()
-        this.formatEventForView()    
-        //console.log(this._clubs)
+        this.formatEventForView()  
+        this.addLevelToView(this._clubs)  
+        this.addLevelToView(this._clubs)
+        console.log(this._clubs)
       },
       error : (error) => {
         console.log(error)
@@ -85,8 +87,9 @@ export class ClubComponent implements OnInit {
       next : (data :any) =>{
         this._clubs = data
         this.checkIfParticipe()
-        this.formatEventForView()   
-        //console.log(this._clubs) 
+        this.formatEventForView()  
+        this.addLevelToView(this._clubs) 
+        console.log(this._clubs) 
       },
       error : (error) => {
         console.log(error)
@@ -162,4 +165,29 @@ export class ClubComponent implements OnInit {
    }
  
 
+
+   private addMostLevel(elements :any){
+    elements.map((element : any) => {
+      element.trainings.map((training : any)=>{
+        if(training.isMostLevel ==  true){
+          element.level = training.name
+          element.organisation = training.organisation.name
+        }
+      })
+    });
+   }
+
+   private addLevelToView(clubs :any){
+    clubs.forEach((club : any) => {
+      club.creator.trainings.forEach((training : any) =>{
+        if(training.isMostLevel == true){
+          club.creator.level = training.name
+          club.creator.organisation = training.organisation.name
+        }
+      });
+      this.addMostLevel(club.creator.friends)
+      this.addMostLevel(club.creator.likeds)
+      this.addMostLevel(club.creator.likers)
+    });
+   }
 }

@@ -25,23 +25,19 @@
                         </td>
                         <td class="text-center"><button class="btn btn-light hover" (click)="diveplaceInfo(event.diveplace)">Info</button></td>
                     </tr> -->
-                    <tr *ngIf="club.creator.organisations.length > 0" >
+                    <tr >
                         <td>
-                            <p class="text-underline">Organisations : </p>
-                            <ul>
-                                <li *ngFor="let organisation of club.creator.organisations">
-                                 
-                                      <span>{{organisation.name}}</span>  
-                                </li>
-                            </ul>
+                            <p class="text-underline">Organisations : <span>{{club.creator.organisation}}</span>  </p>
                         </td>
-                        <td></td>
                     </tr>
                     <tr *ngIf="club.participes.length > 0" >
                         <app-participator-table [UrlSegements]="UrlSegements" [User]="User" [Element]="club"></app-participator-table>
                     </tr>
                     <tr>
-                        <td>Créateur : {{club.creator.firstname}} {{club.creator.lastname}} </td>
+                        <td class="d-flex justify-content-around ">
+                            <p><span style="font-weight: bold;">Créateur :</span> {{club.creator.firstname}} {{club.creator.lastname}} </p>
+                            <p><span style="font-weight: bold;">Niveau :</span> {{club.creator.level}}</p> 
+                        </td>
                         <td class="text-center"><button class="btn btn-light hover" (click)="creatorInfo(club.creator)">Info</button></td>
                     </tr>
                     

@@ -43,7 +43,7 @@ export class ContactComponent implements OnInit {
       this._user = user;
       if(this._user.id){
         this.refreshFriends()
-        //console.log(user)
+        console.log(user)
       }
     })
   }
@@ -85,14 +85,41 @@ export class ContactComponent implements OnInit {
       this._likers = this._likers.filter((l: any) => l.id != friend.id)
       this._likeds = this._likeds.filter((l: any) => l.id != friend.id)
       this._users = this._users.filter((u: any) => u.id != friend.id)
+      friend.trainings.map((training : any)=>{
+        if(training.isMostLevel ==  true){
+          friend.level = training.name
+          friend.organisation = training.organisation.name
+        }
+      })
     });
 
     this._likeds.map((liked : any) => {
       this._users = this._users.filter((u: any) => u.id != liked.id)
+      liked.trainings.map((training : any)=>{
+        if(training.isMostLevel ==  true){
+          liked.level = training.name
+          liked.organisation = training.organisation.name
+        }
+      })
     });
 
     this._likers.map((liker : any) => {
       this._users = this._users.filter((u: any) => u.id != liker.id)
+      liker.trainings.map((training : any)=>{
+        if(training.isMostLevel ==  true){
+          liker.level = training.name
+          liker.organisation = training.organisation.name
+        }
+      })
+    });
+
+    this._users.map((user : any) => {
+      user.trainings.map((training : any)=>{
+        if(training.isMostLevel ==  true){
+          user.level = training.name
+          user.organisation = training.organisation.name
+        }
+      })
     });
 
   }
