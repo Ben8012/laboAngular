@@ -221,11 +221,11 @@ export class FormSiteComponent implements OnInit {
       return;
     }
     const formData = new FormData();
-    formData.append('image', this.selectedFileSite, site.name);
+    formData.append('image', this.selectedFileSite, site.name+site.id);
 
     delete this.formSite.value.image;
 
-    this._imageHttpService.insertSiteImage(formData,this._user.id).subscribe({
+    this._imageHttpService.insertSiteImage(formData,site.id).subscribe({
       next: (data: any) => {
         this.getSiteById(this._id)
       },
@@ -241,11 +241,11 @@ export class FormSiteComponent implements OnInit {
       return;
     }
     const formData = new FormData();
-    formData.append('plan', this.selectedFilePlan, site.name);
+    formData.append('plan', this.selectedFilePlan, site.name+site.id);
 
     delete this.formSite.value.plan;
 
-    this._imageHttpService.insertSitePlan(formData,this._user.id).subscribe({
+    this._imageHttpService.insertSitePlan(formData,site.id).subscribe({
       next: (data: any) => {
         this.getSiteById(this._id)
       },

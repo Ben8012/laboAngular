@@ -1,12 +1,10 @@
 import { FProfil } from '../../../models/forms/profil.form';
 import { Component } from '@angular/core';
-// import { SessionService } from '../../services/session/user-session.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { FormControl, FormGroup, Validators } from "@angular/forms"
-import { ActivatedRoute, Route, Router } from '@angular/router';
+import { FormGroup } from "@angular/forms"
+import { ActivatedRoute, Router } from '@angular/router';
 import { UserSessionService } from 'src/app/services/session/user-session.service';
 import { UserHttpService } from 'src/app/services/http/user.http.service';
-import { concatMap } from 'rxjs';
 import { ImageHttpService } from 'src/app/services/http/image.http.service';
 
 
@@ -22,6 +20,8 @@ export class ProfilComponent {
   selectedFileCertificat!: File;
 
   private userSessionId: number | null = null;
+
+  get User(): any { return this._user; }
   private _user: any|null = null;
 
   private formProfil: FormGroup = FProfil();
@@ -32,17 +32,17 @@ export class ProfilComponent {
   get Email():any {return this.formProfil.get('email');}
   get Birthdate():any {return this.formProfil.get('birthdate');}
 
-  private _imageInsurance : any
-  get ImageInsurance(): any  { return this._imageInsurance; }
+  // private _imageInsurance : any
+  // get ImageInsurance(): any  { return this._imageInsurance; }
 
-  private _imageLevel : any
-  get ImageLevel(): any  { return this._imageLevel; }
+  // private _imageLevel : any
+  // get ImageLevel(): any  { return this._imageLevel; }
 
-  private _imageCertificat : any
-  get ImageCertificat(): any  { return this._imageCertificat; }
+  // private _imageCertificat : any
+  // get ImageCertificat(): any  { return this._imageCertificat; }
 
-  private _imageProfil : any
-  get ImageProfil(): any  { return this._imageProfil; }
+  // private _imageProfil : any
+  // get ImageProfil(): any  { return this._imageProfil; }
 
   constructor(
     private _http: HttpClient,
@@ -60,38 +60,38 @@ export class ProfilComponent {
   }
 
   private getImages(){
-    if(this._user.guidInsurance != ''){
+    if(this._user.guidInsurance){
       this._imageHttpService.getInsuranceImage(this._user.guidInsurance).subscribe(imageData => {
         const reader = new FileReader();
         reader.onload = (e: any) => {
-          this._imageInsurance = e.target.result;
+          this._user.imageInsurance = e.target.result;
         }
         reader.readAsDataURL(imageData);
       });
     }
-    if(this._user.guidLevel != ''){
+    if(this._user.guidLevel){
       this._imageHttpService.getLevelImage(this._user.guidLevel).subscribe(imageData => {
         const reader = new FileReader();
         reader.onload = (e: any) => {
-          this._imageLevel = e.target.result;
+          this._user.imageLevel = e.target.result;
         }
         reader.readAsDataURL(imageData);
       });
     }
-    if(this._user.guidCertificat != ''){
+    if(this._user.guidCertificat){
       this._imageHttpService.getCertificatImage(this._user.guidCertificat).subscribe(imageData => {
         const reader = new FileReader();
         reader.onload = (e: any) => {
-          this._imageCertificat = e.target.result;
+          this._user.imageCertificat = e.target.result;
         }
         reader.readAsDataURL(imageData);
       });
     }
-    if(this._user.guidImage != ''){
+    if(this._user.guidImage){
       this._imageHttpService.getProfilImage(this._user.guidImage).subscribe(imageData => {
         const reader = new FileReader();
         reader.onload = (e: any) => {
-          this._imageProfil = e.target.result;
+          this._user.imageProfil = e.target.result;
         }
         reader.readAsDataURL(imageData);
       });
@@ -144,7 +144,6 @@ export class ProfilComponent {
 
   Logout(){
     this._session.clearSession();
-   
     this._router.navigate(['/home']);
   }
 
@@ -167,7 +166,7 @@ export class ProfilComponent {
       return;
     }
     const formData = new FormData();
-    formData.append('image', this.selectedFilePhoto, this._user.firstname+" "+this._user.lastname);
+    formData.append('image', this.selectedFilePhoto, this._user.firstname+this._user.lastname+this._user.id);
 
     delete this.formProfil.value.image;
 
@@ -187,7 +186,7 @@ export class ProfilComponent {
       return;
     }
     const formData = new FormData();
-    formData.append('image', this.selectedFileInsurance, this._user.firstname+" "+this._user.lastname);
+    formData.append('image', this.selectedFileInsurance, this._user.firstname+this._user.lastname+this._user.id);
 
     delete this.formProfil.value.image;
 
@@ -207,7 +206,7 @@ export class ProfilComponent {
       return;
     }
     const formData = new FormData();
-    formData.append('image', this.selectedFileLevel, this._user.firstname+" "+this._user.lastname);
+    formData.append('image', this.selectedFileLevel, this._user.firstname+this._user.lastname+this._user.id);
 
     delete this.formProfil.value.image;
 
@@ -227,7 +226,7 @@ export class ProfilComponent {
       return;
     }
     const formData = new FormData();
-    formData.append('image', this.selectedFileCertificat, this._user.firstname+" "+this._user.lastname);
+    formData.append('image', this.selectedFileCertificat, this._user.firstname+this._user.lastname+this._user.id);
 
     delete this.formProfil.value.image;
 

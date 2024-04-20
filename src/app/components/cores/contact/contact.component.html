@@ -1,11 +1,11 @@
 <div class="border m-3">
-  <h1 class="text-center">En attente</h1>
+  <h1 class="text-center">En attente de validation</h1>
   <div *ngFor="let liked of Likeds">
     <div class="card m-1">
       <div class="card-body">
         <div class="d-flex justify-content-around">
           <h4 class="card-title py-2">{{liked.firstname}} {{liked.lastname}}</h4>
-          <h5 class="card-title py-2">{{liked.organisation}} : {{liked.level}}  </h5>
+          <h5 class="card-title py-2">{{liked.organisation}} {{liked.level}}  </h5>
         </div>   
       </div>
     </div>
@@ -16,13 +16,13 @@
 
 
 <div class="border m-3">
-  <h1 class="text-center">En demande</h1>
+  <h1 class="text-center">Demande d'amitié</h1>
   <div *ngFor="let liker of Likers" >
     <div class="card m-1">
       <div class="card-body">
         <div class="d-flex justify-content-between">
           <h4 class="card-title py-2">{{liker.firstname}} {{liker.lastname}}</h4>
-          <h5 class="card-title py-2">{{liker.organisation}} : {{liker.level}}  </h5>
+          <h5 class="card-title py-2">{{liker.organisation}} {{liker.level}}  </h5>
           <button  class="btn btn-success m-2" (click)="like(liker.id)"><i class="bi bi-emoji-smile"></i></button>
         </div>   
       </div>
@@ -37,7 +37,7 @@
       <div class="card-body">
         <div class="d-flex justify-content-between">
           <h4 class="card-title py-2">{{friend.firstname}} {{friend.lastname}}</h4>
-          <h5 class="card-title py-2">{{friend.organisation}} : {{friend.level}}  </h5>
+          <h5 class="card-title py-2">{{friend.organisation}} {{friend.level}}  </h5>
           <button  class="btn btn-warning m-2" (click)="unlike(friend.id)"><i class="bi bi-emoji-angry"></i></button>
         </div>   
       </div>
@@ -46,13 +46,13 @@
 </div>
 
 <div class="border m-3">
-  <h1 class="text-center">Contacts</h1>
+  <h1 class="text-center">Autres</h1>
   <div *ngFor="let user of Users">
     <div class="card m-1">
       <div class="card-body">
         <div class="d-flex justify-content-between">
           <h4 class="card-title py-2">{{user.firstname}} {{user.lastname}}</h4>
-          <h5 class="card-title py-2">{{user.organisation}} : {{user.level}}  </h5>
+          <h5 class="card-title py-2">{{user.organisation}} {{user.level}}  </h5>
           <button *ngIf="!user.isuser" class="btn btn-success m-2" (click)="like(user.id)"><i class="bi bi-emoji-smile"></i></button>
         </div>   
       </div>

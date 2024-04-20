@@ -37,31 +37,31 @@
 
 
 <div class="d-flex justify-content-center  border-bottom p-1 min-size">
-  <a *ngIf="user?.id" class="list-group-item list-group-item-action text-center m-auto mx-4 p-2" routerLink="/profil" role="button" title="Mon profil">
-    <img *ngIf="ImageUrl" [src]="ImageUrl" class="rounded-circle" height="25"Zalt="Avatar" loading="lazy" />
-    <div *ngIf="!ImageUrl">{{user.firstname}}</div>
+  <a *ngIf="User?.id" class="list-group-item list-group-item-action text-center m-auto mx-4 p-2" routerLink="/profil" role="button" title="Mon profil">
+    <img *ngIf="User.guidImage != ''" [src]="User.imageProfil" class="rounded-circle" height="25"Zalt="Avatar" loading="lazy" />
+    <div *ngIf="User.guidImage == ''">{{User.firstname}}</div>
   </a>
-  <a *ngIf="!user?.id" a routerLink="/login" class="list-group-item list-group-item-action text-center mx-5 p-2 w-25" title="Login">
+  <a *ngIf="!User?.id" a routerLink="/login" class="list-group-item list-group-item-action text-center mx-5 p-2 w-25" title="Login">
     <i class="bi bi-box-arrow-in-right fa-fw me-3"></i>
     <!-- <span>Login</span> -->
   </a>
-  <a *ngIf="!user?.id" routerLink="/register" class="list-group-item list-group-item-action text-center mx-5 p-2 w-25" title="Inscription">
+  <a *ngIf="!User?.id" routerLink="/register" class="list-group-item list-group-item-action text-center mx-5 p-2 w-25" title="Inscription">
     <i class="bi bi-r-square fa-fw me-3"></i>
     <!-- <span>Register</span> -->
   </a>
-  <a *ngIf="user?.id" routerLink="/carnet" class="list-group-item list-group-item-action text-center mx-4 p-2" title="Mon Carnet">
+  <a *ngIf="User?.id" routerLink="/my-book" class="list-group-item list-group-item-action text-center mx-4 p-2" title="Mon Carnet">
+    <!-- <div class="text-size">Mon Carnet</div> -->
     <i class="bi bi-book fa-fw me-3"></i>
-    <!-- <span>Mon Carnet</span> -->
   </a>
-  <a *ngIf="user?.id" routerLink="/my-events" class="list-group-item list-group-item-action text-center mx-4 p-2" title="Mes Events">
+  <a *ngIf="User?.id" routerLink="/my-events" class="list-group-item list-group-item-action text-center mx-4 p-2" title="Mes Events">
     <i class="bi bi-calendar-event fa-fw me-3"></i>
     <!-- <span>Mes Events</span> -->
   </a>
-  <a *ngIf="user?.id" routerLink="/my-clubs" class="list-group-item list-group-item-action text-center mx-4 p-2" title="Mes Clubs">
+  <a *ngIf="User?.id" routerLink="/my-clubs" class="list-group-item list-group-item-action text-center mx-4 p-2" title="Mes Clubs">
     <i class="bi bi-shop fa-fw me-3"></i>
     <!-- <span>Mes Clubs</span> -->
   </a>
-  <a *ngIf="user?.id" class="list-group-item list-group-item-action text-center mx-4 p-2" (click)="contactBarVisibility()" role="button" title="Mes Contacts">
+  <a *ngIf="User?.id" class="list-group-item list-group-item-action text-center mx-4 p-2" (click)="contactBarVisibility()" role="button" title="Mes Contacts">
     <i class="bi bi-person-fill-add fa-fw me-3"></i>
     <!-- <span>Contact</span> -->
   </a>

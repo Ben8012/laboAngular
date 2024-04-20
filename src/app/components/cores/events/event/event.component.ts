@@ -98,6 +98,12 @@ export class EventComponent implements OnInit {
     this._eventHttpService.getEventByUserId(id).subscribe({
       next : (data :any) =>{
         this._events = data
+        if(this._urlSegements[0].path === "my-events"){
+          this._events = this._events.filter((event : any) => new Date(event.startDate).getTime() >= this._today.getTime())
+        }
+        if(this._urlSegements[0].path === "my-book"){
+          this._events = this._events.filter((event : any) => new Date(event.startDate).getTime() < this._today.getTime())
+        }
         this.checkIfParticipe()
         this.formatEventForView()
         this.addLevelToView(this._events) 
@@ -112,6 +118,8 @@ export class EventComponent implements OnInit {
     this._eventHttpService.getAllEvent().subscribe({
       next : (data :any) =>{
         this._events = data
+        this._events = this._events.filter((event : any) => new Date(event.startDate).getTime() > this._today.getTime())
+        this._events = this._events.filter((event : any) => event.creator.id != this._user.id)
         this.checkIfParticipe()
         this._activateButtons = false
         if(this._urlSegements[0].path === "event" ){
@@ -132,28 +140,43 @@ export class EventComponent implements OnInit {
    private getUser() {
     this._session.$user.subscribe((user: any) => {
       this._user = user;
-      if(this._urlSegements.length > 0 && this._urlSegements[0].path === "my-events" && this._user.id){
+      console.log(this._user)
+      if(this._user.id && this._urlSegements.length > 0 && (this._urlSegements[0].path === "my-events" || this._urlSegements[0].path === "my-book" )){
         //console.log("my-events")
         this.getEventsByUserId(this._user.id)
         this._activateButtons = true
       }
+      
     })
   }
 
 
 
-  participe(id : any){
-      this._eventHttpService.participe(this._user.id,id).subscribe({
-        next : (data :any) =>{
-          this.getAllEvents()
-        },
-        error : (error) => {
-          console.log(error)
-        }}) ;
+  participe(event : any){
+      console.log(event)
+      let participe = false
+      event.demands.map((demand : any) => {
+        if(demand.id == this._user.id){
+          alert("vous avez deja fait une demande")
+          participe = true
+        }
+        else{
+          participe = false
+        }
+      })
+      if(!participe){
+        this._eventHttpService.participe(this._user.id,event.id).subscribe({
+          next : (data :any) =>{
+            this.getAllEvents()
+          },
+          error : (error) => {
+            console.log(error)
+          }}) ;
+      }
    }
 
-   unparticipe(id : any){
-    this._eventHttpService.unParticipe(this._user.id,id).subscribe({
+   unparticipe(event : any){
+    this._eventHttpService.unParticipe(this._user.id,event.id).subscribe({
       next : (data :any) =>{
         this.getAllEvents()
       },
@@ -165,7 +188,7 @@ export class EventComponent implements OnInit {
    checkIfParticipe(){
     this._events.forEach(event => {
         event.isParticipe = false
-        event.participes.forEach((p : any) => {
+        event.demands.forEach((p : any) => {
           if(p.id == this._user.id)
           event.isParticipe = true;
         })

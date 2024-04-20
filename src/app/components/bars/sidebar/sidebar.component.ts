@@ -20,10 +20,8 @@ export class SidebarComponent implements OnInit {
   get IsContactBarVisible() : boolean {return this._isContactBarVisible}
 
   private _user! : any
-  get user(): any  { return this._user; }
+  get User(): any  { return this._user; }
 
-  private _imageUrl : any
-  get ImageUrl(): any  { return this._imageUrl; }
 
   constructor(
     private _session : UserSessionService,
@@ -36,6 +34,7 @@ export class SidebarComponent implements OnInit {
   ngOnInit(): void {
     this._session.$user.subscribe((user :any) =>{
       this._user = user;
+      console.log(this._user)
       if(this._user.guidImage){
         this.getUserImage(user)
       }
@@ -47,7 +46,7 @@ export class SidebarComponent implements OnInit {
     this._imageHttpService.getProfilImage(user.guidImage).subscribe(imageData => {
       const reader = new FileReader();
       reader.onload = (e: any) => {
-        this._imageUrl = e.target.result;
+        this._user.imageProfil = e.target.result;
       }
       reader.readAsDataURL(imageData);
     });

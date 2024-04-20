@@ -13,6 +13,7 @@ import { MessageComponent } from './components/cores/message/message.component';
 import { FormEventComponent } from './components/cores/events/form-event/form-event.component';
 import { FormClubComponent } from './components/cores/clubs/form-club/form-club.component';
 import { FormSiteComponent } from './components/cores/sites/form-site/form-site.component';
+import { FormBookComponent } from './components/cores/events/form-book/form-book.component';
 
 const routes: Routes = [
   { path: '', component : HomeComponent},
@@ -40,6 +41,10 @@ const routes: Routes = [
   
   { path: 'update-club/:id', component : FormClubComponent},
   { path: 'insert-club', component : FormClubComponent},
+
+  { path: 'my-book', component : EventComponent},
+  { path: 'update-book/:id', component : FormBookComponent},
+  { path: 'insert-book/:id', component : FormBookComponent},
   
   { path: '**', component : HomeComponent},
 

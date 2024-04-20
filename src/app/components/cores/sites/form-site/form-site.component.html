@@ -16,8 +16,8 @@
 
         <label for="description">Description</label>
         <div class="mb-3 d-flex justify-content-center">
-            <input type="text" class="form-control w-50" [ngClass]="{'errors' : Name.invalid}"
-                formControlName="description" id="description" placeholder="Description">
+            <textarea  type="text" class="form-control w-50" [ngClass]="{'errors' : Name.invalid}"
+                formControlName="description" id="description" placeholder="Description"> </textarea>
         </div>
         <div class="mb-3 d-flex justify-content-center">
             <div *ngIf="Description.invalid && (Description.dirty || Description.touched)">

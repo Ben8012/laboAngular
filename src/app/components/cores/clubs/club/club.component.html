@@ -27,7 +27,7 @@
                     </tr> -->
                     <tr >
                         <td>
-                            <p class="text-underline">Organisations : <span>{{club.creator.organisation}}</span>  </p>
+                            <p class="text-underline">Fédération : <span>{{club.creator.organisation}}</span>  </p>
                         </td>
                     </tr>
                     <tr *ngIf="club.participes.length > 0" >
@@ -35,7 +35,7 @@
                     </tr>
                     <tr>
                         <td class="d-flex justify-content-around ">
-                            <p><span style="font-weight: bold;">Créateur :</span> {{club.creator.firstname}} {{club.creator.lastname}} </p>
+                            <p><span style="font-weight: bold;">Organisateur :</span> {{club.creator.firstname}} {{club.creator.lastname}} </p>
                             <p><span style="font-weight: bold;">Niveau :</span> {{club.creator.level}}</p> 
                         </td>
                         <td class="text-center"><button class="btn btn-light hover" (click)="creatorInfo(club.creator)">Info</button></td>

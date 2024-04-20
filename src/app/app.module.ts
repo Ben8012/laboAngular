@@ -32,6 +32,8 @@ import { ParticipatorTableComponent } from './components/view-parts/participator
 import { VoteComponent } from './components/view-parts/vote/vote.component';
 import { FormAdressComponent } from './components/view-parts/form-adress/form-adress.component';
 import { FormSiteComponent } from './components/cores/sites/form-site/form-site.component';
+import { FormBookComponent } from './components/cores/events/form-book/form-book.component';
+import { DivelogComponent } from './components/view-parts/divelog/divelog.component';
 
 
 @NgModule({
@@ -59,7 +61,9 @@ import { FormSiteComponent } from './components/cores/sites/form-site/form-site.
     ParticipatorTableComponent,
     VoteComponent,
     FormAdressComponent,
-    FormSiteComponent
+    FormSiteComponent,
+    FormBookComponent,
+    DivelogComponent
 
   ],
   imports: [

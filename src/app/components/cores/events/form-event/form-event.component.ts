@@ -119,7 +119,7 @@ export class FormEventComponent implements OnInit {
   this.formEvent.patchValue(form);
 }
 
- update() {
+ send() {
   this.formEvent.value.creatorId = this._user.id
   if (this.formEvent.valid) {
     if(this._id){

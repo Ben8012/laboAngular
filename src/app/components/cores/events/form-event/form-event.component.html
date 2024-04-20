@@ -1,5 +1,5 @@
 <div class="text-center">
-    <form class="border rounded p-2" [formGroup]="FormEvent" (ngSubmit)="update()" >
+    <form class="border rounded p-2" [formGroup]="FormEvent" (ngSubmit)="send()" >
         <label for="firstname">Nom</label>
         <div class="mb-3 d-flex justify-content-center" >
             <input type="text" class="form-control w-50" [ngClass]="{'errors' : Name.invalid}" formControlName="name"  id="Name" placeholder="name">
@@ -47,7 +47,7 @@
         </div> -->
     
         <div *ngIf="User.level=='Instructor'">
-          <label for="birthdate">Formation</label>
+          <label for="formation">Formation</label>
           <div class="mb-3 d-flex justify-content-center">
               <select formControlName="trainingId" class="form-select w-50">
                   <option *ngFor="let training of User.trainings" [value]="training.id">{{ training.organisation.name }} : {{ training.name }}</option>
@@ -55,7 +55,7 @@
           </div>
         </div>
 
-        <label for="birthdate">Club</label>
+        <label for="club">Club</label>
         <div class="mb-3 d-flex justify-content-center">
             <select formControlName="clubId" class="form-select w-50">
                 <option *ngFor="let club of User.clubs" [value]="club.id">{{ club.name }}</option>
