@@ -31,6 +31,10 @@ export class TrainingHttpService {
     return this.http.get(apiUrl+'UpdateMostLevel/'+id+'/'+userId)
   }
 
+  deleteUserTraining(trainingId :any, userId : any): Observable<any>{
+    return this.http.get(apiUrl+'DeleteUserTraining/'+trainingId+'/'+userId)
+  }
+
 
 
 }

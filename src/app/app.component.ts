@@ -15,8 +15,8 @@ export class AppComponent implements OnInit {
   private _phoneSize : boolean = true
   get PhoneSize() : boolean {return this._phoneSize}
 
-  private _user! : IUser
-  get User(): IUser { return this._user; }
+  private _user! : any
+  get User(): any { return this._user; }
 
   @HostListener('window:resize', ['$event'])
   onResize() {

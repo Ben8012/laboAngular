@@ -135,7 +135,6 @@ export class ProfilComponent {
           if(this._user.id){
             this.addToForm()
             this.getImages()
-            this.formLevel.value.userId = this._user.id
           }
           console.log(this._user)
           
@@ -173,6 +172,7 @@ export class ProfilComponent {
       }
     });
     this.formLevel.value.trainingId = event.target.value
+    this.formLevel.value.userId = this._user.id
   }
 
 
@@ -299,26 +299,40 @@ export class ProfilComponent {
   }
 
   level(){
-    
-    console.log(this.formLevel.value)
-    this._trainingHttpService.insertUserTraining(this.formLevel.value).subscribe({
+    console.log(this.formLevel)
+    console.log(this.formLevel.valid)
+    if(this.formLevel.valid){
+      this._trainingHttpService.insertUserTraining(this.formLevel.value).subscribe({
+        next: (data: any) => {
+          this._trainings = data
+          this._user = this._session.refreshUser(this._user.id)
+          if(this._user && this._user.id){
+            this.addToForm()
+            this.getImages()
+            this.formLevel.value.userId = this._user.id
+          }
+        },
+        error: (error) => {
+          console.log(error);
+        }
+      });
+    }
+  }
+
+  deletelevel(trainingId : any){
+    this._trainingHttpService.deleteUserTraining(trainingId,this._user.id).subscribe({
       next: (data: any) => {
         this._trainings = data
         this._user = this._session.refreshUser(this._user.id)
         if(this._user && this._user.id){
           this.addToForm()
           this.getImages()
-          this.formLevel.value.userId = this._user.id
         }
       },
       error: (error) => {
         console.log(error);
       }
     });
-  }
-
-  deletelevel(id : any){
-    console.log(id)
   }
 
   updatelevel(id : any){
@@ -329,7 +343,6 @@ export class ProfilComponent {
         if(this._user && this._user.id){
           this.addToForm()
           this.getImages()
-          this.formLevel.value.userId = this._user.id
         }
       },
       error: (error) => {

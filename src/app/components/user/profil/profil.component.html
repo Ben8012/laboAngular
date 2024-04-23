@@ -111,31 +111,36 @@
 
 
   <div *ngIf="User" class="mt-2 mb-4 border rounded">
-    <table class="table" >
-      <tr class="border"  *ngFor="let training of User.trainings">
+    <h6 class="m-3 text-center">Mes brevets</h6>
+  
+    <table class="table table-borderless" >
+      <tr class="border-bottom"  *ngFor="let training of User.trainings">
         <td class="text-center" [ngClass]="{'bold' : training.isMostLevel}">
           {{training.organisation.name }} {{training.name }}
         </td>
-        <td class="d-flex flex-row-reverse p-2">
-          <a class="btn btn-warning delete m-1" (click)="deletelevel(training.id)"><i class="bi bi-trash"></i></a>
+        <td class="d-flex flex-row-reverse p-1">
+          <a class="btn btn-warning delete m-1 border" (click)="deletelevel(training.id)"><i class="bi bi-trash"></i></a>
           <a *ngIf="!training.isMostLevel" class="btn btn-light hover m-1 border" (click)="updatelevel(training.id)"><i class="bi bi-eye"></i></a>
         </td>
       </tr>
     </table>
    
 
-    <label for="">Organisation</label>
+   <h6 class="mb-3">Ajouter des brevets</h6>
+    <!-- <label for="">Organisation</label> -->
     <div class="mb-3 d-flex justify-content-center">
       <select class="form-select w-50" (change)="onSelectedOrganisationId($event)">
+        <option disabled selected>Organisation</option>
         <option *ngFor="let organisation of Organisations" [value]="organisation.id">{{
           organisation.name }}</option>
       </select>
     </div>
 
    
-    <label for="diveplace">Niveau</label>
+    <!-- <label for="diveplace">Niveau</label> -->
     <div class="mb-3 d-flex justify-content-center">
       <select class="form-select w-50" (change)="onSelectedTrainingId($event)">
+        <option disabled selected>Niveau</option>
         <option *ngFor="let training of Trainings" [value]="training.id">{{ training.name }}</option>
       </select>
     </div>
@@ -144,7 +149,7 @@
       <label for="refNumber">Numéro de réference</label>
       <div class="mb-3 d-flex justify-content-center">
         <input type="text" class="form-control w-50"  formControlName="refNumber"
-          id="refNumber" placeholder="refNumber">
+          id="refNumber" placeholder="Numéro de réference">
       </div>
 
       <!-- <label for="isMostLevel">Niveau a afficher</label>

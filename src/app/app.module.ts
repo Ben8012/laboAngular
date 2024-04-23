@@ -34,6 +34,7 @@ import { FormAdressComponent } from './components/view-parts/form-adress/form-ad
 import { FormSiteComponent } from './components/cores/sites/form-site/form-site.component';
 import { FormBookComponent } from './components/cores/events/form-book/form-book.component';
 import { DivelogComponent } from './components/view-parts/divelog/divelog.component';
+import { AdminbarComponent } from './components/bars/adminbar/adminbar.component';
 
 
 @NgModule({
@@ -41,6 +42,7 @@ import { DivelogComponent } from './components/view-parts/divelog/divelog.compon
     AppComponent,
     SidebarComponent,
     NavbarComponent,
+    AdminbarComponent,
     ContactbarComponent,
     ContactComponent,
     HomeComponent,

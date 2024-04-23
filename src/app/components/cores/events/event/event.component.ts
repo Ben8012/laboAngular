@@ -306,16 +306,17 @@ export class EventComponent implements OnInit {
      }
   
      private addLevelToView(events :any){
-      events.forEach((club : any) => {
-        club.creator.trainings.forEach((training : any) =>{
+      console.log('ici')
+      events.forEach((event : any) => {
+        event.creator.trainings.forEach((training : any) =>{
           if(training.isMostLevel == true){
-            club.creator.level = training.name
-            club.creator.organisation = training.organisation.name
+            event.creator.level = training.name
+            event.creator.organisation = training.organisation.name
           }
         });
-        this.addMostLevel(club.creator.friends)
-        this.addMostLevel(club.creator.likeds)
-        this.addMostLevel(club.creator.likers)
+        this.addMostLevel(event.creator.friends)
+        this.addMostLevel(event.creator.likeds)
+        this.addMostLevel(event.creator.likers)
       });
      }
 

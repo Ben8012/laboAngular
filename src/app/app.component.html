@@ -17,6 +17,7 @@
  <div >
 
     <app-navbar></app-navbar>
+    <app-adminbar *ngIf="User && (User.role=='admin' || User.role=='super admin')"></app-adminbar>
     <app-sidebar class="mt-2" ></app-sidebar>
     <div class="container mt-2 ">
       <router-outlet></router-outlet>
