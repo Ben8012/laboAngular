@@ -1,112 +1,165 @@
+<div class="text-center ">
 
-  <div class="text-center ">
-    
-      <form class="border rounded p-2" [formGroup]="FormProfil" (ngSubmit)="update()" >
-        <div class="mb-3 d-flex justify-content-center " >
-          <a class=" btn btn-light text-center p-2 m-2 w-25 border rounded" (click)="Logout()" title="Logout">
-            <span>Logout </span>
-            <i class="bi bi-box-arrow-left fa-fw me-3"></i>
-          </a>
-        </div>
-      
-        <label for="firstname">Prénom</label>
-        <div class="mb-3 d-flex justify-content-center" >
-            <input type="text" class="form-control w-50" [ngClass]="{'errors' : Firstname.invalid}" formControlName="firstname"  id="firstname" placeholder="Firstname">
-        </div>
-        <div class="mb-3 d-flex justify-content-center" >
-          <div *ngIf="Firstname.invalid && (Firstname.dirty || Firstname.touched)" >
-            <div class="errors" *ngIf="Firstname.errors['required']">le prénom est requis</div>
-            <div class="errors" *ngIf="Firstname.errors['minlength']">longueur minimum doit etre de 3 characteres </div>
-            <div class="errors" *ngIf="Firstname.errors['maxlength']">longueur maximum ne peut depasser 250 characteres</div>
-          </div>      
-        </div>
-        
-    
-        <label for="lastname">Nom</label>
-        <div class="mb-3 d-flex justify-content-center">
-            <input type="text" class="form-control w-50" [ngClass]="{'errors' : Lastname.invalid}" formControlName="lastname"  id="lastname" placeholder="Lastname" >
-        </div>
-        <div class="mb-3 d-flex justify-content-center">
-          <div *ngIf="Lastname.invalid && (Lastname.dirty || Lastname.touched)">
-            <div class="errors" *ngIf="Lastname.errors['required']">le nom est requis</div>
-            <div class="errors" *ngIf="Lastname.errors['minlength']">longueur minimum doit etre de 4 characteres </div>
-            <div class="errors" *ngIf="Lastname.errors['maxlength']">longueur maximum ne peut depasser 250 characteres</div>
-          </div>
-        </div>
-        
-    
-        <label for="birthdate">Date de naissance</label>
-        <div class="mb-3 d-flex justify-content-center">
-            <input type="date" class="form-control w-50" [ngClass]="{'errors' : Birthdate.invalid}" formControlName="birthdate"  id="birthdate" placeholder="Birthdate" >           
-        </div>
-        <div class="mb-3 d-flex justify-content-center">
-          <div *ngIf="Birthdate.invalid && (Birthdate.dirty || Birthdate.touched)">
-            <div class="errors" *ngIf="Birthdate.errors['required']">la date de naissance est requise</div>
-          </div>          
-        </div>
-        
-    
-        <label for="email">E-mail</label>
-        <div class="mb-3 d-flex justify-content-center">
-            <input type="email" class="form-control w-50" [ngClass]="{'errors' : Email.invalid}" formControlName="email"  id="email" placeholder="Email">       
-        </div>
-        <div class="mb-3 d-flex justify-content-center">
-          <div *ngIf="Email.invalid && (Email.dirty || Email.touched)">
-            <div class="errors" *ngIf="Email.errors['required']">l'e-mail est requis</div>
-            <div class="errors" *ngIf="Email.errors['email']">l'e-mail n'est pas conforme a une adresse mail</div>
-          </div>     
-      </div>
-        
-        <button type="submit" class="btn btn-dark">Changer</button>
-      </form>
-    
-   
-      <div class="mt-2 border rounded">
-        <div>
-          <img *ngIf="User.imageProfil" [src]="User.imageProfil" class="p-2" height="250vh"alt="Avatar" loading="lazy" />
-        </div>
-        <label for="image">Profil</label>
-        <div class="mb-3 d-flex justify-content-center m-2">
-            <input type="file" (change)="onFileSelectedPhoto($event)" class="form-control w-50 m-2" 
-            id="image" placeholder="image"
-            enctype="multipart/form-data">
-            <button type="submit" class="btn btn-dark m-2" (click)="addPhoto()">Changer</button>
-        </div>
+  <form class="border rounded p-2" [formGroup]="FormProfil" (ngSubmit)="update()">
+    <div class="mb-3 d-flex justify-content-center ">
+      <a class=" btn btn-light text-center p-2 m-2 w-25 border rounded" (click)="Logout()" title="Logout">
+        <span>Logout </span>
+        <i class="bi bi-box-arrow-left fa-fw me-3"></i>
+      </a>
+    </div>
 
-        <div>
-          <img *ngIf="User.imageInsurance" [src]="User.imageInsurance" class="p-2" height="250vh"alt="Avatar" loading="lazy" />
-        </div>
-        <label for="image">Assurance</label>
-        <div class="mb-3 d-flex justify-content-center m-2">
-            <input type="file" (change)="onFileSelectedInsurance($event)" class="form-control w-50 m-2" 
-            id="insurance" placeholder="insurance"
-            enctype="multipart/form-data">
-            <button type="submit" class="btn btn-dark m-2" (click)="addInsurance()">Changer</button>
-        </div>
-
-        <div>
-          <img *ngIf="User.imageLevel" [src]="User.imageLevel" class="p-2" height="250vh"alt="Avatar" loading="lazy" />
-        </div>
-        <label for="image">Niveau</label>
-        <div class="mb-3 d-flex justify-content-center m-2">
-            <input type="file" (change)="onFileSelectedLevel($event)" class="form-control w-50 m-2" 
-            id="level" placeholder="level"
-            enctype="multipart/form-data">
-            <button type="submit" class="btn btn-dark m-2" (click)="addLevel()">Changer</button>
-        </div>
-
-        <div>
-          <img *ngIf="User.imageCertificat" [src]="User.imageCertificat" class="p-2" height="250vh"alt="Avatar" loading="lazy" />
-        </div>
-        <label for="image">Certificat</label>
-        <div class="mb-3 d-flex justify-content-center m-2">
-            <input type="file" (change)="onFileSelectedCertificat($event)" class="form-control w-50 m-2" 
-            id="certificat" placeholder="certificat"
-            enctype="multipart/form-data">
-            <button type="submit" class="btn btn-dark m-2" (click)="addCertificate()">Changer</button>
+    <label for="firstname">Prénom</label>
+    <div class="mb-3 d-flex justify-content-center">
+      <input type="text" class="form-control w-50" [ngClass]="{'errors' : Firstname.invalid}"
+        formControlName="firstname" id="firstname" placeholder="Firstname">
+    </div>
+    <div class="mb-3 d-flex justify-content-center">
+      <div *ngIf="Firstname.invalid && (Firstname.dirty || Firstname.touched)">
+        <div class="errors" *ngIf="Firstname.errors['required']">le prénom est requis</div>
+        <div class="errors" *ngIf="Firstname.errors['minlength']">longueur minimum doit etre de 3 characteres </div>
+        <div class="errors" *ngIf="Firstname.errors['maxlength']">longueur maximum ne peut depasser 250 characteres
         </div>
       </div>
-    
- 
+    </div>
+
+
+    <label for="lastname">Nom</label>
+    <div class="mb-3 d-flex justify-content-center">
+      <input type="text" class="form-control w-50" [ngClass]="{'errors' : Lastname.invalid}" formControlName="lastname"
+        id="lastname" placeholder="Lastname">
+    </div>
+    <div class="mb-3 d-flex justify-content-center">
+      <div *ngIf="Lastname.invalid && (Lastname.dirty || Lastname.touched)">
+        <div class="errors" *ngIf="Lastname.errors['required']">le nom est requis</div>
+        <div class="errors" *ngIf="Lastname.errors['minlength']">longueur minimum doit etre de 4 characteres </div>
+        <div class="errors" *ngIf="Lastname.errors['maxlength']">longueur maximum ne peut depasser 250 characteres</div>
+      </div>
+    </div>
+
+
+    <label for="birthdate">Date de naissance</label>
+    <div class="mb-3 d-flex justify-content-center">
+      <input type="date" class="form-control w-50" [ngClass]="{'errors' : Birthdate.invalid}"
+        formControlName="birthdate" id="birthdate" placeholder="Birthdate">
+    </div>
+    <div class="mb-3 d-flex justify-content-center">
+      <div *ngIf="Birthdate.invalid && (Birthdate.dirty || Birthdate.touched)">
+        <div class="errors" *ngIf="Birthdate.errors['required']">la date de naissance est requise</div>
+      </div>
+    </div>
+
+
+    <label for="email">E-mail</label>
+    <div class="mb-3 d-flex justify-content-center">
+      <input type="email" class="form-control w-50" [ngClass]="{'errors' : Email.invalid}" formControlName="email"
+        id="email" placeholder="Email">
+    </div>
+    <div class="mb-3 d-flex justify-content-center">
+      <div *ngIf="Email.invalid && (Email.dirty || Email.touched)">
+        <div class="errors" *ngIf="Email.errors['required']">l'e-mail est requis</div>
+        <div class="errors" *ngIf="Email.errors['email']">l'e-mail n'est pas conforme a une adresse mail</div>
+      </div>
+    </div>
+
+    <button type="submit" class="btn btn-dark">Changer</button>
+  </form>
+
+
+  <div class="mt-2 border rounded">
+    <div>
+      <img *ngIf="User && User.imageProfil" [src]="User.imageProfil" class="p-2" height="250vh" alt="Avatar" loading="lazy" />
+    </div>
+    <label for="image">Profil</label>
+    <div class="mb-3 d-flex justify-content-center m-2">
+      <input type="file" (change)="onFileSelectedPhoto($event)" class="form-control w-50 m-2" id="image"
+        placeholder="image" enctype="multipart/form-data">
+      <button type="submit" class="btn btn-dark m-2" (click)="addPhoto()">Changer</button>
+    </div>
+
+    <div>
+      <img *ngIf="User && User.imageInsurance" [src]="User.imageInsurance" class="p-2" height="250vh" alt="Avatar"
+        loading="lazy" />
+    </div>
+    <label for="image">Assurance</label>
+    <div class="mb-3 d-flex justify-content-center m-2">
+      <input type="file" (change)="onFileSelectedInsurance($event)" class="form-control w-50 m-2" id="insurance"
+        placeholder="insurance" enctype="multipart/form-data">
+      <button type="submit" class="btn btn-dark m-2" (click)="addInsurance()">Changer</button>
+    </div>
+
+    <div>
+      <img *ngIf="User && User.imageLevel" [src]="User.imageLevel" class="p-2" height="250vh" alt="Avatar" loading="lazy" />
+    </div>
+    <label for="image">Niveau</label>
+    <div class="mb-3 d-flex justify-content-center m-2">
+      <input type="file" (change)="onFileSelectedLevel($event)" class="form-control w-50 m-2" id="level"
+        placeholder="level" enctype="multipart/form-data">
+      <button type="submit" class="btn btn-dark m-2" (click)="addLevel()">Changer</button>
+    </div>
+
+    <div>
+      <img *ngIf="User && User.imageCertificat" [src]="User.imageCertificat" class="p-2" height="250vh" alt="Avatar"
+        loading="lazy" />
+    </div>
+    <label for="image">Certificat</label>
+    <div class="mb-3 d-flex justify-content-center m-2">
+      <input type="file" (change)="onFileSelectedCertificat($event)" class="form-control w-50 m-2" id="certificat"
+        placeholder="certificat" enctype="multipart/form-data">
+      <button type="submit" class="btn btn-dark m-2" (click)="addCertificate()">Changer</button>
+    </div>
   </div>
 
+
+  <div *ngIf="User" class="mt-2 mb-4 border rounded">
+    <table class="table" >
+      <tr class="border"  *ngFor="let training of User.trainings">
+        <td class="text-center" [ngClass]="{'bold' : training.isMostLevel}">
+          {{training.organisation.name }} {{training.name }}
+        </td>
+        <td class="d-flex flex-row-reverse p-2">
+          <a class="btn btn-warning delete m-1" (click)="deletelevel(training.id)"><i class="bi bi-trash"></i></a>
+          <a *ngIf="!training.isMostLevel" class="btn btn-light hover m-1 border" (click)="updatelevel(training.id)"><i class="bi bi-eye"></i></a>
+        </td>
+      </tr>
+    </table>
+   
+
+    <label for="">Organisation</label>
+    <div class="mb-3 d-flex justify-content-center">
+      <select class="form-select w-50" (change)="onSelectedOrganisationId($event)">
+        <option *ngFor="let organisation of Organisations" [value]="organisation.id">{{
+          organisation.name }}</option>
+      </select>
+    </div>
+
+   
+    <label for="diveplace">Niveau</label>
+    <div class="mb-3 d-flex justify-content-center">
+      <select class="form-select w-50" (change)="onSelectedTrainingId($event)">
+        <option *ngFor="let training of Trainings" [value]="training.id">{{ training.name }}</option>
+      </select>
+    </div>
+
+    <form [formGroup]="FormLevel" (ngSubmit)="level()">
+      <label for="refNumber">Numéro de réference</label>
+      <div class="mb-3 d-flex justify-content-center">
+        <input type="text" class="form-control w-50"  formControlName="refNumber"
+          id="refNumber" placeholder="refNumber">
+      </div>
+
+      <!-- <label for="isMostLevel">Niveau a afficher</label>
+      <div class="mb-3 d-flex flex-column">
+          <label>
+              <input type="radio" formControlName="isMostLevel" value="1"> Oui
+          </label>
+          <label>
+              <input type="radio" formControlName="isMostLevel" value="0"> Non
+          </label>
+      </div> -->
+  
+      <button type="submit" class="btn btn-dark mb-2">Changer</button>
+    </form>
+  </div>
+
+
+</div>

@@ -23,7 +23,7 @@ export class UserSessionService implements OnInit {
   ngOnInit(): void {
   }
 
-  saveSession(user: IUser) {
+  saveSession(user: any) {
       localStorage.clear();
       localStorage.setItem('token', JSON.stringify(user.token))
       this.$user.next(user);
@@ -45,7 +45,13 @@ export class UserSessionService implements OnInit {
 
   refreshUser(id : any){
       this._userHttpService.getUserById(id).subscribe({
-        next : (data :IUser) =>{
+        next : (data :any) =>{
+          data.trainings.map((training : any)=>{
+            if(training.isMostLevel ==  true){
+              data.level = training.name
+              data.organisation = training.organisation.name
+            }
+          })
           this.saveSession(data)
           return data
         },

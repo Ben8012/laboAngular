@@ -52,7 +52,7 @@ export class AppComponent implements OnInit {
             })
             this._session.$user.next(user)
             this._user = user;
-            console.log(user)
+            // console.log(user)
           }else{
             this._session.$user.next({}as any)
           }

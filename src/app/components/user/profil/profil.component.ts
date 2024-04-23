@@ -6,6 +6,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { UserSessionService } from 'src/app/services/session/user-session.service';
 import { UserHttpService } from 'src/app/services/http/user.http.service';
 import { ImageHttpService } from 'src/app/services/http/image.http.service';
+import { OrganisationHttpService } from 'src/app/services/http/organisation.http.service';
+import { Flevel } from 'src/app/models/forms/level.form';
+import { TrainingHttpService } from 'src/app/services/http/training.http.service';
 
 
 @Component({
@@ -24,13 +27,26 @@ export class ProfilComponent {
   get User(): any { return this._user; }
   private _user: any|null = null;
 
+
+  private _organisations: any
+  get Organisations(): any[] { return this._organisations; }
+
+  private _trainings: any
+  get Trainings(): any[] { return this._trainings; }
+
   private formProfil: FormGroup = FProfil();
   get FormProfil(): FormGroup { return this.formProfil; }
 
+  private formLevel: FormGroup = Flevel();
+  get FormLevel(): FormGroup { return this.formLevel; }
+  
   get Lastname():any {return this.formProfil.get('lastname');}
   get Firstname():any {return this.formProfil.get('firstname');}
   get Email():any {return this.formProfil.get('email');}
   get Birthdate():any {return this.formProfil.get('birthdate');}
+
+  get IsMostLevel():any {return this.formLevel.get('isMostLevel');}
+  get RefNumber():any {return this.formProfil.get('refNumber');}
 
   // private _imageInsurance : any
   // get ImageInsurance(): any  { return this._imageInsurance; }
@@ -51,12 +67,15 @@ export class ProfilComponent {
     private _session : UserSessionService,
     private _userHttpService : UserHttpService,
     private _imageHttpService : ImageHttpService,
+    private _organisationHttpService : OrganisationHttpService,
+    private _trainingHttpService : TrainingHttpService
   
     )
   {}
 
   ngOnInit() {
     this.getUser();
+    this.getAllOrganisation()
   }
 
   private getImages(){
@@ -116,6 +135,7 @@ export class ProfilComponent {
           if(this._user.id){
             this.addToForm()
             this.getImages()
+            this.formLevel.value.userId = this._user.id
           }
           console.log(this._user)
           
@@ -141,6 +161,20 @@ export class ProfilComponent {
   onFileSelectedCertificat(event :any): void {
     this.selectedFileCertificat = event.target.files[0];
   }
+
+  onSelectedOrganisationId(event :any): void {
+    this.getTrainings(event.target.value)
+  }
+
+  onSelectedTrainingId(event :any): void {
+    this._user.trainings.forEach((training: any) => {
+      if(training.id == event.target.value){
+        alert("vous avez deja ce niveau")
+      }
+    });
+    this.formLevel.value.trainingId = event.target.value
+  }
+
 
   Logout(){
     this._session.clearSession();
@@ -233,6 +267,70 @@ export class ProfilComponent {
     this._imageHttpService.insertCertificatImage(formData,this._user.id).subscribe({
       next: (data: any) => {
         this._session.refreshUser(this._user.id)
+      },
+      error: (error) => {
+        console.log(error);
+      }
+    });
+  }
+
+  private getAllOrganisation(){
+    this._organisationHttpService.getAll().subscribe({
+      next: (data: any) => {
+        this._organisations = data
+        console.log(this._organisations)
+      },
+      error: (error) => {
+        console.log(error);
+      }
+    });
+  }
+
+  private getTrainings(id : any){
+    this._trainingHttpService.getByOrganisationId(id).subscribe({
+      next: (data: any) => {
+        this._trainings = data
+        console.log(this._trainings)
+      },
+      error: (error) => {
+        console.log(error);
+      }
+    });
+  }
+
+  level(){
+    
+    console.log(this.formLevel.value)
+    this._trainingHttpService.insertUserTraining(this.formLevel.value).subscribe({
+      next: (data: any) => {
+        this._trainings = data
+        this._user = this._session.refreshUser(this._user.id)
+        if(this._user && this._user.id){
+          this.addToForm()
+          this.getImages()
+          this.formLevel.value.userId = this._user.id
+        }
+      },
+      error: (error) => {
+        console.log(error);
+      }
+    });
+  }
+
+  deletelevel(id : any){
+    console.log(id)
+  }
+
+  updatelevel(id : any){
+    this._trainingHttpService.updateMostLevel(id,this._user.id).subscribe({
+      next: (data: any) => {
+        this._trainings = data
+        this._user = this._session.refreshUser(this._user.id)
+        if(this._user && this._user.id){
+          this.addToForm()
+          this.getImages()
+          this.formLevel.value.userId = this._user.id
+        }
       },
       error: (error) => {
         console.log(error);

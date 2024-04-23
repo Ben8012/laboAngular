@@ -14,10 +14,13 @@
             </div>
         </div>
 
-        <label for="birthdate">Organistation</label>
-        <div class="mb-3 d-flex justify-content-center" *ngFor="let organisation of User.organisations">
-            {{ organisation.name }}
+        <div  *ngIf="UrlSegements=='update-club'" >
+            <label for="birthdate">Organistation</label>
+            <div class="mb-3 d-flex justify-content-center" >
+                {{ User.organisation }}
+            </div>
         </div>
+
         <div>
             <a class="btn btn-dark mb-3" (click)="toggleAddressForm()">
                 <span *ngIf="!showAddressForm && UrlSegements == 'update-club'">Modifier une adresse</span>

@@ -49,6 +49,11 @@ export class UserHttpService {
     return this.http.post(apiUrl+"UnLike",send)
   }
 
+  deletelike(likerId : number, likedId : number) : Observable<any>{
+    const send = { LikerId : likerId, LikedId : likedId}
+    return this.http.post(apiUrl+"DeleteLike",send)
+  }
+
   getUserByToken(token : string) : Observable<any>{
     const send = { TokenString : token}
     return this.http.post(apiUrl+'Token',send)

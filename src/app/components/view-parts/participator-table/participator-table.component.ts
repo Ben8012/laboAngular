@@ -3,6 +3,8 @@ import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core
 import { drawRectangle } from 'pdf-lib';
 import { ClubHttpService } from 'src/app/services/http/club.http.service';
 import { EventHttpService } from 'src/app/services/http/event.http.servive';
+import { UserHttpService } from 'src/app/services/http/user.http.service';
+import { UserSessionService } from 'src/app/services/session/user-session.service';
 
 @Component({
   selector: 'app-participator-table',
@@ -27,7 +29,9 @@ export class ParticipatorTableComponent implements OnInit {
 
   constructor(
     private _eventHttpService : EventHttpService,
-    private _clubHttpService : ClubHttpService
+    private _clubHttpService : ClubHttpService,
+    private _userHttpService : UserHttpService,
+    private _session : UserSessionService
   ) {}
 
   ngOnInit(): void {
@@ -38,7 +42,25 @@ export class ParticipatorTableComponent implements OnInit {
 
     this.formatDate(this._participators)
     this.formatDate(this._demands)
+    // console.log(this.Element)
+    this.checkIfFriend()
+  }
 
+
+  private checkIfFriend(){
+    this.User.friends.forEach((friend : any) => {
+      this._participators.forEach((participator : any)=> {
+        if(participator.id == friend.id){
+          participator.isUserFriend = true
+        }
+      })
+     
+      this._demands.map((demand : any)=> {
+        if(demand.id == friend.id){
+          demand.isUserFriend = true
+        }
+      })
+    })
   }
 
   private formatDate(elements : any){
@@ -124,4 +146,13 @@ export class ParticipatorTableComponent implements OnInit {
       console.log(this._participators)
       console.log(this._demands)
     }
+
+    like(likedId: number) {
+      this._userHttpService.like(this.User.id, likedId).subscribe((data: any[]) => {
+        if(this.User && this.User.id){
+          this.User = this._session.refreshUser(this.User.id)
+        }
+      });
+    }
+  
  }

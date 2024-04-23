@@ -1,8 +1,13 @@
 .hover:hover{
-  background-color: lightgray;
+  background-color: lightgreen;
   border-radius: 5px;
 }
 
 .border-bottom{
   border-bottom: solid 1px lightgray;
+}
+
+.delete:hover{
+  background-color: orange;
+  border-radius: 5px;
 }

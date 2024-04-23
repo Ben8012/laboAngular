@@ -6,12 +6,12 @@ export const FEvent = function () {
         id : new FormControl(null),
         name: new FormControl(null,[Validators.required, Validators.minLength(3),Validators.maxLength(50)]),
         startdate: new FormControl(null,[Validators.required]),
-        enddate: new FormControl(null,[Validators.required]),
+        enddate: new FormControl(null),
         diveplaceId: new FormControl(null,[Validators.required] ),
         trainingId: new FormControl(null),
         clubId: new FormControl(null),
         creatorId: new FormControl(null),
     },
-    [ dateComparisonValidator('startdate', 'enddate') ]
+    // [ dateComparisonValidator('startdate', 'enddate') ]
    )
 }

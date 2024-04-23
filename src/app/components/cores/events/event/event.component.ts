@@ -188,7 +188,7 @@ export class EventComponent implements OnInit {
    checkIfParticipe(){
     this._events.forEach(event => {
         event.isParticipe = false
-        event.demands.forEach((p : any) => {
+        event.participes.forEach((p : any) => {
           if(p.id == this._user.id)
           event.isParticipe = true;
         })

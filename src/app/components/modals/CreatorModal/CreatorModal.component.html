@@ -6,10 +6,8 @@
                 <button mat-button class="btn btn-light " (click)="onClose()"><i class="bi bi-x-square"></i></button>
             </div>
             <hr>
-            <h6 class="text-underline text-center">Organisations :</h6>
-            <div *ngFor="let oragnisation of modalData.organisations">
-                <li>{{oragnisation.name}}</li>
-            </div>
+            <h6 class="text-underline text-center">{{modalData.organisation}} : {{modalData.level}}</h6>
+                
             <hr>
             <h6 class="text-underline text-center">Clubs :</h6>
             <div *ngFor="let club of modalData.clubs">

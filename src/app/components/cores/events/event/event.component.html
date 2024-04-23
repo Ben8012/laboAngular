@@ -17,6 +17,10 @@
                     <button *ngIf="User.id && UrlSegements=='my-events' && User.id == event.creator.id" class="btn btn-danger hover m-1" (click)="deleteEvent(event)"><i class="bi bi-trash"></i></button>
                 </td>
             </tr>
+            <tr *ngIf="event.training">
+                <td class=" text-center my-2"><span style="font-weight: bold;">Formation :</span> {{event.training.organisation.name}} {{event.training.name}}</td>
+                <td class="text-center"><button class="btn btn-light hover" (click)="trainingInfo(event.training)"><i class="bi bi-info-circle"></i></button></td>
+            </tr>
             <tr>
                 <td class="text-center">
                     <p>Lieu : {{event.diveplace.name}}</p>
@@ -28,7 +32,7 @@
                 <td>
                     <app-divelog [UrlSegements]="UrlSegements" [User]="User" [Element]="event.divelog"></app-divelog>
                 </td>
-                <td>
+                <td class="text-center">
                     <button *ngIf="User.id && UrlSegements=='my-book'  && !event.divelog" class="btn btn-primary hover m-3" routerLink="/insert-book/{{event.id}}"><i class="bi bi-plus-square"></i></button>
                     <button *ngIf="User.id && UrlSegements=='my-book'  && event.divelog" class="btn btn-warning hover m-3" routerLink="/update-book/{{event.id}}"><i class="bi bi-arrow-clockwise"></i></button>
                 </td>
@@ -44,17 +48,14 @@
                 <td class="text-center"><button class="btn btn-light hover" (click)="creatorInfo(event.creator)"><i class="bi bi-info-circle"></i></button></td>
             </tr>
             <tr *ngIf="event.club">
-                <td>Club : {{event.club.name}}</td>
+                <td class="text-center"><span style="font-weight: bold;">Club :</span> {{event.club.name}}</td>
                 <td class="text-center"><button class="btn btn-light hover" (click)="clubInfo(event.club)"><i class="bi bi-info-circle"></i></button></td>
             </tr>
-            <tr *ngIf="event.training">
-                <td>Formation : {{event.training.name}}</td>
-                <td class="text-center"><button class="btn btn-light hover" (click)="trainingInfo(event.training)"><i class="bi bi-info-circle"></i></button></td>
-            </tr>
-            <tr *ngIf="event.organisation" >
-                <td >Fédération : {{event.organisation.name}}</td>
+         
+            <!-- <tr *ngIf="event.organisation" >
+                <td >Fédération : {{event.training.organisation.name}}</td>
                 <td class="text-center"><button class="btn btn-light hover" (click)="organisationInfo(event.organisation)"><i class="bi bi-info-circle"></i></button></td>
-            </tr>
+            </tr> -->
         </tbody>
     </table>
 </div>    

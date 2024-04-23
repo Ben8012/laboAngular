@@ -34,7 +34,7 @@ export class SidebarComponent implements OnInit {
   ngOnInit(): void {
     this._session.$user.subscribe((user :any) =>{
       this._user = user;
-      console.log(this._user)
+     // console.log(this._user)
       if(this._user.guidImage){
         this.getUserImage(user)
       }

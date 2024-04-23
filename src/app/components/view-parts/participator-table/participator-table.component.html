@@ -16,8 +16,8 @@
     <th class="border">
       <p class="text-underline text-center m-auto">Niveau </p>
     </th>
-    <th *ngIf="User.id" class="border">
-      <p class="text-underline text-center m-auto">Message </p>
+    <th *ngIf="User && User.id" class="border">
+      <p class="text-underline text-center m-auto">Ami </p>
     </th>
     <th *ngIf="UrlSegements =='my-clubs'|| 
                 UrlSegements =='my-events'"
@@ -59,17 +59,18 @@
 
 
 
-    <td *ngIf="User.id && participe.id != User.id" class="text-center border">
-      <a class="btn btn-light" [routerLink]="'/message/'+participe.id"><i class="bi bi-chat-text"></i></a>
+    <td *ngIf="User && User.id && participe.id != User.id" class="text-center border">
+      <a *ngIf="participe.isUserFriend" class="btn btn-light" [routerLink]="'/message/'+participe.id"><i class="bi bi-chat-text"></i></a>
+      <a *ngIf="!participe.isUserFriend" class="btn btn-light m-2" (click)="like(participe.id)"><i class="bi bi-emoji-smile"></i></a>
     </td>
-    <td *ngIf="User.id && participe.id == User.id" class="text-center border">
+    <td *ngIf="User && User.id && participe.id == User.id" class="text-center border">
       <i class="bi bi-x"></i>
     </td>
 
-    <td [ngClass]="{'text-center border': User.id && UrlSegements =='my-clubs' || User.id && UrlSegements =='my-events'}">
+    <td [ngClass]="{'text-center border':User && User.id && UrlSegements =='my-clubs' ||User && User.id && UrlSegements =='my-events'}">
       <ng-container
-        *ngIf="User.id == Element.creator.id &&  Element.creator.id != participe.id && UrlSegements =='my-clubs' || 
-                User.id == Element.creator.id && Element.creator.id != participe.id && UrlSegements =='my-events'; 
+        *ngIf=" User && User.id == Element.creator.id &&  Element.creator.id != participe.id && UrlSegements =='my-clubs' || 
+                User && User.id == Element.creator.id && Element.creator.id != participe.id && UrlSegements =='my-events'; 
                 else checkParticpe">
         <a (click)="erase(participe.id,Element.id)" class="btn btn-light">-</a>
       </ng-container>
@@ -103,8 +104,8 @@
       <th class="border">
         <p class="text-underline text-center m-auto">Niveau </p>
       </th>
-      <th *ngIf="User.id" class="border">
-        <p class="text-underline text-center m-auto">Message </p>
+      <th *ngIf="User && User.id" class="border">
+        <p class="text-underline text-center m-auto">Ami </p>
       </th>
       <th *ngIf="UrlSegements =='my-clubs'|| 
                   UrlSegements =='my-events'"
@@ -145,16 +146,17 @@
       </td>
 
 
-      <td *ngIf="User.id && demand.id != User.id" class="text-center border">
-        <a class="btn btn-light" [routerLink]="'/message/'+demand.id"><i class="bi bi-chat-text"></i></a>
+      <td *ngIf="User && User.id && demand.id != User.id" class="text-center border">
+        <a *ngIf="demand.isUserFriend" class="btn btn-light" [routerLink]="'/message/'+demand.id"><i class="bi bi-chat-text"></i></a>
+        <a *ngIf="!demand.isUserFriend" class="btn btn-light m-2" (click)="like(demand.id)"><i class="bi bi-emoji-smile"></i></a>
       </td>
-      <td *ngIf="User.id && demand.id == User.id" class="text-center border">
+      <td *ngIf="User && User.id && demand.id == User.id && demand.isUserFriend" class="text-center border">
         <i class="bi bi-x"></i>
       </td>
       
-      <td [ngClass]="{'text-center border': User.id && UrlSegements =='my-clubs' || UrlSegements =='my-events'}">
+      <td [ngClass]="{'text-center border':User && User.id && (UrlSegements =='my-clubs' || UrlSegements =='my-events')}">
         <ng-container
-          *ngIf="User.id == Element.creator.id && Element.creator.id != demand.id && 
+          *ngIf=" User && User.id == Element.creator.id && Element.creator.id != demand.id && 
                             (UrlSegements =='my-clubs' ||  UrlSegements =='my-events')
                   ; else checkDemand">
           <a (click)="add(demand.id,Element.id)" class="btn btn-light">+</a>

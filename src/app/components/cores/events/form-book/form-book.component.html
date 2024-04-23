@@ -3,27 +3,27 @@
      
         <label for="duration">Durée</label>
         <div class="mb-3 d-flex justify-content-center" >
-            <input type="number" class="form-control w-50" [ngClass]="{'errors' : Duration.invalid}" formControlName="duration"  id="duration" placeholder="Durée">
+            <input type="number" class="form-control w-50 text-center" [ngClass]="{'errors' : Duration.invalid}" formControlName="duration"  id="duration" placeholder="Durée">
         </div>
 
         <label for="maxDeep">Profondeur max</label>
         <div class="mb-3 d-flex justify-content-center" >
-            <input type="number" class="form-control w-50" [ngClass]="{'errors' : MaxDeep.invalid}" formControlName="maxDeep"  id="maxDeep" placeholder="Profondeur max">
+            <input type="number" class="form-control w-50 text-center" [ngClass]="{'errors' : MaxDeep.invalid}" formControlName="maxDeep"  id="maxDeep" placeholder="Profondeur max">
         </div>
 
         <label for="airTemperature">Température de l'air</label>
         <div class="mb-3 d-flex justify-content-center" >
-            <input type="number" class="form-control w-50" [ngClass]="{'errors' : AirTemperature.invalid}" formControlName="airTemperature"  id="airTemperature" placeholder="Température de l'air">
+            <input type="number" class="form-control w-50 text-center" [ngClass]="{'errors' : AirTemperature.invalid}" formControlName="airTemperature"  id="airTemperature" placeholder="Température de l'air">
         </div>
 
         <label for="waterTemperature">Température de l'eau</label>
         <div class="mb-3 d-flex justify-content-center" >
-            <input type="number" class="form-control w-50" [ngClass]="{'errors' : WaterTemperature.invalid}" formControlName="waterTemperature"  id="waterTemperature" placeholder="Température de l'eau">
+            <input type="number" class="form-control w-50 text-center" [ngClass]="{'errors' : WaterTemperature.invalid}" formControlName="waterTemperature"  id="waterTemperature" placeholder="Température de l'eau">
         </div>
     
         <label for="firstname">Description</label>
         <div class="mb-3 d-flex justify-content-center" >
-            <input type="text" class="form-control w-50" [ngClass]="{'errors' : Description.invalid}" formControlName="description"  id="Description" placeholder="Description">
+            <textarea type="text" class="form-control w-50" [ngClass]="{'errors' : Description.invalid}" formControlName="description"  id="Description" placeholder="Description"></textarea>
         </div>
         <!-- <div class="mb-3 d-flex justify-content-center" >
           <div *ngIf="Description.invalid && (Description.dirty || Description.touched)" >
