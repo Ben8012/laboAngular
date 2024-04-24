@@ -1,28 +1,9 @@
-
-  <!-- <div *ngIf="!PhoneSize" class="row ">
-    <app-navbar class="container mt-2"></app-navbar>
-     <div class="container mt-2 col-2">
-       <app-sidebar></app-sidebar>
-     </div>
-     
-    <div class="container mt-2 col-8">
-      <router-outlet></router-outlet>
-    </div>
-   
-     <div class="container mt-2 col-2" >
-        <app-contactbar></app-contactbar>
-     </div>
- </div> -->
-
- <div >
-
-    <app-navbar></app-navbar>
-    <app-adminbar *ngIf="User && (User.role=='admin' || User.role=='super admin')"></app-adminbar>
-    <app-sidebar class="mt-2" ></app-sidebar>
-    <div class="container mt-2 ">
-      <router-outlet></router-outlet>
-    </div>
+<app-navbar></app-navbar>
+<app-sidebar class="mt-2" ></app-sidebar>
+<div class="container mt-2 ">
+  <router-outlet></router-outlet>
 </div>
+
 
   
 

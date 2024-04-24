@@ -1,0 +1,16 @@
+<table class="table border rounded">
+    <th colspan="3" class="text-center border p-2">droit admin</th>
+    <tr *ngFor="let user of Users" class="border">
+      <td class="text-center">
+        <h6 class="">{{user.firstname}} {{user.lastname}}</h6>
+      </td>
+      <td class="text-center">
+        <h6 class="">{{user.organisation}} {{user.level}}  </h6>
+      </td>
+      <td class="d-flex flex-row-reverse">
+        <button *ngIf="user.role !='admin'" class="btn btn-light m-1 hover" (click)="admin(user.id)"><i class="bi bi-emoji-sunglasses"></i></button>
+        <button *ngIf="user.role =='admin'" class="btn btn-light m-1 hover" (click)="unadmin(user.id)"><i class="bi bi-emoji-smile"></i></button>  
+    </td>     
+  </tr>
+  </table>
+

@@ -39,7 +39,7 @@ export class ContactComponent implements OnInit {
   }
 
   private getUser() {
-    this._session.$user.subscribe((user: IUser) => {
+    this._session.$user.subscribe((user: any) => {
       this._user = user;
       if(this._user.id){
         this.refreshFriends()

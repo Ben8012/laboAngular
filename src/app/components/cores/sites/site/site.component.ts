@@ -22,7 +22,7 @@ export class SiteComponent implements OnInit {
   get User(): any { return this._user; }
   private _user!: any;
 
-  SelectedOption: string = ''; 
+  SelectedOption: string = 'Vote'; 
   
   private _imageSite : any
   get ImageSite(): any  { return this._imageSite; }
@@ -83,8 +83,15 @@ export class SiteComponent implements OnInit {
   onOptionChange(id : any) {
     this._siteHttpService.vote(id,this._user.id,this.SelectedOption).subscribe({
       next : (data :any) =>{
-        this._sites = data
-        //console.log(this._sites)
+        data.forEach((data:any)=> {
+          this._sites.forEach((site : any)=> {
+            if(site.id == data.id){
+              site.avgVote = data.avgVote
+              site.userVote = data.userVote
+            }
+          })
+        })
+        this.SelectedOption = 'Vote'; 
       },
       error : (error) => {
         console.log(error)

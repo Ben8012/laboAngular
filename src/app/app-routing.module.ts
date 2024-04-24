@@ -14,6 +14,10 @@ import { FormEventComponent } from './components/cores/events/form-event/form-ev
 import { FormClubComponent } from './components/cores/clubs/form-club/form-club.component';
 import { FormSiteComponent } from './components/cores/sites/form-site/form-site.component';
 import { FormBookComponent } from './components/cores/events/form-book/form-book.component';
+import { AdminComponent } from './components/cores/admin/admin/admin.component';
+import { TrainingComponent } from './components/cores/admin/training/training.component';
+import { RoleComponent } from './components/cores/admin/role/role.component';
+import { AdminHomeComponent } from './components/cores/admin/admin-home/admin-home.component';
 
 const routes: Routes = [
   { path: '', component : HomeComponent},
@@ -29,8 +33,7 @@ const routes: Routes = [
   { path: 'my-clubs', component : ClubComponent},
 
   { path: 'site', component : SiteComponent},
-  { path: 'insert-site', component : FormSiteComponent},
-  { path: 'update-site/:id', component : FormSiteComponent},
+ 
 
   { path: 'contact', component : ContactComponent},
   { path: 'message/:id', component : MessageComponent},
@@ -45,6 +48,19 @@ const routes: Routes = [
   { path: 'my-book', component : EventComponent},
   { path: 'update-book/:id', component : FormBookComponent},
   { path: 'insert-book/:id', component : FormBookComponent},
+
+  { path: 'admin-home', component : AdminHomeComponent,
+    children:[
+      { path: 'site', component : SiteComponent},
+      { path: 'insert-site', component : FormSiteComponent},
+      { path: 'update-site/:id', component : FormSiteComponent},
+
+      { path: 'training', component : TrainingComponent},
+      { path: 'role', component : RoleComponent},
+      { path: 'admin', component : AdminComponent},
+
+    ]
+  },
   
   { path: '**', component : HomeComponent},
 

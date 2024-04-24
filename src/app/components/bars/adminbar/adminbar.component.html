@@ -1,32 +1,25 @@
-<div class="d-flex justify-content-center  border-bottom p-1 min-size">
-    <a routerLink="/admin" class="list-group-item list-group-item-action mx-4 p-1" >
+<div class="d-flex justify-content-center  border p-1 min-size">
+    <a routerLink="/admin-home/admin" class="list-group-item list-group-item-action mx-4 p-1" >
         <div class="d-flex flex-column align-items-center">
             <i class="bi bi-emoji-sunglasses"></i>
-            <!-- <span> Admin</span> -->
         </div>
     </a>
   
-    <a routerLink="/insert-trainings" class="list-group-item list-group-item-action mx-4 p-1" >
+    <a routerLink="/admin-home/training" class="list-group-item list-group-item-action mx-4 p-1" >
         <div class="d-flex flex-column align-items-center">
             <i class="bi bi-mortarboard fa-fw me-3"></i>
-            <!-- <span> + Trainings</span> -->
         </div>
     </a>
-    <a routerLink="/insert-organisation" class="list-group-item list-group-item-action mx-4 p-1" >
+    <a *ngIf="User && User.role=='super admin'" routerLink="/admin-home/role" class="list-group-item list-group-item-action mx-4 p-1" >
         <div class="d-flex flex-column align-items-center">
             <i class="bi bi-filter-square"></i>
-            <!-- <span> + Orga</span> -->
         </div>
     </a>
   
-    <a routerLink="/insert-site" class="list-group-item list-group-item-action mx-4 p-1" >
+    <a routerLink="/admin-home/site" class="list-group-item list-group-item-action mx-4 p-1" >
         <div class="d-flex flex-column align-items-center">
           <i class="bi bi-pin-map fa-fw me-3"></i>
-          <!-- <span> + Sites</span> -->
         </div>
     </a>
-
-    
-   
-  </div>
+</div>
   

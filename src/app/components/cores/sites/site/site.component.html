@@ -1,90 +1,69 @@
-<!-- <div class="text-center">
+<div *ngIf="User && (User.role=='admin' || User.role=='super admin')" class="text-center">
     <button class="btn btn-primary hover m-3" routerLink="/insert-site"><i class="bi bi-plus-square"></i></button>
-</div> -->
+</div>
 <div *ngFor="let site of Sites">
-    <div class="card m-1">
-        <div class="card-body">
-            <table class="table">
-                <tbody>
-                    <tr class="d-flex justify-content-between ">
-                        <td class="m-auto w-25 border rounded">
-                            <app-vote [User]="User" [VoteAvg]="site.avgVote" [Vote]="site.userVote"></app-vote>
-                        </td>
-                        <td class="m-auto border rounded">
-                            <h5 class="m-3">{{site.name}}</h5>
-                        </td>
-                        <td class="m-auto w-25 border rounded">
-                            <div class="d-flex justify-content-center">
-                                <h6 class="m-auto">Noter</h6>
-                                <select class="form-select w-25" [(ngModel)]="SelectedOption"
-                                    (change)="onOptionChange(site.id)">
-                                    <option value="0">0</option>
-                                    <option value="1">1</option>
-                                    <option value="2">2</option>
-                                    <option value="3">3</option>
-                                    <option value="4">4</option>
-                                    <option value="5">5</option>
-                                </select>
-                            </div>
-                        </td>
-                        <td>
-                            <button *ngIf="User.id"  class="btn btn-warning hover m-1" (click)="updateSite(site)"><i class="bi bi-arrow-clockwise"></i></button>
-                            <button *ngIf="User.id"  class="btn btn-danger hover m-1" (click)="deleteSite(site)"><i class="bi bi-trash"></i></button>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-            <table class="table">
-                <tbody>
-                    <tr>
-                        <td class="text-center">
-                            <img *ngIf="site.image" [src]="site.image" class="p-2" height="250vh"alt="Avatar" loading="lazy" />
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class=" text-center my-2">
-                            <h6>{{site.description}}</h6>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class=" text-center my-2">
-                            <h6>Profondeur : {{site.maxDepp}} mètres</h6>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class=" text-center my-2">
-                            <h6>Compresseur : {{site.compressor ? 'Oui' :'Non'}}</h6>
-                            <h6>Restauration : {{site.restoration ? 'Oui' :'Non'}}</h6>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class=" text-center my-2">
-                            <h6>Tarif : {{site.price}}€</h6>
-                        </td>
-                    </tr>
-                  
-                    <tr *ngIf="site.map">
-                        <td class=" text-center my-2">
-                            <img [src]="site.map" class="p-2" height="280vh" alt="Avatar" loading="lazy" />
-                        </td>
-                    </tr>
-                    <tr *ngIf="site.url">
-                        <td class=" text-center my-2">
-                            <a class="btn btn-primary" [href]="site.url" target="_blank">Site Officiel</a>
-                          
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class=" text-center my-2">
-                            <a class="btn btn-primary"
-                                [href]="'https://www.google.com/maps?q='+site.adress.number+' '+site.adress.street+' '+site.adress.postCode+' '+site.adress.city+' '+site.adress.country"
-                                target="_blank">Y aller</a>
-                        </td>
-                    </tr>
-
-
-                </tbody>
-            </table>
-        </div>
-    </div>
+    <table class="table border rounded">
+        <tr>
+            <td class="text-center">
+                <h4 class="m-3">{{site.name}}</h4>
+            </td>
+            <td class="d-flex flex-column min-width">
+                <button *ngIf="User && (User.role=='admin' || User.role=='super admin')"
+                    class="btn btn-danger hover border font-color-black m-1" (click)="deleteSite(site)"><i
+                        class="bi bi-trash"></i></button>
+                <button *ngIf="User && (User.role=='admin' || User.role=='super admin')"
+                    class="btn btn-warning hover border font-color-black m-1" (click)="updateSite(site)"><i
+                        class="bi bi-arrow-clockwise"></i></button>
+            </td>
+        </tr>
+        <tr>
+            <td class="text-center border-top">
+                <div class="d-flex justify-content-around">
+                    <img *ngIf="site.image" [src]="site.image" class="size border rounded" height="200vh" alt="Avatar"
+                        loading="lazy" />
+                    <img *ngIf="site.map" [src]="site.map" class="size border rounded" height="200vh" alt="Avatar"
+                        loading="lazy" />
+                </div>
+            </td>
+            <td class="d-flex flex-column min-width border-top">
+                <app-vote [User]="User" [VoteAvg]="site.avgVote" [Vote]="site.userVote"></app-vote>
+                <select class="form-select" aria-label="Default select example" [(ngModel)]="SelectedOption"
+                    (change)="onOptionChange(site.id)">
+                    <option disabled selected>Vote</option>
+                    <option value="0">0</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select>
+                <a class="btn btn-light hover border font-color-black m-1"
+                    [href]="'https://www.google.com/maps?q='+site.adress.number+' '+site.adress.street+' '+site.adress.postCode+' '+site.adress.city+' '+site.adress.country"
+                    target="_blank">Go</a>
+                <a *ngIf="site.url" class="btn btn-light hover border font-color-black m-1" [href]="site.url"
+                    target="_blank">Url</a>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" class="text-center border-top">
+                <h6>{{site.description}}</h6>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" class=" text-center">
+                <div class="d-flex justify-content-around border-bottom border-top">
+                    <h6>Profondeur : {{site.maxDepp}} mètres</h6>
+                    <h6>Tarif : {{site.price}}€</h6>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" class=" text-center">
+                <div class="d-flex justify-content-around">
+                    <h6>Compresseur : {{site.compressor ? 'Oui' :'Non'}}</h6>
+                    <h6>Restauration : {{site.restoration ? 'Oui' :'Non'}}</h6>
+                </div>
+            </td>
+        </tr>
+    </table>
 </div>

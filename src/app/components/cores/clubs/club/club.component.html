@@ -2,49 +2,48 @@
     <button class="btn btn-primary hover m-3" routerLink="/insert-club"><i class="bi bi-plus-square"></i></button>
 </div>
 <div *ngFor="let club of Clubs">
-    <div class="card m-1">
-        <div class="card-body">
-            <table class="table">
-                <tbody>
-                    <tr>
-                        <td class=" text-center my-2">
-                            <h5>{{club.name}}</h5>
-                            <h6>Date de création le {{club.createdAt}}</h6>
-                        </td>
-                        <td class=" text-center"> 
-                            <button *ngIf="User.id && !club.isParticipe && User.id != club.creator.id" class="btn btn-success m-2 hover" (click)="participe(club.id)"><i class="bi bi-hand-thumbs-up-fill"></i></button>
-                            <button *ngIf="User.id && club.isParticipe && User.id != club.creator.id" class="btn btn-warning hover" (click)="unparticipe(club.id)"><i class="bi bi-hand-thumbs-down-fill"></i></button>
-                            <button *ngIf="User.id && EnableButtons && User.id == club.creator.id" class="btn btn-warning hover m-1" (click)="updateClub(club)"><i class="bi bi-arrow-clockwise"></i></button>
-                            <button *ngIf="User.id && EnableButtons && User.id == club.creator.id" class="btn btn-danger hover m-1" (click)="deleteClub(club)"><i class="bi bi-trash"></i></button>
-                        </td>
-                    </tr>
-                    <!-- <tr>
-                        <td class="text-center">
-                            <p>Lieu : {{event.diveplace.name}}</p>
-                            <img [src]="'../../../../assets/sites/'+event.diveplace.picture" alt="" class="size border rounded" />
-                        </td>
-                        <td class="text-center"><button class="btn btn-light hover" (click)="diveplaceInfo(event.diveplace)">Info</button></td>
-                    </tr> -->
-                    <tr >
-                        <td>
-                            <p class="text-underline">Fédération : <span>{{club.creator.organisation}}</span>  </p>
-                        </td>
-                    </tr>
-                    <tr *ngIf="club.participes.length > 0" >
-                        <app-participator-table [UrlSegements]="UrlSegements" [User]="User" [Element]="club"></app-participator-table>
-                    </tr>
-                    <tr>
-                        <td class="d-flex justify-content-around ">
-                            <p><span style="font-weight: bold;">Organisateur :</span> {{club.creator.firstname}} {{club.creator.lastname}} </p>
-                            <p><span style="font-weight: bold;">Niveau :</span> {{club.creator.level}}</p> 
-                        </td>
-                        <td class="text-center"><button class="btn btn-light hover" (click)="creatorInfo(club.creator)">Info</button></td>
-                    </tr>
-                    
-                </tbody>
-            </table>
-        </div>
-    </div>    
 
+    <table class="table border rounded">
+        <tr>
+            <td class=" text-center ">
+                <h4>{{club.name}}</h4>
+                <h6>Date de création le {{club.createdAt}}</h6>
+            </td>
+            <td class="d-flex flex-column min-width">
+                <button *ngIf="User.id && !club.isParticipe && User.id != club.creator.id"
+                    class="btn btn-success hover border font-color-black mb-4" (click)="participe(club.id)"><i
+                        class="bi bi-hand-thumbs-up-fill"></i></button>
+                <button *ngIf="User.id && club.isParticipe && User.id != club.creator.id"
+                    class="btn btn-warning border font-color-black hover mb-4" (click)="unparticipe(club.id)"><i
+                        class="bi bi-hand-thumbs-down-fill"></i></button>
+                <button *ngIf="User.id && EnableButtons && User.id == club.creator.id"
+                    class="btn btn-danger border font-color-black hover m-1" (click)="deleteClub(club)"><i
+                        class="bi bi-trash"></i></button>
+                <button *ngIf="User.id && EnableButtons && User.id == club.creator.id"
+                    class="btn btn-warning border font-color-black hover m-1" (click)="updateClub(club)"><i
+                        class="bi bi-arrow-clockwise"></i></button>
 
+            </td>
+        </tr>
+        <tr>
+            <td class="text-center">
+                <div class="d-flex justify-content-around">
+                    <p><span style="font-weight: bold;">Organisateur :</span> {{club.creator.firstname}}
+                        {{club.creator.lastname}}</p>
+                    <!-- <p>{{club.creator.organisation}} {{club.creator.level}}</p> -->
+                </div>
+            </td>
+            <td class="d-flex flex-column min-width">
+                <button class="btn btn-light hover border font-color-black" (click)="creatorInfo(club.creator)"><i
+                        class="bi bi-info-circle"></i></button>
+            </td>
 
+        </tr>
+        <tr *ngIf="club.participes.length > 0">
+            <td colspan="2">
+                <app-participator-table [UrlSegements]="UrlSegements" [User]="User"
+                    [Element]="club"></app-participator-table>
+            </td>
+        </tr>
+    </table>
+</div>

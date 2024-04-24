@@ -35,6 +35,10 @@ import { FormSiteComponent } from './components/cores/sites/form-site/form-site.
 import { FormBookComponent } from './components/cores/events/form-book/form-book.component';
 import { DivelogComponent } from './components/view-parts/divelog/divelog.component';
 import { AdminbarComponent } from './components/bars/adminbar/adminbar.component';
+import { AdminComponent } from './components/cores/admin/admin/admin.component';
+import { RoleComponent } from './components/cores/admin/role/role.component';
+import { TrainingComponent } from './components/cores/admin/training/training.component';
+import { AdminHomeComponent } from './components/cores/admin/admin-home/admin-home.component';
 
 
 @NgModule({
@@ -65,7 +69,11 @@ import { AdminbarComponent } from './components/bars/adminbar/adminbar.component
     FormAdressComponent,
     FormSiteComponent,
     FormBookComponent,
-    DivelogComponent
+    DivelogComponent,
+    AdminComponent,
+    RoleComponent,
+    TrainingComponent,
+    AdminHomeComponent
 
   ],
   imports: [

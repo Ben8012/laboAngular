@@ -17,11 +17,7 @@ export class AdminbarComponent implements OnInit {
   get User(): any { return this._user; }
 
   constructor(
-    private _observableService: ObservableService,
     private _session : UserSessionService,
-    private _userHttpService : UserHttpService,
-    private _route : Router,
-    private _imageHttpService : ImageHttpService
   ){ }
   
   ngOnInit(): void {
