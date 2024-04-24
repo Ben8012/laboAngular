@@ -18,6 +18,7 @@ import { AdminComponent } from './components/cores/admin/admin/admin.component';
 import { TrainingComponent } from './components/cores/admin/training/training.component';
 import { RoleComponent } from './components/cores/admin/role/role.component';
 import { AdminHomeComponent } from './components/cores/admin/admin-home/admin-home.component';
+import { FormTrainingComponent } from './components/cores/admin/form-training/form-training.component';
 
 const routes: Routes = [
   { path: '', component : HomeComponent},
@@ -56,6 +57,9 @@ const routes: Routes = [
       { path: 'update-site/:id', component : FormSiteComponent},
 
       { path: 'training', component : TrainingComponent},
+      { path: 'insert-training', component : FormTrainingComponent},
+      { path: 'update-training/:id', component : FormTrainingComponent},
+
       { path: 'role', component : RoleComponent},
       { path: 'admin', component : AdminComponent},
 

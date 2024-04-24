@@ -39,6 +39,7 @@ import { AdminComponent } from './components/cores/admin/admin/admin.component';
 import { RoleComponent } from './components/cores/admin/role/role.component';
 import { TrainingComponent } from './components/cores/admin/training/training.component';
 import { AdminHomeComponent } from './components/cores/admin/admin-home/admin-home.component';
+import { FormTrainingComponent } from './components/cores/admin/form-training/form-training.component';
 
 
 @NgModule({
@@ -73,7 +74,8 @@ import { AdminHomeComponent } from './components/cores/admin/admin-home/admin-ho
     AdminComponent,
     RoleComponent,
     TrainingComponent,
-    AdminHomeComponent
+    AdminHomeComponent,
+    FormTrainingComponent
 
   ],
   imports: [

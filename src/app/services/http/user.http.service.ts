@@ -49,6 +49,15 @@ export class UserHttpService {
     return this.http.post(apiUrl+"UnLike",send)
   }
 
+  admin(userId : number) : Observable<any>{
+    return this.http.get(apiUrl+"Admin/"+userId)
+  }
+
+
+  unadmin(userId : number) : Observable<any>{
+    return this.http.get(apiUrl+"UnAdmin/"+userId)
+  }
+
   deletelike(likerId : number, likedId : number) : Observable<any>{
     const send = { LikerId : likerId, LikedId : likedId}
     return this.http.post(apiUrl+"DeleteLike",send)
