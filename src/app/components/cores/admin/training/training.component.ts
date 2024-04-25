@@ -85,5 +85,12 @@ export class TrainingComponent implements OnInit {
   deletetraining(trainingId : any){
 
   }
+
+  updateorganisation(organisationId : any){
+    this._router.navigate(['admin-home/update-organisation/',organisationId])
+  }
+  deleteorganisation(organisationId : any){
+
+  }
  
 }

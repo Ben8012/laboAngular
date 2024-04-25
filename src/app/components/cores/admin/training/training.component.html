@@ -1,26 +1,49 @@
-<div class="text-center">
-    <button class="btn btn-primary hover m-3" routerLink="/admin-home/insert-training"><i class="bi bi-plus-square"></i></button>
+<div class="text-center m-3">
+  <button class="btn btn-primary hover mx-5" routerLink="/admin-home/insert-organisation"><i
+      class="bi bi-plus-square m-3"></i></button>
 </div>
+<table class="table border rounded">
+  <th colspan="3" class="text-center border p-3">Organisations </th>
+  <tr *ngFor="let organisation of Organisations" class="border">
+    <td class="text-center">
+      <h6 class="">{{organisation.name}} </h6>
+    </td>
+    <td class="d-flex flex-row-reverse">
+      <button *ngIf="organisation" class="btn btn-danger hover border font-color-black mx-2"
+        (click)="deleteorganisation(organisation.id)"><i class="bi bi-trash mx-5"></i></button>
+      <button *ngIf="organisation" class="btn btn-warning hover border font-color-black mx-2"
+        (click)="updateorganisation(organisation.id)"><i class="bi bi-arrow-clockwise mx-5"></i></button>
+    </td>
+  </tr>
+</table>
+
 <div class="mb-3 d-flex justify-content-center">
-    <select class="form-select w-50" (change)="onSelectedOrganisationId($event)">
+  <div class="d-flex justify-content-around">
+    <select class="form-select w-100" (change)="onSelectedOrganisationId($event)">
       <option disabled selected>Organisation</option>
       <option *ngFor="let organisation of Organisations" [value]="organisation.id">{{
         organisation.name }}</option>
     </select>
+    <div class="text-center">
+      <button class="btn btn-primary hover mx-5" routerLink="/admin-home/insert-training"><i
+          class="bi bi-plus-square m-3"></i></button>
+    </div>
   </div>
+</div>
 <table class="table border rounded">
-    <th colspan="3" class="text-center border p-3">Formations {{Formation}}</th>
-    <tr *ngFor="let training of Trainings" class="border">
-      <td class="text-center">
-        <h6 class="">{{training.name}} </h6>
-      </td>
-      <td class="">
-        <h6 class="">{{training.organisation}} {{training.level}}  </h6>
-      </td>
-      <td class="d-flex flex-column min-width">
-        <button *ngIf="training" class="btn btn-danger hover border font-color-black m-1" (click)="deletetraining(training.id)"><i class="bi bi-trash"></i></button>  
-        <button *ngIf="training" class="btn btn-warning hover border font-color-black m-1" (click)="updatetraining(training.id)"><i class="bi bi-arrow-clockwise"></i></button>
-    </td>     
+  <th colspan="3" class="text-center border p-3">Formations {{Formation}}</th>
+  <tr *ngFor="let training of Trainings" class="border">
+    <td class="text-center">
+      <h6 class="">{{training.name}} </h6>
+    </td>
+    <td class="">
+      <h6 class="">{{training.organisation}} {{training.level}} </h6>
+    </td>
+    <td class="d-flex flex-row-reverse">
+      <button *ngIf="training" class="btn btn-danger hover border font-color-black mx-2"
+        (click)="deletetraining(training.id)"><i class="bi bi-trash mx-5"></i></button>
+      <button *ngIf="training" class="btn btn-warning hover border font-color-black mx-2"
+        (click)="updatetraining(training.id)"><i class="bi bi-arrow-clockwise mx-5"></i></button>
+    </td>
   </tr>
 </table>
-

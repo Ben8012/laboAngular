@@ -19,6 +19,8 @@ import { TrainingComponent } from './components/cores/admin/training/training.co
 import { RoleComponent } from './components/cores/admin/role/role.component';
 import { AdminHomeComponent } from './components/cores/admin/admin-home/admin-home.component';
 import { FormTrainingComponent } from './components/cores/admin/form-training/form-training.component';
+import { FormOrganisationComponent } from './components/cores/admin/form-organisation/form-organisation.component';
+import { ValidationComponent } from './components/cores/admin/validation/validation.component';
 
 const routes: Routes = [
   { path: '', component : HomeComponent},
@@ -34,7 +36,8 @@ const routes: Routes = [
   { path: 'my-clubs', component : ClubComponent},
 
   { path: 'site', component : SiteComponent},
- 
+  { path: 'insert-site', component : FormSiteComponent},
+  { path: 'update-site/:id', component : FormSiteComponent},
 
   { path: 'contact', component : ContactComponent},
   { path: 'message/:id', component : MessageComponent},
@@ -53,15 +56,17 @@ const routes: Routes = [
   { path: 'admin-home', component : AdminHomeComponent,
     children:[
       { path: 'site', component : SiteComponent},
-      { path: 'insert-site', component : FormSiteComponent},
-      { path: 'update-site/:id', component : FormSiteComponent},
+ 
 
       { path: 'training', component : TrainingComponent},
       { path: 'insert-training', component : FormTrainingComponent},
       { path: 'update-training/:id', component : FormTrainingComponent},
+      { path: 'insert-organisation', component : FormOrganisationComponent},
+      { path: 'update-organisation/:id', component : FormOrganisationComponent},
 
       { path: 'role', component : RoleComponent},
       { path: 'admin', component : AdminComponent},
+      { path: 'validation/:id', component : ValidationComponent},
 
     ]
   },

@@ -1,0 +1,33 @@
+:host {
+  display: block;
+}
+
+.size{
+  max-width: 300px;
+  min-height: auto;
+}
+
+.bold{
+  font-weight: bold;
+  border: none;
+}
+
+.font-color-black{
+  color: black !important;
+}
+
+.hover:hover{
+  color: white !important;
+}
+
+.min-width{
+  min-width: 10vh;
+}
+
+.three-quarters-cell {
+  width: 75%; /* Trois quarts de la largeur de la ligne */
+}
+
+.one-quarter-cell {
+  width: 25%; /* Un quart de la largeur de la ligne */
+}

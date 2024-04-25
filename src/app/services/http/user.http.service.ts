@@ -76,5 +76,16 @@ export class UserHttpService {
     return this.http.get(apiUrl+'Organisation')
   }
 
+  updateInsuranceDate(date : any, userId :any): Observable<any>{
+    const send = { Date : date}
+    return this.http.put<any>(apiUrl+'UpdateInsuranceDate/'+userId,send)
+  }
+
+  updateCertificatDate(date : any, userId :any): Observable<any>{
+    const send = { Date : date}
+    return this.http.put<any>(apiUrl+'UpdateCertificatDate/'+userId,send)
+  }
+
+
 
 }
