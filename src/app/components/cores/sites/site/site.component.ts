@@ -1,7 +1,7 @@
 import { Component, type OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { DomSanitizer } from '@angular/platform-browser';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { DeleteEventModelComponent } from 'src/app/components/modals/delete-eventModel/delete-eventModel.component';
 import { ImageHttpService } from 'src/app/services/http/image.http.service';
 import { SiteHttpService } from 'src/app/services/http/site.http.service';
@@ -15,6 +15,9 @@ import { UserSessionService } from 'src/app/services/session/user-session.servic
   styleUrls: ['./site.component.scss'],
 })
 export class SiteComponent implements OnInit {
+
+  private _urlSegements : any
+  get UrlSegements(): any { return this._urlSegements; }
 
   private _sites : any [] = []
   get Sites(): any []  { return this._sites; }
@@ -37,16 +40,21 @@ export class SiteComponent implements OnInit {
     private _modalDataService : ModalDataService,
     public dialog: MatDialog,
     private _imageHttpService : ImageHttpService,
-    private _sanitizer: DomSanitizer
+    private _sanitizer: DomSanitizer,
+    private route: ActivatedRoute,
     ) { }
 
   ngOnInit(): void {
-    this.getUser()
-   
+    this.route.url.subscribe(segments => {
+      this._urlSegements = segments[0].path
+      console.log(segments)
+      this.getUser()
+    });
+ 
    }
 
-   getAllSites(){
-    this._siteHttpService.getAllSite(this._user.id).subscribe({
+   private getAll(){
+    this._siteHttpService.getAll().subscribe({
       next : (data :any) =>{
         this._sites = data
 
@@ -55,8 +63,23 @@ export class SiteComponent implements OnInit {
             this.getImages(site)
           }
         });
-        
-        //this._sites = this._sites.filter(s => s.training != null)
+        console.log(this._sites)
+      },
+      error : (error) => {
+        console.log(error)
+      }}) ;
+   }
+
+   private getAllSiteAndVote(){
+    this._siteHttpService.getAllSiteAndVote(this._user.id).subscribe({
+      next : (data :any) =>{
+        this._sites = data
+
+        this._sites.forEach((site : any) => {
+          if(site.guidImage != ''){
+            this.getImages(site)
+          }
+        });
         console.log(this._sites)
       },
       error : (error) => {
@@ -68,7 +91,12 @@ export class SiteComponent implements OnInit {
     this._session.$user.subscribe({
       next : (data :any) =>{
         this._user = data;
-        if(this._user.id){this.getAllSites();}
+        if(this._user.id){
+          this.getAllSiteAndVote();
+        }
+        else{
+          this.getAll()
+        }
       },
       error : (error) => {
         console.log(error)
@@ -106,7 +134,7 @@ export class SiteComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       console.log('Le modal est fermé');
       document.body.classList.remove('modal-open'); 
-      this.getAllSites()
+      this.getAllSiteAndVote()
     });
    }
 

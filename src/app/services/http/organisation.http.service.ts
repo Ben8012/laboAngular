@@ -19,4 +19,20 @@ export class OrganisationHttpService {
     return this.http.get(apiUrl)
   }
 
+  getById(id : any): Observable<any>{
+    return this.http.get(apiUrl+id)
+  }
+
+  insert(form : any): Observable<any>{
+    return this.http.post<any>(apiUrl,form)
+  }
+
+  update(form:any): Observable<any>{
+    return this.http.put<any>(apiUrl,form)
+  }
+
+  delete(id:any): Observable<any>{
+    return this.http.delete<any>(apiUrl+id)
+  }
+
 }

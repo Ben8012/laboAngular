@@ -52,7 +52,7 @@ export class ContactComponent implements OnInit {
     this._userHttpService.getAllUsers().subscribe({
       next: (data: any) => {
         this._users = data.filter((d: any) => d.id != this._user.id)
-        this.getUser()
+        console.log(this._users)
       },
       error: (data: any) => {
         console.log(data);

@@ -94,7 +94,7 @@ export class FormEventComponent implements OnInit {
  }
 
  private getAllDiveplace(id :any){
-  this._siteHttpService.getAllSite(id).subscribe({
+  this._siteHttpService.getAllSiteAndVote(id).subscribe({
     next : (data :any) =>{
       this._sites = data
       this._sites = this._sites.filter((c : any) => c.isActive == 1 )

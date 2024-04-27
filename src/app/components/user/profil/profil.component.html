@@ -1,12 +1,13 @@
 <div class="text-center ">
 
+  <div class="my-2 d-flex justify-content-center border rounded">
+    <a class=" btn btn-light text-center p-2 m-2 w-25 border rounded" (click)="Logout()" title="Logout">
+      <span>Logout </span>
+      <i class="bi bi-box-arrow-left fa-fw me-3"></i>
+    </a>
+  </div>
+
   <form class="border rounded p-2" [formGroup]="FormProfil" (ngSubmit)="update()">
-    <div class="mb-3 d-flex justify-content-center ">
-      <a class=" btn btn-light text-center p-2 m-2 w-25 border rounded" (click)="Logout()" title="Logout">
-        <span>Logout </span>
-        <i class="bi bi-box-arrow-left fa-fw me-3"></i>
-      </a>
-    </div>
 
     <label for="firstname">Prénom</label>
     <div class="mb-3 d-flex justify-content-center">
@@ -67,45 +68,41 @@
 
   <div class="mt-2 border rounded">
     <div>
-      <img *ngIf="User && User.imageProfil" [src]="User.imageProfil" class="p-2" height="250vh" alt="Avatar" loading="lazy" />
+      <img *ngIf="User && User.imageProfil" [src]="User.imageProfil" class="size border rounded m-2" height="250vh" alt="Avatar" loading="lazy" />
     </div>
     <label for="image">Profil</label>
     <div class="mb-3 d-flex justify-content-center m-2">
       <input type="file" (change)="onFileSelectedPhoto($event)" class="form-control w-50 m-2" id="image"
         placeholder="image" enctype="multipart/form-data">
-      <button type="submit" class="btn btn-dark m-2" (click)="addPhoto()">Changer</button>
     </div>
 
     <div>
-      <img *ngIf="User && User.imageInsurance" [src]="User.imageInsurance" class="p-2" height="250vh" alt="Avatar"
+      <img *ngIf="User && User.imageInsurance" [src]="User.imageInsurance" class="size border rounded m-2" height="250vh" alt="Avatar"
         loading="lazy" />
     </div>
     <label for="image">Assurance</label>
     <div class="mb-3 d-flex justify-content-center m-2">
       <input type="file" (change)="onFileSelectedInsurance($event)" class="form-control w-50 m-2" id="insurance"
         placeholder="insurance" enctype="multipart/form-data">
-      <button type="submit" class="btn btn-dark m-2" (click)="addInsurance()">Changer</button>
     </div>
 
     <div>
-      <img *ngIf="User && User.imageLevel" [src]="User.imageLevel" class="p-2" height="250vh" alt="Avatar" loading="lazy" />
+      <img *ngIf="User && User.imageLevel" [src]="User.imageLevel" class="size border rounded m-2" height="250vh" alt="Avatar" loading="lazy" />
     </div>
     <label for="image">Niveau</label>
     <div class="mb-3 d-flex justify-content-center m-2">
       <input type="file" (change)="onFileSelectedLevel($event)" class="form-control w-50 m-2" id="level"
         placeholder="level" enctype="multipart/form-data">
-      <button type="submit" class="btn btn-dark m-2" (click)="addLevel()">Changer</button>
     </div>
 
     <div>
-      <img *ngIf="User && User.imageCertificat" [src]="User.imageCertificat" class="p-2" height="250vh" alt="Avatar"
+      <img *ngIf="User && User.imageCertificat" [src]="User.imageCertificat" class="size border rounded m-2" height="250vh" alt="Avatar"
         loading="lazy" />
     </div>
     <label for="image">Certificat</label>
     <div class="mb-3 d-flex justify-content-center m-2">
       <input type="file" (change)="onFileSelectedCertificat($event)" class="form-control w-50 m-2" id="certificat"
         placeholder="certificat" enctype="multipart/form-data">
-      <button type="submit" class="btn btn-dark m-2" (click)="addCertificate()">Changer</button>
     </div>
   </div>
 
@@ -127,7 +124,6 @@
    
 
    <h6 class="mb-3">Ajouter des brevets</h6>
-    <!-- <label for="">Organisation</label> -->
     <div class="mb-3 d-flex justify-content-center">
       <select class="form-select w-50" (change)="onSelectedOrganisationId($event)">
         <option disabled selected>Organisation</option>
@@ -136,8 +132,6 @@
       </select>
     </div>
 
-   
-    <!-- <label for="diveplace">Niveau</label> -->
     <div class="mb-3 d-flex justify-content-center">
       <select class="form-select w-50" (change)="onSelectedTrainingId($event)">
         <option disabled selected>Niveau</option>
@@ -152,16 +146,6 @@
           id="refNumber" placeholder="Numéro de réference">
       </div>
 
-      <!-- <label for="isMostLevel">Niveau a afficher</label>
-      <div class="mb-3 d-flex flex-column">
-          <label>
-              <input type="radio" formControlName="isMostLevel" value="1"> Oui
-          </label>
-          <label>
-              <input type="radio" formControlName="isMostLevel" value="0"> Non
-          </label>
-      </div> -->
-  
       <button type="submit" class="btn btn-dark mb-2">Changer</button>
     </form>
   </div>

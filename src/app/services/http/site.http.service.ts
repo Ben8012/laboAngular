@@ -15,10 +15,13 @@ export class SiteHttpService {
     private http:HttpClient,
   ) { }
 
-  getAllSite(id :any) : Observable<any>{
-    return this.http.get(apiUrl+"All/"+id)
+  getAll() : Observable<any>{
+    return this.http.get(apiUrl)
   }
 
+  getAllSiteAndVote(id :any) : Observable<any>{
+    return this.http.get(apiUrl+"GetAllSiteAndVote/"+id)
+  }
   getById(id : any): Observable<any>{
     return this.http.get(apiUrl+id)
   }

@@ -1,5 +1,5 @@
 <table class="table border rounded">
-  <th colspan="3" class="text-center border p-2">En attente de validation</th>
+  <th colspan="3" class="text-center border p-2">En attente de validation <i class="bi bi-hourglass-split"></i></th>
 
   <tr *ngFor="let liked of Likeds" class="border">
     <td class="text-center">
@@ -15,7 +15,7 @@
 </table>
 
 <table class="table border rounded">
-  <th colspan="3" class="text-center border p-2">Demande d'amitié</th>
+  <th colspan="3" class="text-center border p-2">Demande d'amitié <i class="bi bi-emoji-smile"></i></th>
   <tr *ngFor="let liker of Likers" class="border">
     <td class="text-center">
       <h6 class="">{{liker.firstname}} {{liker.lastname}}</h6>

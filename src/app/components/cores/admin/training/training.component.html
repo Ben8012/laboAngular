@@ -1,9 +1,16 @@
-<div class="text-center m-3">
-  <button class="btn btn-primary hover mx-5" routerLink="/admin-home/insert-organisation"><i
-      class="bi bi-plus-square m-3"></i></button>
-</div>
-<table class="table border rounded">
-  <th colspan="3" class="text-center border p-3">Organisations </th>
+
+<table class="table border rounded mt-3">
+  <th colspan="3" class="text-center border p-3"> 
+    <div class="d-flex justify-content-around">
+      <div class="m-auto">
+        Organisations
+      </div>
+      <div class="text-center">
+        <button class="btn btn-primary hover mx-5" routerLink="/admin-home/insert-organisation"><i
+          class="bi bi-plus-square m-3"></i></button>
+      </div>
+    </div>
+  </th>
   <tr *ngFor="let organisation of Organisations" class="border">
     <td class="text-center">
       <h6 class="">{{organisation.name}} </h6>
@@ -24,14 +31,21 @@
       <option *ngFor="let organisation of Organisations" [value]="organisation.id">{{
         organisation.name }}</option>
     </select>
-    <div class="text-center">
-      <button class="btn btn-primary hover mx-5" routerLink="/admin-home/insert-training"><i
-          class="bi bi-plus-square m-3"></i></button>
-    </div>
   </div>
 </div>
 <table class="table border rounded">
-  <th colspan="3" class="text-center border p-3">Formations {{Formation}}</th>
+  <th *ngIf="Organisation" colspan="3" class="text-center border p-3">
+    <div class="d-flex justify-content-around">
+      <div class="m-auto">
+        Formations {{Organisation.name}}
+      </div>
+      <div *ngIf="Organisation" class="text-center">
+        <button class="btn btn-primary hover mx-5" [routerLink]="'/admin-home/insert-training/'+Organisation.id"><i
+            class="bi bi-plus-square m-3"></i></button>
+      </div>
+    </div>
+  </th>
+
   <tr *ngFor="let training of Trainings" class="border">
     <td class="text-center">
       <h6 class="">{{training.name}} </h6>

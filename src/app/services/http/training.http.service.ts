@@ -19,6 +19,11 @@ export class TrainingHttpService {
     return this.http.get(apiUrl)
   }
 
+  getById(id :any) : Observable<any>{
+    return this.http.get(apiUrl+id)
+  }
+
+
   getByOrganisationId(id :any) : Observable<any>{
     return this.http.get(apiUrl+'GetByOrganisationId/'+id)
   }
@@ -33,6 +38,18 @@ export class TrainingHttpService {
 
   deleteUserTraining(trainingId :any, userId : any): Observable<any>{
     return this.http.get(apiUrl+'DeleteUserTraining/'+trainingId+'/'+userId)
+  }
+
+  insert(form : any): Observable<any>{
+    return this.http.post<any>(apiUrl,form)
+  }
+
+  update(form:any): Observable<any>{
+    return this.http.put<any>(apiUrl,form)
+  }
+
+  delete(id:any): Observable<any>{
+    return this.http.delete<any>(apiUrl+id)
   }
 
 

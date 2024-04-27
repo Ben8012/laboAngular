@@ -147,18 +147,22 @@ export class ProfilComponent {
 
   onFileSelectedPhoto(event :any): void {
     this.selectedFilePhoto = event.target.files[0];
+    this.addPhoto()
   }
 
   onFileSelectedInsurance(event :any): void {
     this.selectedFileInsurance = event.target.files[0];
+    this.addInsurance()
   }
 
   onFileSelectedLevel(event :any): void {
     this.selectedFileLevel = event.target.files[0];
+    this.addLevel()
   }
 
   onFileSelectedCertificat(event :any): void {
     this.selectedFileCertificat = event.target.files[0];
+    this.addCertificate()
   }
 
   onSelectedOrganisationId(event :any): void {

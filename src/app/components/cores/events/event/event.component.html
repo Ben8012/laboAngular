@@ -16,7 +16,7 @@
                     <button *ngIf="User.id && UrlSegements=='my-events' && User.id == event.creator.id && event.startDate.getTime() > Today.getTime()" class="btn btn-warning hover font-color-black border m-1" (click)="updateEvent(event)"><i class="bi bi-arrow-clockwise"></i></button>
                 </td>
             </tr>
-            <tr *ngIf="event.training" >
+            <tr *ngIf="event.training" class="border-top" >
                 <td class="text-center">
                     <h6>Formation</h6> 
                     <p>{{event.training.organisation.name}} {{event.training.name}}</p>
@@ -25,7 +25,7 @@
                     <button class="btn btn-light hover border font-color-black m-1" (click)="trainingInfo(event.training)"><i class="bi bi-info-circle"></i></button>
                 </td>
             </tr>
-            <tr>
+            <tr class="border-top">
                 <td class="text-center">
                     
                     <p>Lieu : {{event.diveplace.name}}</p>
@@ -37,7 +37,7 @@
                     <button class="btn btn-light hover border font-color-black m-1" (click)="diveplaceInfo(event.diveplace)"><i class="bi bi-info-circle"></i></button>
                 </td>
             </tr>
-             <tr>
+             <tr class="border-top">
                 <td class="text-center">
                     <div class="text-center">
                         <p><span style="font-weight: bold;">Organisateur :</span> {{event.creator.firstname}} {{event.creator.lastname}}</p>
@@ -48,7 +48,7 @@
                     <button class="btn btn-light hover border font-color-black m-1" (click)="creatorInfo(event.creator)"><i class="bi bi-info-circle"></i></button>
                 </td>
             </tr>
-            <tr *ngIf="event.divelog && UrlSegements =='my-book'">
+            <tr *ngIf="event.divelog && UrlSegements =='my-book'" class="border-top">
                 <td>
                     <app-divelog [UrlSegements]="UrlSegements" [User]="User" [Element]="event.divelog"></app-divelog>
                 </td>
@@ -58,12 +58,12 @@
                 </td>
             </tr>
            
-            <tr *ngIf="event.participes.length > 0">
+            <tr *ngIf="event.participes.length > 0" class="border-top">
                 <td colspan="2">
                     <app-participator-table [UrlSegements]="UrlSegements" [User]="User" [Element]="event"></app-participator-table>
                 </td>
             </tr>
-            <tr *ngIf="event.club">
+            <tr *ngIf="event.club" class="border-top">
                 <td class="text-center">
                     <span style="font-weight: bold;">Club :</span> {{event.club.name}}
                 </td>

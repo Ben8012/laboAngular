@@ -7,7 +7,7 @@
             <td class="text-center">
                 <h4 class="m-3">{{site.name}}</h4>
             </td>
-            <td class="d-flex flex-column min-width">
+            <td class="d-flex flex-column min-width" *ngIf="UrlSegements =='admin-site'">
                 <button *ngIf="User && (User.role=='admin' || User.role=='super admin')"
                     class="btn btn-danger hover border font-color-black m-1" (click)="deleteSite(site)"><i
                         class="bi bi-trash"></i></button>
@@ -26,8 +26,8 @@
                 </div>
             </td>
             <td class="d-flex flex-column min-width border-top">
-                <app-vote [User]="User" [VoteAvg]="site.avgVote" [Vote]="site.userVote"></app-vote>
-                <select class="form-select" aria-label="Default select example" [(ngModel)]="SelectedOption"
+                <app-vote *ngIf="User.id" [User]="User" [VoteAvg]="site.avgVote" [Vote]="site.userVote"></app-vote>
+                <select *ngIf="User.id" class="form-select" aria-label="Default select example" [(ngModel)]="SelectedOption"
                     (change)="onOptionChange(site.id)">
                     <option disabled selected>Vote</option>
                     <option value="0">0</option>

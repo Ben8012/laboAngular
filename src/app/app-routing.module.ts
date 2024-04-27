@@ -55,11 +55,11 @@ const routes: Routes = [
 
   { path: 'admin-home', component : AdminHomeComponent,
     children:[
-      { path: 'site', component : SiteComponent},
+      { path: 'admin-site', component : SiteComponent},
  
 
       { path: 'training', component : TrainingComponent},
-      { path: 'insert-training', component : FormTrainingComponent},
+      { path: 'insert-training/:id', component : FormTrainingComponent},
       { path: 'update-training/:id', component : FormTrainingComponent},
       { path: 'insert-organisation', component : FormOrganisationComponent},
       { path: 'update-organisation/:id', component : FormOrganisationComponent},

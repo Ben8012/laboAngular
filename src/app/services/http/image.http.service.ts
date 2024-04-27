@@ -79,6 +79,27 @@ export class ImageHttpService {
     return this.http.get(apiUrl+'SitePlan/'+imageName, { responseType: 'blob' });
   }
 
+  insertOrganisationImage(formData : any, id : any): Observable<any>{
+    const headers = new HttpHeaders();
+    headers.append('Content-Type', 'multipart/form-data');
+    return this.http.post<any>(apiUrl+'OrganisationImage/'+id,formData, { headers: headers })
+  }
+
+  getOrganisationImage(imageName: string): Observable<Blob> {
+    return this.http.get(apiUrl+'OrganisationImage/'+imageName, { responseType: 'blob' });
+  }
+
+  insertTrainingImage(formData : any, id : any): Observable<any>{
+    const headers = new HttpHeaders();
+    headers.append('Content-Type', 'multipart/form-data');
+    return this.http.post<any>(apiUrl+'TrainingImage/'+id,formData, { headers: headers })
+  }
+
+  getTrainingImage(imageName: string): Observable<Blob> {
+    return this.http.get(apiUrl+'TrainingImage/'+imageName, { responseType: 'blob' });
+  }
+
+
 
  
 

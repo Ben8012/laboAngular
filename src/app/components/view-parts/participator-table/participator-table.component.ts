@@ -48,19 +48,24 @@ export class ParticipatorTableComponent implements OnInit {
 
 
   private checkIfFriend(){
-    this.User.friends.forEach((friend : any) => {
-      this._participators.forEach((participator : any)=> {
-        if(participator.id == friend.id){
-          participator.isUserFriend = true
+    if(this.User.friends){
+      this.User.friends.forEach((friend : any) => {
+        if(this._participators){
+          this._participators.forEach((participator : any)=> {
+            if(participator.id == friend.id){
+              participator.isUserFriend = true
+            }
+          })
         }
+       if(this._demands){
+         this._demands.map((demand : any)=> {
+           if(demand.id == friend.id){
+             demand.isUserFriend = true
+           }
+         })
+       }
       })
-     
-      this._demands.map((demand : any)=> {
-        if(demand.id == friend.id){
-          demand.isUserFriend = true
-        }
-      })
-    })
+    }
   }
 
   private formatDate(elements : any){

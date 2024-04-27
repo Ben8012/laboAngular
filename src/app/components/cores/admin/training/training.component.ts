@@ -15,8 +15,8 @@ export class TrainingComponent implements OnInit {
 
   private _user!: any;
 
-  get Formation(): any { return this._formation; }
-  private _formation: any;
+  get Organisation(): any { return this._organisation; }
+  private _organisation: any;
 
   get Trainings(): any[] { return this._trainings; }
   private _trainings: any[] = [];
@@ -38,10 +38,11 @@ export class TrainingComponent implements OnInit {
   }
 
   onSelectedOrganisationId(event :any): void {
+
     this.getTrainings(event.target.value)
     this._organisations.forEach((organisation : any)=> {
       if(organisation.id == event.target.value){
-        this._formation = organisation.name
+        this._organisation = organisation
       }
     })
   }
@@ -83,14 +84,28 @@ export class TrainingComponent implements OnInit {
     this._router.navigate(['admin-home/update-training/',trainingId])
   }
   deletetraining(trainingId : any){
-
+    this._trainingHttpService.delete(trainingId).subscribe({
+      next: (data: any) => {
+        this._trainings = data
+      },
+      error: (error) => {
+        console.log(error);
+      }
+    });
   }
 
   updateorganisation(organisationId : any){
     this._router.navigate(['admin-home/update-organisation/',organisationId])
   }
   deleteorganisation(organisationId : any){
-
+    this._organisationHttpService.delete(organisationId).subscribe({
+      next: (data: any) => {
+        this._organisations = data
+      },
+      error: (error) => {
+        console.log(error);
+      }
+    });
   }
  
 }

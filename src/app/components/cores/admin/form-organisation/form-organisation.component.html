@@ -1,1 +1,33 @@
-<p>form-organisation works!</p>,
+<div class="text-center">
+    <div class="my-2 border rounded" *ngIf="Organisation && UrlSegements == 'update-organisation'">
+        <div>
+            <img *ngIf="ImageOrganisation" [src]="ImageOrganisation" class="p-2" height="250vh" alt="Avatar" loading="lazy" />
+            <!-- {{ImageSite | json}} -->
+        </div>
+        <label for="image">Image</label>
+        <div class="mb-3 d-flex justify-content-center m-2">
+            <input type="file" (change)="onFileSelectedOrganisation($event)" class="form-control w-50 m-2" id="certificat"
+                placeholder="certificat" enctype="multipart/form-data">
+        </div>
+
+    </div>
+    <form class="border rounded p-2" [formGroup]="FormOrganisation" (ngSubmit)="send()">
+        <label for="name">Nom</label>
+        <div class="mb-3 d-flex justify-content-center">
+            <input type="text" class="form-control w-50" [ngClass]="{'errors' : Name.invalid}" formControlName="name"
+                id="name" placeholder="Nom">
+        </div>
+        <div class="mb-3 d-flex justify-content-center">
+            <div *ngIf="Name.invalid && (Name.dirty || Name.touched)">
+                <div class="errors" *ngIf="Name.errors['required']">Fistname est requis</div>
+                <div class="errors" *ngIf="Name.errors['minlength']">longueur minimum doit etre de 4 characteres </div>
+                <div class="errors" *ngIf="Name.errors['maxlength']">longueur maximum ne peut depasser 250 characteres
+                </div>
+            </div>
+        </div>
+
+        <app-form-adress *ngIf="Organisation && Organisation.adress && UrlSegements == 'update-organisation'" [Adress]="Organisation.adress"(AddressAdded)="OutputAdress($event)"></app-form-adress>
+        <app-form-adress *ngIf="UrlSegements == 'insert-organisation'"(AddressAdded)="OutputAdress($event)"></app-form-adress>
+        <button type="submit" class="btn btn-dark mb-3">Changer</button>
+    </form>
+</div>

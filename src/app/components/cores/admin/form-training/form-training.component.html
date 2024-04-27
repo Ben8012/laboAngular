@@ -1,1 +1,74 @@
-<p>form-training works!</p>,
+<div class="text-center">
+    <div class="my-2 border rounded" *ngIf="Training && UrlSegements == 'update-training'">
+        <div>
+            <img *ngIf="Training.image" [src]="Training.image" class="p-2" height="250vh" alt="Avatar" loading="lazy" />
+            <!-- {{ImageSite | json}} -->
+        </div>
+        <label for="image">Image</label>
+        <div class="mb-3 d-flex justify-content-center m-2">
+            <input type="file" (change)="onFileSelectedOrganisation($event)" class="form-control w-50 m-2" id="certificat"
+                placeholder="certificat" enctype="multipart/form-data">
+                <!-- <button type="submit" class="btn btn-dark m-2" (click)="addTraining(Training)">Changer</button> -->
+        </div>
+
+    </div>
+   
+    <form class="border rounded p-2 my-2" [formGroup]="FormTraining" (ngSubmit)="send()">
+        <h6 *ngIf="Organisation" class="text-center m-2">{{Organisation.name}}</h6>
+        <label for="name">Nom</label>
+        <div class="mb-3 d-flex justify-content-center">
+            <input type="text" class="form-control w-50" [ngClass]="{'errors' : Name.invalid}" formControlName="name"
+                id="name" placeholder="Nom">
+        </div>
+        <div class="mb-3 d-flex justify-content-center">
+            <div *ngIf="Name.invalid && (Name.dirty || Name.touched)">
+                <div class="errors" *ngIf="Name.errors['required']">Fistname est requis</div>
+                <div class="errors" *ngIf="Name.errors['minlength']">longueur minimum doit etre de 4 characteres </div>
+                <div class="errors" *ngIf="Name.errors['maxlength']">longueur maximum ne peut depasser 250 characteres
+                </div>
+            </div>
+        </div>
+
+        <label for="description">Description</label>
+        <div class="mb-3 d-flex justify-content-center">
+            <textarea  type="text" class="form-control w-50" [ngClass]="{'errors' : Name.invalid}"
+                formControlName="description" id="description" placeholder="Description"> </textarea>
+        </div>
+        <div class="mb-3 d-flex justify-content-center">
+            <div *ngIf="Description.invalid && (Description.dirty || Description.touched)">
+                <div class="errors" *ngIf="Description.errors['required']">La description est requis</div>
+                <div class="errors" *ngIf="Description.errors['minlength']">longueur minimum doit etre de 4 characteres
+                </div>
+                <div class="errors" *ngIf="Description.errors['maxlength']">longueur maximum ne peut depasser 250
+                    characteres
+                </div>
+            </div>
+        </div>
+
+        <label for="restoration">Prérequis</label>
+        <div class="mb-3 d-flex justify-content-center">
+            <div class="d-flex justify-content-around">
+              <select class="form-select w-100" formControlName="prerequisId">
+                <option *ngFor="let training of Trainings" [value]="training.id">{{training.name }}</option>
+              </select>
+            </div>
+          </div>
+
+        <label for="restoration">Spécialité</label>
+        <div class="mb-3 d-flex flex-column">
+            <label>
+                <input type="radio" formControlName="isSpeciality" value="1"> Oui
+            </label>
+            <label>
+                <input type="radio" formControlName="isSpeciality" value="0"> Non
+            </label>
+        </div>
+
+      
+        <button type="submit" class="btn btn-dark mb-3">Changer</button>
+    </form>
+
+  
+    
+</div>
+

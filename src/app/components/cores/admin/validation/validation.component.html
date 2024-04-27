@@ -3,47 +3,49 @@
     <table class="table border rounded mt-3">
         <th colspan="" class="text-center  p-3 my-auto">{{User.firstname}} {{User.lastname}}</th>
         <th colspan="" class="d-flex flex-column p-3">
-            <a *ngIf="Me.id != User.id" class="btn btn-light hover border font-color-black" [routerLink]="'/message/'+User.id"><i class="bi bi-chat-text"></i></a>
+            <a *ngIf="Me.id != User.id" class="btn btn-light hover border font-color-black"
+                [routerLink]="'/message/'+User.id"><i class="bi bi-chat-text"></i></a>
         </th>
-        <tr  class="border">
+        <tr class="border">
             <td colspan="2" class="text-center">
                 <h6 class="m-2">Assurance</h6>
             </td>
-        <tr >
+        <tr>
             <td class="three-quarters-cell">
-                <img *ngIf="User && User.imageInsurance" [src]="User.imageInsurance" class="size border rounded m-2"
-                    height="250vh" alt="Avatar" loading="lazy" id="insurance" />
-                
+                <ng-container *ngIf="User && User.imageInsurance; else imageInsurance">
+                    <img [src]="User.imageInsurance" class="size border rounded m-2" height="250vh" alt="Avatar"loading="lazy" id="insurance" />
+                </ng-container>
+                <ng-template #imageInsurance>
+                    <h6 class="border rounded p-5 m-2">Pas d'image</h6>
+                </ng-template>
             </td>
-          
-            <td class="d-flex flex-column">
+            <td class="d-flex flex-column" *ngIf="User && User.imageInsurance">
                 <button class="btn btn-light hover font-color-black border m-2" (click)="rotateImage('insurance')"><i
                         class="bi bi-arrow-clockwise mx-5"></i></button>
                 <div class="mb-3 d-flex justify-content-center">
                     <input type="date" class="form-control text-center" (change)="onSelectedinsuranceDate($event)"
-                         id="insuranceDate" placeholder="Assurance" [(ngModel)]="User.insuranceDateValidation">
+                        id="insuranceDate" placeholder="Assurance" [(ngModel)]="User.insuranceDateValidation">
                 </div>
             </td>
         </tr>
-        <!-- <select class="form-select w-100" (change)="onSelectedOrganisationId($event)">
-            <option disabled selected>Organisation</option>
-            <option *ngFor="let organisation of Organisations" ">{{
-              organisation.name }}</option>
-          </select> -->
 
         <tr class="border">
             <td colspan="2" class="text-center">
                 <h6 class="m-2">Certificat</h6>
             </td>
-        </tr> 
+        </tr>
         <tr>
-            <td  class="three-quarters-cell">
-                <img *ngIf="User && User.imageCertificat" [src]="User.imageCertificat" id="certificat"
+            <td class="three-quarters-cell">
+                <ng-container *ngIf="User && User.imageCertificat; else imageCertificat">
+                    <img  [src]="User.imageCertificat" id="certificat"
                     class="size border rounded m-2" height="250vh" alt="Avatar" loading="lazy" />
-                
+                </ng-container>
+                <ng-template #imageCertificat>
+                    <h6 class="border rounded p-5 m-2">Pas d'image</h6>
+                </ng-template>
             </td>
-          
-            <td class="d-flex flex-column">
+
+            <td class="d-flex flex-column" *ngIf="User && User.imageCertificat">
                 <button class="btn btn-light hover font-color-black border m-2" (click)="rotateImage('certificat')">
                     <i class="bi bi-arrow-clockwise mx-5"></i>
                 </button>
@@ -51,26 +53,33 @@
                     <input type="date" class="form-control text-center" (change)="onSelectedcertificatDate($event)"
                         id="certificatDate" placeholder="Certificat" [(ngModel)]="User.medicalDateValidation">
                 </div>
-                
+
             </td>
         </tr>
 
         <tr class="border">
             <td colspan="2" class="text-center">
-                    <h6 class="m-2">Niveau actuel
+                <h6 class="m-2">Niveau actuel
                     <div *ngFor="let training of User.trainings">
-                        <div class="" *ngIf="training.isMostLevel"> {{training.organisation.name }} {{training.name }}</div>
+                        <div class="" *ngIf="training.isMostLevel"> {{training.organisation.name }} {{training.name }}
+                        </div>
                     </div>
-                    </h6>
+                </h6>
             </td>
         </tr>
         <tr>
-            <td class="three-quarters-cell" >
-                <img *ngIf="User && User.imageLevel" [src]="User.imageLevel" class="size border rounded m-2"
+            <td class="three-quarters-cell">
+                <ng-container *ngIf="User && User.imageLevel; else imageLevel">
+                    <img *ngIf="User && User.imageLevel" [src]="User.imageLevel" class="size border rounded m-2"
                     height="250vh" alt="Avatar" loading="lazy" id="level" />
+                </ng-container>
+                <ng-template #imageLevel>
+                    <h6 class="border rounded p-5 m-2">Pas d'image</h6>
+                </ng-template>
+                
             </td>
-    
-            <td class="d-flex flex-column">
+
+            <td class="d-flex flex-column" *ngIf="User && User.imageLevel">
                 <button class="btn btn-light hover font-color-black border m-2" (click)="rotateImage('level')"><i
                         class="bi bi-arrow-clockwise mx-5"></i></button>
             </td>
@@ -79,7 +88,7 @@
             <td class="three-quarters-cell" [ngClass]="{'bold' : training.isMostLevel}" *ngIf="!training.isMostLevel">
                 {{training.organisation.name }} {{training.name }}
             </td>
-         
+
             <td colspan="" class="d-flex flex-column ">
                 <!-- <a class="btn btn-danger delete mx-2 border hover font-color-black"
                     (click)="deletelevel(training.id)"><i class="bi bi-trash mx-5"></i></a> -->
