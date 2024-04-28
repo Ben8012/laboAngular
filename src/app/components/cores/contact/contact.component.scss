@@ -1,13 +1,11 @@
+.font-color-black{
+  color: black !important;
+}
+
 .hover:hover{
-  background-color: lightgreen;
-  border-radius: 5px;
+  color: white !important;
 }
 
-.border-bottom{
-  border-bottom: solid 1px lightgray;
-}
-
-.delete:hover{
-  background-color: orange;
-  border-radius: 5px;
+.min-width{
+  min-width: 15vh;
 }

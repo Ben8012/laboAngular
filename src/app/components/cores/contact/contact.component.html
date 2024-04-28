@@ -2,14 +2,14 @@
   <th colspan="3" class="text-center border p-2">En attente de validation <i class="bi bi-hourglass-split"></i></th>
 
   <tr *ngFor="let liked of Likeds" class="border">
-    <td class="text-center">
+    <td class="">
       <h6 class="">{{liked.firstname}} {{liked.lastname}}</h6>
     </td>
-    <td class="text-center">
+    <td class="">
       <h6 class="">{{liked.organisation}} {{liked.level}}  </h6>
     </td>
     <td class="d-flex flex-row-reverse">
-      <a class="btn btn-warning delete m-1" (click)="deletelike(liked.id)"><i class="bi bi-trash"></i></a>
+      <a class="btn btn-danger hover border font-color-black m-1" (click)="deletelike(liked.id)"><i class="bi bi-trash mx-5"></i></a>
     </td>     
   </tr>
 </table>
@@ -17,15 +17,15 @@
 <table class="table border rounded">
   <th colspan="3" class="text-center border p-2">Demande d'amitié <i class="bi bi-emoji-smile"></i></th>
   <tr *ngFor="let liker of Likers" class="border">
-    <td class="text-center">
+    <td class="">
       <h6 class="">{{liker.firstname}} {{liker.lastname}}</h6>
     </td>
-    <td class="text-center">
+    <td class="">
       <h6 class="">{{liker.organisation}} {{liker.level}}  </h6>
     </td>
     <td class="d-flex flex-row-reverse">
-      <a class="btn btn-warning delete m-1" (click)="deletelike(liker.id)"><i class="bi bi-trash"></i></a>
-      <button class="btn btn-light m-1 hover" (click)="like(liker.id)"><i class="bi bi-emoji-smile"></i></button>
+      <a class="btn btn-danger hover border font-color-black m-1" (click)="deletelike(liker.id)"><i class="bi bi-trash mx-5"></i></a>
+      <a class="btn btn-success hover border font-color-black m-1" (click)="like(liker.id)"><i class="bi bi-emoji-smile mx-5"></i></a>
     </td>     
 </tr>
 </table>
@@ -33,15 +33,15 @@
 <table class="table border rounded">
   <th colspan="3" class="text-center border p-2">Amis</th>
   <tr *ngFor="let friend of Friends" class="border">
-    <td class="text-center">
+    <td class="">
       <h6 class="">{{friend.firstname}} {{friend.lastname}}</h6>
     </td>
-    <td class="text-center">
+    <td class="">
       <h6 class="">{{friend.organisation}} {{friend.level}}  </h6>
     </td>
     <td class="d-flex flex-row-reverse">
-      <a  class="btn btn-warning delete m-1" (click)="deletelike(friend.id)"><i class="bi bi-trash"></i></a>
-      <button  class="btn btn-warning m-1" (click)="unlike(friend.id)"><i class="bi bi-emoji-angry"></i></button>
+      <a  class="btn btn-danger hover border font-color-black m-1" (click)="deletelike(friend.id)"><i class="bi bi-trash mx-5"></i></a>
+      <a  class="btn btn-warning hover border font-color-black m-1" (click)="unlike(friend.id)"><i class="bi bi-emoji-angry mx-5"></i></a>
     </td>     
 </tr>
 </table>
@@ -49,14 +49,14 @@
 <table class="table border rounded">
   <th colspan="3" class="text-center border p-2">Autres</th>
   <tr *ngFor="let user of Users" class="border">
-    <td class="text-center">
+    <td class="">
       <h6 class="">{{user.firstname}} {{user.lastname}}</h6>
     </td>
-    <td class="text-center">
+    <td class="">
       <h6 class="">{{user.organisation}} {{user.level}}  </h6>
     </td>
     <td class="d-flex flex-row-reverse">
-      <button *ngIf="!user.isuser" class="btn btn-light m-1 hover" (click)="like(user.id)"><i class="bi bi-emoji-smile"></i></button>
+      <a *ngIf="!user.isuser" class="btn btn-success hover border font-color-black m-1" (click)="like(user.id)"><i class="bi bi-emoji-smile mx-5"></i></a>
     </td>     
 </tr>
 </table>

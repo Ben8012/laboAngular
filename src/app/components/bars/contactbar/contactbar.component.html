@@ -4,9 +4,15 @@
     <div *ngFor="let friend of Friends">
       <!-- [routerLink]="['/message',friend.id]" -->
       <button (click)="getMessage(friend.id)" class="list-group-item list-group-item-action text-center">
-        <img *ngIf="friend.imageUrl" [src]="friend.imageUrl" class="rounded-circle mx-2" height="30"alt="Avatar" loading="lazy" />
-        <div>
-          {{friend.firstname}} {{friend.lastname}}
+        <div class="d-flex justify-content-center">
+          <div class="d-flex flex-column align-items-center"> 
+            <img *ngIf="friend.imageUrl" [src]="friend.imageUrl" class="rounded-circle mx-2" height="30"alt="Avatar" loading="lazy" />
+            <div>
+              {{friend.firstname}} {{friend.lastname}}
+            </div>
+          </div>
+          &nbsp;&nbsp;&nbsp;
+          <span *ngIf="friend.countMessages > 0" class="rounded-circle border p-1 my-auto">{{friend.countMessages}}</span>
         </div>
       </button>
     </div>

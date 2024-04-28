@@ -11,10 +11,10 @@
             </td>
             <td class="d-flex flex-column min-width">
                 <button *ngIf="User.id && !club.isParticipe && User.id != club.creator.id"
-                    class="btn btn-success hover border font-color-black mb-4" (click)="participe(club.id)"><i
+                    class="btn btn-success hover border font-color-black m-1" (click)="participe(club.id)"><i
                         class="bi bi-hand-thumbs-up-fill"></i></button>
                 <button *ngIf="User.id && club.isParticipe && User.id != club.creator.id"
-                    class="btn btn-warning border font-color-black hover mb-4" (click)="unparticipe(club.id)"><i
+                    class="btn btn-warning border font-color-black hover m-1" (click)="unparticipe(club.id)"><i
                         class="bi bi-hand-thumbs-down-fill"></i></button>
                 <button *ngIf="User.id && EnableButtons && User.id == club.creator.id"
                     class="btn btn-danger border font-color-black hover m-1" (click)="deleteClub(club)"><i
@@ -25,16 +25,15 @@
 
             </td>
         </tr>
-        <tr>
+        <tr class="border-top">
             <td class="text-center">
-                <div class="d-flex justify-content-around">
-                    <p><span style="font-weight: bold;">Organisateur :</span> {{club.creator.firstname}}
-                        {{club.creator.lastname}}</p>
+                <div class="text-center">
+                    <span style="font-weight: bold;">Organisateur :</span> {{club.creator.firstname}} {{club.creator.lastname}}
                     <!-- <p>{{club.creator.organisation}} {{club.creator.level}}</p> -->
                 </div>
             </td>
             <td class="d-flex flex-column min-width">
-                <button class="btn btn-light hover border font-color-black" (click)="creatorInfo(club.creator)"><i
+                <button class="btn btn-light hover border font-color-black m-1" (click)="creatorInfo(club.creator)"><i
                         class="bi bi-info-circle"></i></button>
             </td>
 

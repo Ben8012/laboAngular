@@ -1,34 +1,45 @@
-<div class="d-flex justify-content-center p-1 text-center border-bottom min-size">
-  <a *ngIf="User && User.role == 'admin' || User.role == 'super admin'" routerLink="/admin-home/admin" class="list-group-item list-group-item-action mx-4 p-1" >
+<div class="d-flex justify-content-center border-bottom">
+  <a *ngIf="User && User.role == 'admin' || User.role == 'super admin'" routerLink="/admin-home/admin" class="list-group-item list-group-item-action my-2 mx-4 p-1" >
     <div class="d-flex flex-column align-items-center">
         <i class="bi bi-emoji-sunglasses"></i>
-        <span> Admin</span>
+        <!-- &nbsp; Admin -->
+        <span style=" font-style: italic;">Admin</span>
     </div>
   </a>
-  <a routerLink="/event" class="list-group-item list-group-item-action mx-4 p-1" >
+  <a routerLink="/event" class="list-group-item list-group-item-action my-2 mx-4 p-1" >
     <div class="d-flex flex-column align-items-center">
-      <i class="bi bi-calendar-event fa-fw me-3 "></i><span>Events</span>    
+      <i class="bi bi-calendar-event fa-fw me-3"></i>
+      <!-- &nbsp; Events -->
+      <span style=" font-style: italic;">Events</span>
+      
     </div>
   </a>
-  <a routerLink="/formation" class="list-group-item list-group-item-action mx-4 p-1" >
+  <a routerLink="/formation" class="list-group-item list-group-item-action my-2 mx-4 p-1" >
     <div class="d-flex flex-column align-items-center">
-      <i class="bi bi-mortarboard fa-fw me-3"></i><span>Trainings</span>
+      <i class="bi bi-mortarboard fa-fw me-3"></i>
+      <!-- &nbsp; Trainings -->
+      <span style=" font-style: italic;">Trainings</span>
     </div>
   </a>
-  <a routerLink="/club" class="list-group-item list-group-item-action mx-4 p-1" >
+  <a routerLink="/club" class="list-group-item list-group-item-action my-2 mx-4 p-1" >
     <div class="d-flex flex-column align-items-center">
-      <i class="bi bi-shop fa-fw me-3"></i><span>Clubs</span>
+      <i class="bi bi-shop fa-fw me-3"></i>
+      <!-- &nbsp;  -->
+      <span style=" font-style: italic;">Groupes</span>
     </div>
   </a>
-  <a routerLink="/site" class="list-group-item list-group-item-action mx-4 p-1" >
+  <a routerLink="/site" class="list-group-item list-group-item-action my-2 mx-4 p-1" >
     <div class="d-flex flex-column align-items-center">
-      <i class="bi bi-pin-map fa-fw me-3"></i><span>Sites</span>
+      <i class="bi bi-pin-map fa-fw me-3"></i>
+      <!-- &nbsp; Sites -->
+      <span style=" font-style: italic;">Sites</span>
     </div>
   </a>
-  <a *ngIf="User.id" routerLink="/contact" class="list-group-item list-group-item-action mx-4 p-1" >
+  <a *ngIf="User.id" routerLink="/contact" class="list-group-item list-group-item-action my-2 mx-4 p-1" >
     <div class="d-flex flex-column align-items-center">
       <i class="bi bi-person-fill-add fa-fw me-3"></i>
-      <span>Contacts</span>
+      <!-- &nbsp; Contacts -->
+      <span style=" font-style: italic;">Contacts</span>
     </div>
   </a>
 </div>

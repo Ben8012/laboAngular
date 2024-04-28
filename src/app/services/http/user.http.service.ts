@@ -31,8 +31,8 @@ export class UserHttpService {
     return this.http.put<any>(apiUrl+id,user)
   }
   
-  getAllUsers(): Observable<any[]> {
-    return this.http.get<any[]>(apiUrl);
+  getAllUsers(): Observable<any> {
+    return this.http.get<any>(apiUrl);
   }
 
   getUserById(id : number) : Observable<any> {

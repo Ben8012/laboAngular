@@ -14,6 +14,7 @@ export class ContactComponent implements OnInit {
 
 
   private _user!: any; 
+  private _allUsers!: any; 
 
   get Friends(): any[] { return this._friends; }
   private _friends: any[] = [];
@@ -34,7 +35,6 @@ export class ContactComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.getUser();
     this.getAllUsers();
   }
 
@@ -43,7 +43,6 @@ export class ContactComponent implements OnInit {
       this._user = user;
       if(this._user.id){
         this.refreshFriends()
-        //console.log(user)
       }
     })
   }
@@ -51,8 +50,8 @@ export class ContactComponent implements OnInit {
   private getAllUsers() {
     this._userHttpService.getAllUsers().subscribe({
       next: (data: any) => {
-        this._users = data.filter((d: any) => d.id != this._user.id)
-        console.log(this._users)
+        this._allUsers = data
+        this.getUser();
       },
       error: (data: any) => {
         console.log(data);
@@ -63,6 +62,7 @@ export class ContactComponent implements OnInit {
   like(likedId: number) {
     this._userHttpService.like(this._user.id, likedId).subscribe((data: any[]) => {
       this._user = this._session.refreshUser(this._user.id)
+      this.getAllUsers()
       if(this._user &&this._user.id){
         this.refreshFriends();
       }
@@ -72,6 +72,7 @@ export class ContactComponent implements OnInit {
   unlike(likedId: number) {
     this._userHttpService.unlike(this._user.id, likedId).subscribe((data: any[]) => {
     this._user = this._session.refreshUser(this._user.id)
+    this.getAllUsers()
     if(this._user && this._user.id){
       this.refreshFriends();
     }
@@ -90,15 +91,19 @@ export class ContactComponent implements OnInit {
 
   private refreshFriends(){
     
+
     this._friends = this._user.friends
     this._likeds = this._user.likeds
     this._likers = this._user.likers
-    this._users = this._users.filter((u: any) => u.id != this._user.id)
+
+    this._allUsers = this._allUsers.filter((u: any) => u.id != this._user.id)
     
     this._friends.map((friend : any) => {
       this._likers = this._likers.filter((l: any) => l.id != friend.id)
       this._likeds = this._likeds.filter((l: any) => l.id != friend.id)
-      this._users = this._users.filter((u: any) => u.id != friend.id)
+
+   
+      this._allUsers = this._allUsers.filter((u: any) => u.id != friend.id)
       friend.trainings.map((training : any)=>{
         if(training.isMostLevel ==  true){
           friend.level = training.name
@@ -108,7 +113,7 @@ export class ContactComponent implements OnInit {
     });
 
     this._likeds.map((liked : any) => {
-      this._users = this._users.filter((u: any) => u.id != liked.id)
+      this._allUsers = this._allUsers.filter((u: any) => u.id != liked.id)
       liked.trainings.map((training : any)=>{
         if(training.isMostLevel ==  true){
           liked.level = training.name
@@ -118,7 +123,7 @@ export class ContactComponent implements OnInit {
     });
 
     this._likers.map((liker : any) => {
-      this._users = this._users.filter((u: any) => u.id != liker.id)
+      this._allUsers = this._allUsers.filter((u: any) => u.id != liker.id)
       liker.trainings.map((training : any)=>{
         if(training.isMostLevel ==  true){
           liker.level = training.name
@@ -135,6 +140,11 @@ export class ContactComponent implements OnInit {
         }
       })
     });
+
+    this._users = this._allUsers;
+    console.log('liked',this.Likeds)
+    console.log('liker',this.Likers)
+    console.log('users',this._users)
 
   }
 

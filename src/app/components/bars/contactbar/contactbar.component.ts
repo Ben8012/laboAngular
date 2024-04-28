@@ -6,6 +6,7 @@ import { UserSessionService } from 'src/app/services/session/user-session.servic
 import { UserHttpService } from 'src/app/services/http/user.http.service';
 import { Router } from '@angular/router';
 import { ImageHttpService } from 'src/app/services/http/image.http.service';
+import { MessageHttpService } from 'src/app/services/http/message.http.service';
 
 
 
@@ -30,7 +31,7 @@ export class ContactbarComponent implements OnInit {
     private _session : UserSessionService,
     private _userHttpService : UserHttpService,
     private _route : Router,
-    private _imageHttpService : ImageHttpService
+    private _imageHttpService : ImageHttpService,
   ){ }
 
   ngOnInit(): void {
@@ -49,6 +50,13 @@ export class ContactbarComponent implements OnInit {
               reader.readAsDataURL(imageData);
             });
           }
+
+          friend.countMessages = 0
+          friend.messages.forEach((message:any)=> {
+            if((message.reciever.id == this._user.id || message.sender.id == this._user.id) && message.isRead == false){
+              friend.countMessages++
+            }
+          })
          })
 
        }
@@ -60,14 +68,13 @@ export class ContactbarComponent implements OnInit {
   getMessage(id : any){
     this.HiddenContactBar.emit('hidden');
     this._route.navigate(['/message', id]);
-    
   }
 
   close(){
     this.HiddenContactBar.emit('hidden');
   }
 
- 
+  
 
 
 

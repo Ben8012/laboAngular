@@ -1,6 +1,6 @@
-
+<!-- [ngClass]="message.sender.id === User.id ? 'blue' : 'pink'  " -->
 <div *ngFor="let message of Messages">
-  <div class="card m-1" [ngClass]="message.sender.id === User.id ? 'blue' : 'pink'  ">
+  <div class="card m-1" [ngClass]="message.isRead ? 'blue':'red'">
     <div class="card-body">
       <div class="d-flex justify-content-between">
         <h6>{{message.sender.firstname}}</h6>

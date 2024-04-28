@@ -16,8 +16,14 @@ export class MessageHttpService {
     private http:HttpClient,
   ) { }
 
+
+
   getMessagesBySenderId(id: any): Observable<any> {
     return this.http.get(apiUrl+'SenderMessages/'+id)
+  }
+
+  getMessagesByRecieverId(id: any): Observable<any> {
+    return this.http.get(apiUrl+'RecieverMessages/'+id)
   }
 
   getMessagesBetween(sender : any, reciever : any): Observable<any> {
@@ -30,6 +36,10 @@ export class MessageHttpService {
 
   delete(id : any) : Observable<any> {
     return this.http.delete(apiUrl+id)
+  }
+
+  isRead(friendId:any, userId: any): Observable<any> {
+    return this.http.get(apiUrl+'IsRead/'+friendId+'/'+userId)
   }
 
   

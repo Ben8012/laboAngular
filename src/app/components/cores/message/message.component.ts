@@ -40,38 +40,50 @@ export class MessageComponent implements OnInit {
     this.route.params.subscribe((params: Params) => {
       this.id = params['id'];
     });
-
-    this._session.$user.subscribe({
-      next : (data :any) =>{
-        this._user = data
-        if(this._user.id){
-          this.getMessages()
-
-          //ajouter le chat
-          // this._chatService.getMessage(this._user.id,this.id).subscribe({
-          //   next : (data : any[]) => this._messages = data
-          // })
-        }
-      },
-      error : (error) => {
-        console.log(error)
-      }}) ;
-
-    
+    this.getUser()
 
     // this._chatService.myHub.on("receiveMessage", (message : any) => {
     //   this._messages.push(message)
     // })
   }
 
+  private isRead(){
+    this._messageHttpService.isRead(this.id,this._user.id).subscribe({
+      next : (data :any) =>{
+        this._messages = data
+        console.log(this._messages)
 
+        //ajouter le chat
+          // this._chatService.getMessage(this._user.id,this.id).subscribe({
+          //   next : (data : any[]) => this._messages = data
+          // })
+      },
+      error : (error) => {
+        console.log(error)
+      }}) ;
+
+  }
+
+
+  private getUser(){
+    this._session.$user.subscribe({
+      next : (data :any) =>{
+        this._user = data
+        if(this._user.id){
+          this.isRead()
+        }
+      },
+      error : (error) => {
+        console.log(error)
+      }}) ;
+  }
 
   private getMessages(){
     this.route.params.subscribe((params: Params) => {
       this.id = params['id'];
       this._messageHttpService.getMessagesBetween(this._user.id,this.id ).subscribe((data :any) =>{
         this._messages = data
-        console.log(this.Messages)
+        console.log(this._messages)
       }, error => {
         console.log(error)
       }) ;

@@ -18,8 +18,7 @@
             </tr>
             <tr *ngIf="event.training" class="border-top" >
                 <td class="text-center">
-                    <h6>Formation</h6> 
-                    <p>{{event.training.organisation.name}} {{event.training.name}}</p>
+                    <span style="font-weight: bold;">Formation :</span> {{event.training.organisation.name}} {{event.training.name}}
                 </td>
                 <td class="d-flex flex-column min-width">
                     <button class="btn btn-light hover border font-color-black m-1" (click)="trainingInfo(event.training)"><i class="bi bi-info-circle"></i></button>
@@ -27,8 +26,7 @@
             </tr>
             <tr class="border-top">
                 <td class="text-center">
-                    
-                    <p>Lieu : {{event.diveplace.name}}</p>
+                    <span style="font-weight: bold;">Lieu :</span>{{event.diveplace.name}}
                     <div class="d-flex justify-content-center">
                         <img [src]="event.diveplace.image" class="size border rounded" height="200vh" alt="Avatar"loading="lazy" />
                     </div>
@@ -40,7 +38,7 @@
              <tr class="border-top">
                 <td class="text-center">
                     <div class="text-center">
-                        <p><span style="font-weight: bold;">Organisateur :</span> {{event.creator.firstname}} {{event.creator.lastname}}</p>
+                        <span style="font-weight: bold;">Organisateur :</span> {{event.creator.firstname}} {{event.creator.lastname}}
                         <!-- <p>{{event.creator.organisation}} {{event.creator.level}}</p> -->
                     </div>
                 </td>
@@ -48,7 +46,7 @@
                     <button class="btn btn-light hover border font-color-black m-1" (click)="creatorInfo(event.creator)"><i class="bi bi-info-circle"></i></button>
                 </td>
             </tr>
-            <tr *ngIf="event.divelog && UrlSegements =='my-book'" class="border-top">
+            <tr *ngIf="event.divelog && UrlSegements =='my-book'">
                 <td>
                     <app-divelog [UrlSegements]="UrlSegements" [User]="User" [Element]="event.divelog"></app-divelog>
                 </td>
@@ -58,7 +56,7 @@
                 </td>
             </tr>
            
-            <tr *ngIf="event.participes.length > 0" class="border-top">
+            <tr *ngIf="event.participes.length > 0">
                 <td colspan="2">
                     <app-participator-table [UrlSegements]="UrlSegements" [User]="User" [Element]="event"></app-participator-table>
                 </td>
