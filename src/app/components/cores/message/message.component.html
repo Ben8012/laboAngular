@@ -1,18 +1,24 @@
 <!-- [ngClass]="message.sender.id === User.id ? 'blue' : 'pink'  " -->
-<div *ngFor="let message of Messages">
-  <div class="card m-1" [ngClass]="message.isRead ? 'blue':'red'">
-    <div class="card-body">
-      <div class="d-flex justify-content-between">
-        <h6>{{message.sender.firstname}}</h6>
-        <h6>{{message.createdAt | date :'medium'}}</h6>
-        <button (click)="deleteMessage(message.id)" class="btn btn-light mb-2">X</button>
-      </div>     
-        <div class="card-body border rounded" [ngClass]="message.sender.id === User.id ? 'blue' : 'pink'  ">
-          <h4>{{message.content}}</h4>
-        </div>
+
+  <div *ngFor="let message of Messages">
+    <div class="card m-1" [ngClass]="message.isRead ? 'blue':'red'">
+      <div class="card-body">
+        <div class="d-flex justify-content-between">
+          <h6>{{message.sender.firstname}}</h6>
+          <h6>{{message.createdAt | date :'medium'}}</h6>
+          <h6>
+            Vu  
+            <i *ngIf="!message.isRead" class="bi bi-x" style="color:red;"></i>    
+            <i *ngIf="message.isRead" class="bi bi-check-lg" style="color:green"></i>
+          </h6>
+          <button (click)="deleteMessage(message.id)" class="btn btn-light mb-2">X</button>
+        </div>     
+          <div class="card-body border rounded" [ngClass]="message.sender.id === User.id ? 'blue' : 'pink'  ">
+            <h4>{{message.content}}</h4>
+          </div>
+      </div>
     </div>
   </div>
-</div>
 
 
 

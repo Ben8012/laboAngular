@@ -31,8 +31,8 @@ export class LoginComponent {
   login(){
     if(this.formLogin.valid){
       this._userHttpService.login(this.formLogin.value).subscribe({
-        next : (data :IUser) =>{
-          this._session.saveSession(data)
+        next : (data :any) =>{
+          this._session.refreshUser(data.id)
           console.log(data)
           this._route.navigate([''])
         },

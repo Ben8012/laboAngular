@@ -35,33 +35,28 @@ export class MessageComponent implements OnInit {
 
   
   ngOnInit() {
-    //this._chatService.connection()
+    this._chatService.connection()
+
+    this._chatService.myHub.on("ReceiveMessage", (message : any) => {
+      if(message.sender.id == this._user.id || message.reciever.id == this._user.id){
+        this._session.refreshUser(this._user.id)
+        this._messages.push(message)
+      }
+    })
+
+    this._chatService.myHub.on("MessageDeleted", (message : any) => {
+      if(message.senderId == this._user.id || message.recieverId == this._user.id){
+        this._session.refreshUser(this._user.id)
+        this._messages = this._messages.filter((m : any)=> { m.id != message.id})
+      }
+    })
+
 
     this.route.params.subscribe((params: Params) => {
       this.id = params['id'];
+      this.getUser()
+     
     });
-    this.getUser()
-
-    // this._chatService.myHub.on("receiveMessage", (message : any) => {
-    //   this._messages.push(message)
-    // })
-  }
-
-  private isRead(){
-    this._messageHttpService.isRead(this.id,this._user.id).subscribe({
-      next : (data :any) =>{
-        this._messages = data
-        console.log(this._messages)
-
-        //ajouter le chat
-          // this._chatService.getMessage(this._user.id,this.id).subscribe({
-          //   next : (data : any[]) => this._messages = data
-          // })
-      },
-      error : (error) => {
-        console.log(error)
-      }}) ;
-
   }
 
 
@@ -70,6 +65,7 @@ export class MessageComponent implements OnInit {
       next : (data :any) =>{
         this._user = data
         if(this._user.id){
+          this.getMessages()
           this.isRead()
         }
       },
@@ -78,46 +74,47 @@ export class MessageComponent implements OnInit {
       }}) ;
   }
 
-  private getMessages(){
-    this.route.params.subscribe((params: Params) => {
-      this.id = params['id'];
-      this._messageHttpService.getMessagesBetween(this._user.id,this.id ).subscribe((data :any) =>{
-        this._messages = data
-        console.log(this._messages)
-      }, error => {
-        console.log(error)
-      }) ;
-
-    });
-  }
-
-  addMessage(){
-    this.FormMessage.value.senderId = this._user.id.toString()
-    this.FormMessage.value.recieverId = this.id
-    
-    if(this.formMessage.valid){
-      this._messageHttpService.insert(this.formMessage.value).subscribe({
-        next : (data :any) =>{
-          this.getMessages()
-        },
-        error : (error) => {
-          console.log(error)
-        }}) ;
-
-      // ajouter le chat
-      //this._chatService.myHub.send("SendMessage", this.formMessage.value)
-    }
-  }
-
-  deleteMessage(id : any){
-    console.log('test')
-    this._messageHttpService.delete(id).subscribe({
+  private isRead(){
+    console.log('ici')
+    this._messageHttpService.isRead(this.id,this._user.id).subscribe({
       next : (data :any) =>{
-        this.getMessages()
+       this.getMessages()
       },
       error : (error) => {
         console.log(error)
       }}) ;
   }
+
+  private getMessages(){
+    this._chatService.getMessage(this._user.id,this.id).subscribe({
+      next : (data :any) =>{
+        this._messages = data
+        console.log(data)
+       },
+       error : (error) => {
+         console.log(error)
+       }}) ;
+  }
+
+  addMessage(){
+    if(this.formMessage.valid){
+      let myMessage : any = {
+        SenderId : parseInt(this._user.id),
+        RecieverId : parseInt(this.id),
+        Content : this.formMessage.value.content.toString(),
+      }
+      this._chatService.myHub.send("SendMessage", myMessage)
+    }
+  }
+
+  deleteMessage(id : any){
+    let messageToDelete : any = {
+      Id : parseInt(id),
+      SenderId : parseInt(this._user.id),
+      RecieverId : parseInt(this.id),
+    }
+    this._chatService.myHub.send("DeleteMessage",messageToDelete)
+  }
+
 
 }

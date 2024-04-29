@@ -47,7 +47,7 @@
         <span style=" font-style: italic;">mes messages</span>
       </div>
       &nbsp;&nbsp;&nbsp;
-      <span *ngIf="CountMessages > 0" class="rounded-circle border p-1 my-auto">{{CountMessages}}</span>
+      <span *ngIf="User.countMessage > 0" class="rounded-circle border p-1 my-auto">{{User.countMessage}}</span>
     </div>
   </a>
   <app-contactbar class="contactBarPostion" (HiddenContactBar)="event($event)" *ngIf="IsContactBarVisible" [PhoneSize]="PhoneSize"></app-contactbar>

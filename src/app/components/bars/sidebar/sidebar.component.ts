@@ -23,10 +23,6 @@ export class SidebarComponent implements OnInit {
   private _user! : any
   get User(): any  { return this._user; }
 
-  private _senderMessages : any 
-  private _recieverMessages : any 
-  // get Messages(): any []  { return this._messages; }
-
   private _countMessages! : any
   get CountMessages(): any  { return this._countMessages; }
 
@@ -37,9 +33,7 @@ export class SidebarComponent implements OnInit {
     private _imageHttpService : ImageHttpService,
     private _messageHttpService : MessageHttpService
     )
-  {
-
-  }
+  {}
 
   ngOnInit(): void {
     this._session.$user.subscribe((user :any) =>{
@@ -47,26 +41,11 @@ export class SidebarComponent implements OnInit {
      console.log(this._user)
       if(this._user.guidImage){
         this.getUserImage(user)
-        this.countMessage()
-       
       }
     })
   }
 
  
-
-  private countMessage(){
-    this._countMessages = 0
-    this._user.friends.map((friend : any)=>{
-      friend.messages.forEach((message:any)=> {
-        if((message.reciever.id == this._user.id || message.sender.id == this._user.id) && message.isRead == false){
-          this._countMessages++
-        }
-      })
-    })
-  }
-
-
 
   getUserImage(user : any){
     this._imageHttpService.getProfilImage(user.guidImage).subscribe(imageData => {
@@ -87,7 +66,6 @@ export class SidebarComponent implements OnInit {
 
   event(message: string) {
     if(message == 'hidden'){
-      this.countMessage()
       this._isContactBarVisible = false
     }
     

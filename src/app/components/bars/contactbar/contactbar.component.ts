@@ -39,43 +39,17 @@ export class ContactbarComponent implements OnInit {
         this._user = data
         this._friends = this._user.friends
        //console.log(this._friends)
-       if(this._friends){
-         this._friends.forEach((friend : any) =>{
-          if(friend.guidImage != ''){
-            this._imageHttpService.getProfilImage(friend.guidImage).subscribe(imageData => {
-              const reader = new FileReader();
-              reader.onload = (e: any) => {
-                friend.imageUrl = e.target.result;
-              }
-              reader.readAsDataURL(imageData);
-            });
-          }
-
-          friend.countMessages = 0
-          friend.messages.forEach((message:any)=> {
-            if((message.reciever.id == this._user.id || message.sender.id == this._user.id) && message.isRead == false){
-              friend.countMessages++
-            }
-          })
-         })
-
-       }
-       
-       
       })  
   }
 
   getMessage(id : any){
     this.HiddenContactBar.emit('hidden');
+    this._session.refreshUser(this._user.id)
     this._route.navigate(['/message', id]);
   }
 
   close(){
     this.HiddenContactBar.emit('hidden');
   }
-
-  
-
-
 
 }

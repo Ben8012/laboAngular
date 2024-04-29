@@ -16,6 +16,7 @@ export class UserSessionService implements OnInit {
   constructor(
     private _router : Router,
     private _userHttpService: UserHttpService,
+    private _imageHttpService : ImageHttpService
     )
   {}
 
@@ -52,11 +53,48 @@ export class UserSessionService implements OnInit {
               data.organisation = training.organisation.name
             }
           })
+          this.countUserMessage(data)
+          data.friends.forEach((friend : any)=> {
+            this.countFriendMessages(friend,data)
+            this.getFriendImage(friend)
+          })
           this.saveSession(data)
-          return data
         },
         error : (error) => {
           console.log(error)
         }}) ;
+  }
+
+  private countUserMessage(user :any){
+    user.countMessages = 0
+    user.friends.map((friend : any)=>{
+      friend.messages.forEach((message:any)=> {
+        if(message.reciever.id == user.id && message.isRead == false){
+          user.countMessages++
+        }
+      })
+    })
+  }
+
+  private countFriendMessages(friend : any, user :any){
+    friend.countMessages = 0
+    friend.messages.forEach((message:any)=> {
+      if((message.reciever.id == user.id || message.sender.id == user.id) && message.isRead == false){
+        friend.countMessages++
+      }
+    })
+  }
+
+  private getFriendImage(friend : any){
+    if(friend.guidImage != ''){
+      this._imageHttpService.getProfilImage(friend.guidImage).subscribe(imageData => {
+        const reader = new FileReader();
+        reader.onload = (e: any) => {
+          friend.imageUrl = e.target.result;
+        }
+        reader.readAsDataURL(imageData);
+      });
     }
+  }
+
 }
