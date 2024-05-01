@@ -31,7 +31,7 @@ const routes: Routes = [
   { path: '', component : HomeComponent},
   { path: 'profil', component : ProfilComponent, canActivate : [UserGuardService]},
   { path: 'login', component : LoginComponent},
-  { path: 'register', component : RegisterComponent},
+  // { path: 'register', component : RegisterComponent},
 
   { path: 'event', component : EventComponent},
   { path: 'my-events', component : EventComponent, canActivate : [UserGuardService]},

@@ -44,6 +44,7 @@ import { FormOrganisationComponent } from './components/cores/admin/form-organis
 import { ValidationComponent } from './components/cores/admin/validation/validation.component';
 import { HttpInterceptorService } from './services/interceptor/http-interceptor.service';
 import { ResetPasswordComponent } from './components/user/reset-password/reset-password.component';
+import { ConditionModalComponent } from './components/modals/conditionModal/conditionModal.component';
 
 
 @NgModule({
@@ -82,7 +83,8 @@ import { ResetPasswordComponent } from './components/user/reset-password/reset-p
     FormTrainingComponent,
     FormOrganisationComponent,
     ValidationComponent,
-    ResetPasswordComponent
+    ResetPasswordComponent,
+    ConditionModalComponent
 
   ],
   imports: [
