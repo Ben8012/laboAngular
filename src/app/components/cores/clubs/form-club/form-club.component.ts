@@ -55,7 +55,7 @@ export class FormClubComponent implements OnInit {
     this.route.url.subscribe(segments => {
       this._urlSegements = segments
       this._url = segments.join('/');
-      console.log("L'URL a changé :", this._url);
+      // console.log("L'URL a changé :", this._url);
 
       this.getUser()
       if (segments.length > 0 && segments[0].path === "update-club") {
@@ -94,7 +94,7 @@ export class FormClubComponent implements OnInit {
             this.formClub.value.adress = null
           }
         }
-        console.log(this._club)
+        // console.log(this._club)
       },
       error: (error) => {
         console.log(error)
@@ -113,15 +113,15 @@ export class FormClubComponent implements OnInit {
   }
 
   send() {
-    console.log(this.formClub.value)
-    console.log(this.formClub)
+    // console.log(this.formClub.value)
+    // console.log(this.formClub)
     if (this.formClub.valid) {
       this._clubToSend.name = this.formClub.value.name
       this._clubToSend.creatorId = this._user.id
 
       if (this._urlSegements[0].path === "update-club") {
         this._clubToSend.id = this._club.id
-        console.log('update')
+        // console.log('update')
         this._clubHttpService.update(this._clubToSend).subscribe({
           next: (data: any) => {
             this._club = data
@@ -133,7 +133,7 @@ export class FormClubComponent implements OnInit {
         });
       }
       else if (this._urlSegements[0].path === "insert-club") {
-        console.log('insert')
+        // console.log('insert')
         this._clubHttpService.insert(this._clubToSend).subscribe({
           next: (data: any) => {
             this._club = data
@@ -175,7 +175,7 @@ export class FormClubComponent implements OnInit {
       number: adress.number,
       country: adress.country
     }
-    console.log(this._clubToSend)
+    // console.log(this._clubToSend)
   }
 
   // disableControlFormAdress() {

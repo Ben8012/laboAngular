@@ -44,10 +44,10 @@
       <div class="d-flex flex-column align-items-center">
         <i class="bi bi-chat-text me-3"></i>
         <!-- &nbsp; mes amis -->
-        <span style=" font-style: italic;">mes messages</span>
+        <span style=" font-style: italic;">messages</span>
       </div>
       &nbsp;&nbsp;&nbsp;
-      <span *ngIf="User.countMessage > 0" class="rounded-circle border p-1 my-auto">{{User.countMessage}}</span>
+      <span *ngIf="User.countMessages > 0" class="rounded-circle border p-1 my-auto">{{User.countMessages}}</span>
     </div>
   </a>
   <app-contactbar class="contactBarPostion" (HiddenContactBar)="event($event)" *ngIf="IsContactBarVisible" [PhoneSize]="PhoneSize"></app-contactbar>

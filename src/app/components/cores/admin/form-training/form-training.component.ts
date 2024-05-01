@@ -90,7 +90,7 @@ export class FormTrainingComponent implements OnInit {
     this._trainingHttpService.getByOrganisationId(id).subscribe({
       next: (data: any) => {
         this._trainings = data
-        console.log(this._trainings)
+        // console.log(this._trainings)
       },
       error: (error) => {
         console.log(error);
@@ -102,7 +102,7 @@ export class FormTrainingComponent implements OnInit {
     this._organisationHttpService.getById(id).subscribe({
       next: (data: any) => {
         this._organisation = data
-        console.log(this._organisation)
+        // console.log(this._organisation)
       },
       error: (error) => {
         console.log(error);
@@ -122,11 +122,10 @@ export class FormTrainingComponent implements OnInit {
   }
 
   private getTrainingById(id : any){
-    console.log(id)
     this._trainingHttpService.getById(id).subscribe({
       next : (data :any) =>{
         this._training = data
-        console.log(this._training)
+        // console.log(this._training)
         if(this._training.id){
           this.addToForm()
           this.getImage()
@@ -150,7 +149,7 @@ export class FormTrainingComponent implements OnInit {
       prerequisId : this._training.prerequis ? this._training.prerequis.id : 0,
       organisationId : this._training.organisationId,
     }
-    console.log(form)
+    // console.log(form)
     this.formTraining.patchValue(form);
   }
 
@@ -160,8 +159,8 @@ export class FormTrainingComponent implements OnInit {
   }
 
   send() {
-    console.log(this.formTraining.value)
-    console.log(this.formTraining.valid)
+    // console.log(this.formTraining.value)
+    // console.log(this.formTraining.valid)
     if (this.formTraining.valid) {
 
       this._trainingToSend.name = this.formTraining.value.name,
@@ -171,11 +170,11 @@ export class FormTrainingComponent implements OnInit {
       this._trainingToSend.organisationId = this._organisation.id
 
 
-      console.log(this._trainingToSend)
+      // console.log(this._trainingToSend)
    
       if (this._urlSegements === "update-training") {
         this._trainingToSend.id = this._training.id
-        console.log('update')
+        // console.log('update')
         this._trainingHttpService.update(this._trainingToSend).subscribe({
           next: (data: any) => {
             this._training = data
@@ -187,7 +186,7 @@ export class FormTrainingComponent implements OnInit {
         });
       }
       else if (this._urlSegements === "insert-training") {
-        console.log('insert')
+        // console.log('insert')
         this._trainingHttpService.insert(this._trainingToSend).subscribe({
           next: (data: any) => {
             this._training = data

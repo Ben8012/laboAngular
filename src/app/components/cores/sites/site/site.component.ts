@@ -47,7 +47,7 @@ export class SiteComponent implements OnInit {
   ngOnInit(): void {
     this.route.url.subscribe(segments => {
       this._urlSegements = segments[0].path
-      console.log(segments)
+      // console.log(segments)
       this.getUser()
     });
  
@@ -63,7 +63,7 @@ export class SiteComponent implements OnInit {
             this.getImages(site)
           }
         });
-        console.log(this._sites)
+        //console.log(this._sites)
       },
       error : (error) => {
         console.log(error)
@@ -80,7 +80,7 @@ export class SiteComponent implements OnInit {
             this.getImages(site)
           }
         });
-        console.log(this._sites)
+        //console.log(this._sites)
       },
       error : (error) => {
         console.log(error)
@@ -132,7 +132,7 @@ export class SiteComponent implements OnInit {
     const dialogRef = this.dialog.open(DeleteEventModelComponent);
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log('Le modal est fermé');
+      // console.log('Le modal est fermé');
       document.body.classList.remove('modal-open'); 
       this.getAllSiteAndVote()
     });

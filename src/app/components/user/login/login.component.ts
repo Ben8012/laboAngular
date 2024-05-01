@@ -5,6 +5,7 @@ import { FLogin } from '../../../models/forms/login.form';
 import { UserHttpService } from 'src/app/services/http/user.http.service';
 import { UserSessionService } from 'src/app/services/session/user-session.service';
 import { IUser } from 'src/app/models/interfaces/user.model';
+import { ChatService } from 'src/app/services/http/chat.http.service';
 // import { SessionService } from '../../modules/security/services/session.service';
 // import { AuthService } from '../../modules/security/services/auth.service';
 
@@ -24,6 +25,7 @@ export class LoginComponent {
       private _userHttpService : UserHttpService,
       private _route : Router,
       private _session : UserSessionService,
+      private _chatService : ChatService
      ) { }
 
 
@@ -32,8 +34,9 @@ export class LoginComponent {
     if(this.formLogin.valid){
       this._userHttpService.login(this.formLogin.value).subscribe({
         next : (data :any) =>{
-          this._session.refreshUser(data.id)
-          console.log(data)
+          this._session.saveSession(data)
+          this._session.refreshUser(data)
+          this._chatService.connection()
           this._route.navigate([''])
         },
         error : (error) => {
@@ -42,6 +45,19 @@ export class LoginComponent {
         }}) ;
     }
 
+  }
+
+  resetPassword(){
+    let email = this.formLogin.value.email
+    this._userHttpService.sendEmailToResetPassword(email).subscribe({
+      next : (data : any)=>{
+        alert("un email vous a été envoyé sur l'adresse "+email+" !")
+        this._route.navigate(['']);
+      },
+      error:(error : any)=> {
+        console.log(error)
+      } 
+    })
   }
 
 }

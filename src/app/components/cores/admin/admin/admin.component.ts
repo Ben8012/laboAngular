@@ -41,7 +41,7 @@ export class AdminComponent implements OnInit {
       next: (data: any) => {
         this._users = data
         this.addLevelToView(this._users)
-        console.log(this._users)
+        // console.log(this._users)
       },
       error: (data: any) => {
         console.log(data);
@@ -68,7 +68,6 @@ export class AdminComponent implements OnInit {
    }
 
    private addLevelToView(users :any){
-    console.log('ici')
     users.forEach((user : any) => {
       user.trainings.forEach((training : any) =>{
         if(training.isMostLevel == true){

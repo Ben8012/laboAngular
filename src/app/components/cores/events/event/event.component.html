@@ -10,10 +10,30 @@
                     <!-- <h6>Fin le {{event.endDateFrench }} </h6> -->
                 </td>
                 <td class="d-flex flex-column min-width"> 
-                    <button *ngIf="User.id && UrlSegements!='my-book' && User.id != event.creator.id && !event.isParticipe" class="btn btn-success hover border font-color-black m-1" (click)="participe(event)"><i class="bi bi-hand-thumbs-up-fill"></i></button>
-                    <button *ngIf="User.id && UrlSegements!='my-book' && User.id != event.creator.id && event.isParticipe" class="btn btn-warning hover border font-color-black m-1" (click)="unparticipe(event)"><i class="bi bi-hand-thumbs-down-fill"></i></button>
-                    <button *ngIf="User.id && UrlSegements=='my-events' && User.id == event.creator.id" class="btn btn-danger hover font-color-black border m-1" (click)="deleteEvent(event)"><i class="bi bi-trash"></i></button>
-                    <button *ngIf="User.id && UrlSegements=='my-events' && User.id == event.creator.id && event.startDate.getTime() > Today.getTime()" class="btn btn-warning hover font-color-black border m-1" (click)="updateEvent(event)"><i class="bi bi-arrow-clockwise"></i></button>
+                    <button *ngIf="User.id && UrlSegements!='my-book' && User.id != event.creator.id && !event.isParticipe" class="btn btn-success hover border font-color-black m-1" (click)="participe(event)">
+                        <div class="d-flex flex-column align-items-center">
+                            <i class="bi bi-hand-thumbs-up-fill"></i>
+                            <span style=" font-style: italic;">participe</span>
+                        </div>
+                    </button>
+                    <button *ngIf="User.id && UrlSegements!='my-book' && User.id != event.creator.id && event.isParticipe" class="btn btn-warning hover border font-color-black m-1" (click)="unparticipe(event)">
+                        <div class="d-flex flex-column align-items-center">
+                            <i class="bi bi-hand-thumbs-down-fill"></i>
+                            <span style=" font-style: italic;">participe pas</span>
+                        </div> 
+                    </button>
+                    <button *ngIf="User.id && UrlSegements=='my-events' && User.id == event.creator.id" class="btn btn-danger hover font-color-black border m-1" (click)="deleteEvent(event)">
+                        <div class="d-flex flex-column align-items-center">
+                            <i class="bi bi-trash"></i>
+                            <span style=" font-style: italic;">supprimer</span>
+                        </div> 
+                    </button>
+                    <button *ngIf="User.id && UrlSegements=='my-events' && User.id == event.creator.id && event.startDate.getTime() > Today.getTime()" class="btn btn-warning hover font-color-black border m-1" (click)="updateEvent(event)">
+                        <div class="d-flex flex-column align-items-center">
+                            <i class="bi bi-arrow-clockwise"></i>
+                            <span style=" font-style: italic;">modifier</span>
+                        </div> 
+                    </button>
                 </td>
             </tr>
             <tr *ngIf="event.training" class="border-top" >
@@ -21,7 +41,12 @@
                     <span style="font-weight: bold;">Formation :</span> {{event.training.organisation.name}} {{event.training.name}}
                 </td>
                 <td class="d-flex flex-column min-width">
-                    <button class="btn btn-light hover border font-color-black m-1" (click)="trainingInfo(event.training)"><i class="bi bi-info-circle"></i></button>
+                    <button class="btn btn-light hover border font-color-black m-1" (click)="trainingInfo(event.training)">
+                        <div class="d-flex flex-column align-items-center">
+                            <i class="bi bi-info-circle"></i>
+                            <span style=" font-style: italic;">infos</span>
+                        </div> 
+                    </button>
                 </td>
             </tr>
             <tr class="border-top">
@@ -32,7 +57,12 @@
                     </div>
                 </td>
                 <td class="d-flex flex-column min-width">
-                    <button class="btn btn-light hover border font-color-black m-1" (click)="diveplaceInfo(event.diveplace)"><i class="bi bi-info-circle"></i></button>
+                    <button class="btn btn-light hover border font-color-black m-1" (click)="diveplaceInfo(event.diveplace)">
+                        <div class="d-flex flex-column align-items-center">
+                            <i class="bi bi-info-circle"></i>
+                            <span style=" font-style: italic;">infos</span>
+                        </div> 
+                    </button>
                 </td>
             </tr>
              <tr class="border-top">
@@ -43,16 +73,34 @@
                     </div>
                 </td>
                 <td class="d-flex flex-column min-width">
-                    <button class="btn btn-light hover border font-color-black m-1" (click)="creatorInfo(event.creator)"><i class="bi bi-info-circle"></i></button>
+                    <button class="btn btn-light hover border font-color-black m-1" (click)="creatorInfo(event.creator)">
+                        <div class="d-flex flex-column align-items-center">
+                            <i class="bi bi-info-circle"></i>
+                            <span style=" font-style: italic;">infos</span>
+                        </div> 
+                    </button>
                 </td>
             </tr>
-            <tr *ngIf="event.divelog && UrlSegements =='my-book'">
-                <td>
+            <tr *ngIf="UrlSegements =='my-book'" class="border-top">
+                <td *ngIf="event.divelog" >
                     <app-divelog [UrlSegements]="UrlSegements" [User]="User" [Element]="event.divelog"></app-divelog>
                 </td>
+                <td *ngIf="!event.divelog" class="text-center">
+                    <span style="font-weight: bold;">Carnet de plongées</span> 
+                </td>
                 <td class="d-flex flex-column min-width">
-                    <button *ngIf="User.id && UrlSegements=='my-book'  && !event.divelog" class="btn btn-primary hover border font-color-black m-1" routerLink="/insert-book/{{event.id}}"><i class="bi bi-plus-square"></i></button>
-                    <button *ngIf="User.id && UrlSegements=='my-book'  && event.divelog" class="btn btn-warning hover border font-color-black m-1" routerLink="/update-book/{{event.id}}"><i class="bi bi-arrow-clockwise"></i></button>
+                    <button *ngIf="User.id && UrlSegements=='my-book'  && !event.divelog" class="btn btn-primary hover border font-color-black m-1" routerLink="/insert-book/{{event.id}}">
+                        <div class="d-flex flex-column align-items-center">
+                            <i class="bi bi-plus-square"></i>
+                            <span style=" font-style: italic;">ajouter</span>
+                        </div> 
+                    </button>
+                    <button *ngIf="User.id && UrlSegements=='my-book'  && event.divelog" class="btn btn-warning hover border font-color-black m-1" routerLink="/update-book/{{event.id}}">
+                        <div class="d-flex flex-column align-items-center">
+                            <i class="bi bi-arrow-clockwise"></i>
+                            <span style=" font-style: italic;">modifier</span>
+                        </div> 
+                    </button>
                 </td>
             </tr>
            
@@ -63,10 +111,15 @@
             </tr>
             <tr *ngIf="event.club" class="border-top">
                 <td class="text-center">
-                    <span style="font-weight: bold;">Club :</span> {{event.club.name}}
+                    <span style="font-weight: bold;">Groupe :</span> {{event.club.name}}
                 </td>
                 <td class="d-flex flex-column min-width">
-                    <button class="btn btn-light hover border font-color-black m-1" (click)="clubInfo(event.club)"><i class="bi bi-info-circle"></i></button>
+                    <button class="btn btn-light hover border font-color-black m-1" (click)="clubInfo(event.club)">
+                        <div class="d-flex flex-column align-items-center">
+                            <i class="bi bi-info-circle"></i>
+                            <span style=" font-style: italic;">infos</span>
+                        </div> 
+                    </button>
                 </td>
             </tr>
          

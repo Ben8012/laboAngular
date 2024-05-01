@@ -80,7 +80,7 @@ export class FormBookComponent implements OnInit{
       if(this._divelog.id){
         this.addToForm()
       }
-      console.log(this._divelog)
+      // console.log(this._divelog)
     },
     error : (error) => {
       console.log(error)
@@ -110,7 +110,7 @@ export class FormBookComponent implements OnInit{
   if (this.formDivelog.valid) {
 
     if(this._id && this._urlSegements.length > 0 && this._urlSegements[0].path === "update-book"){
-      console.log('update')
+      // console.log('update')
       this._divelogHttpService.update(this.formDivelog.value).subscribe({
         next: (data: any) => {
           this._divelog = data
@@ -123,7 +123,7 @@ export class FormBookComponent implements OnInit{
     }
    
     if(this._id && this._urlSegements.length > 0 && this._urlSegements[0].path === "insert-book"){
-      console.log('insert')
+      // console.log('insert')
       delete this.formDivelog.value.id
       this._divelogHttpService.insert(this.formDivelog.value).subscribe({
         next: (data: any) => {

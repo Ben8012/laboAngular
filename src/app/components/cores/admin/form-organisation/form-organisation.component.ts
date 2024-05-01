@@ -93,7 +93,7 @@ export class FormOrganisationComponent implements OnInit {
           }
           
         }
-        console.log(this._organisation)
+        // console.log(this._organisation)
       },
       error : (error) => {
         console.log(error)
@@ -119,7 +119,7 @@ export class FormOrganisationComponent implements OnInit {
       number: adress.number,
       country: adress.country
     }
-    console.log(this._organisationToSend)
+    // console.log(this._organisationToSend)
   }
 
 
@@ -135,11 +135,11 @@ export class FormOrganisationComponent implements OnInit {
       this._organisationToSend.name = this.formOrganisation.value.name
 
 
-      console.log(this._organisationToSend)
+      // console.log(this._organisationToSend)
    
       if (this._urlSegements === "update-organisation") {
         this._organisationToSend.id = this._organisation.id
-        console.log('update')
+        // console.log('update')
         this._organisationHttpService.update(this._organisationToSend).subscribe({
           next: (data: any) => {
             this._organisation = data
@@ -151,7 +151,7 @@ export class FormOrganisationComponent implements OnInit {
         });
       }
       else if (this._urlSegements === "insert-organisation") {
-        console.log('insert')
+        // console.log('insert')
         this._organisationHttpService.insert(this._organisationToSend).subscribe({
           next: (data: any) => {
             this._organisation = data

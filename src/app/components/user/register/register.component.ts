@@ -40,13 +40,13 @@ export class RegisterComponent {
       delete this.FormRegister.value.passwordConfirm
       this._userHttpService.register(this.formRegister.value).subscribe((data :IUser) =>{
         this._session.saveSession(data)
-        console.log(data)
+        // console.log(data)
         this._route.navigate([''])
 
       }, error => {
-        // console.log(error)
+        console.log(error)
         // console.clear()
-        if(error.message = "Email deja prit") alert(error.message);
+        if(error.message == "Email deja prit") alert(error.message);
 
       }) ;
     }

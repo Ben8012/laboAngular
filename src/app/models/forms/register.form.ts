@@ -5,13 +5,13 @@ import { checkPasswords } from '../../services/CustomValidator/passwordConfirm.v
 
 export const FRegister = function () {
     return new FormGroup({
-        firstname: new FormControl('test', [Validators.required, Validators.minLength(3),Validators.maxLength(50)]),
-        lastname: new FormControl('test', [Validators.required, Validators.minLength(3),Validators.maxLength(50)]),
-        birthdate: new FormControl('1980-12-10', [Validators.required]),
-        email: new FormControl('test@mail.be', [Validators.required, Validators.email]),
-        password: new FormControl('Test1234=', [Validators.required, Validators.minLength(4),Validators.maxLength(250), passwordValidator()]),
-        passwordConfirm: new FormControl('Test1234=', [Validators.required, passwordValidator()]),
-        phone : new FormControl('0465/123456',),
+        firstname: new FormControl(null, [Validators.required, Validators.minLength(3),Validators.maxLength(50)]),
+        lastname: new FormControl(null, [Validators.required, Validators.minLength(3),Validators.maxLength(50)]),
+        birthdate: new FormControl(null, [Validators.required]),
+        email: new FormControl(null, [Validators.required, Validators.email]),
+        password: new FormControl(null, [Validators.required, Validators.minLength(4),Validators.maxLength(250), passwordValidator()]),
+        passwordConfirm: new FormControl(null, [Validators.required, passwordValidator()]),
+        phone : new FormControl(null,),
 
 
     },

@@ -23,7 +23,7 @@ export class DeleteEventModelComponent implements OnInit {
 
   ngOnInit(): void {
     this.modalData = this._modalDataService.getData();
-    console.log(this.modalData)
+    // console.log(this.modalData)
   }
 
   onClose(): void {

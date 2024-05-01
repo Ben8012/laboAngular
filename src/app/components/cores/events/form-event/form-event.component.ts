@@ -60,7 +60,7 @@ export class FormEventComponent implements OnInit {
       this._id = (params['id']);
     });
     this.getUser()
-    console.log(this._id)
+    // console.log(this._id)
     if(this._id){
       this.getEventById(this._id)
     }
@@ -86,7 +86,7 @@ export class FormEventComponent implements OnInit {
       if(this._event.id){
         this.addToForm()
       }
-      console.log(this._event)
+      // console.log(this._event)
     },
     error : (error) => {
       console.log(error)
@@ -123,7 +123,7 @@ export class FormEventComponent implements OnInit {
   this.formEvent.value.creatorId = this._user.id
   if (this.formEvent.valid) {
     if(this._id){
-      console.log('update')
+      // console.log('update')
       this._eventHttpService.update(this.formEvent.value).subscribe({
         next: (data: any) => {
           this._event = data
@@ -140,8 +140,8 @@ export class FormEventComponent implements OnInit {
       this.formEvent.value.trainingId = this.formEvent.value.trainingId ? this.formEvent.value.trainingId : 0,
       this.formEvent.value.clubId = this.formEvent.value.clubId ? this.formEvent.value.clubId : 0,
       delete this.formEvent.value.id
-      console.log('insert')
-      console.log(this.formEvent.value)
+      // console.log('insert')
+      // console.log(this.formEvent.value)
       this._eventHttpService.insert(this.formEvent.value).subscribe({
         next: (data: any) => {
           this._event = data

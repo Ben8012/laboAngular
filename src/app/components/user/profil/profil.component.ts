@@ -136,7 +136,7 @@ export class ProfilComponent {
             this.addToForm()
             this.getImages()
           }
-          console.log(this._user)
+          // console.log(this._user)
           
       },
       error:(data :any) => {
@@ -189,7 +189,7 @@ export class ProfilComponent {
     if (this.formProfil.valid) {
       this._userHttpService.update(this.formProfil.value, this._user.id).subscribe({
         next: (data: any) => {
-          this._session.refreshUser(this._user.id)
+          this._session.refreshUser(this._user)
         },
         error: (error) => {
           console.log(error);
@@ -210,7 +210,7 @@ export class ProfilComponent {
 
     this._imageHttpService.insertProfilImage(formData,this._user.id).subscribe({
       next: (data: any) => {
-        this._session.refreshUser(this._user.id)
+        this._session.refreshUser(this._user)
       },
       error: (error) => {
         console.log(error);
@@ -230,7 +230,7 @@ export class ProfilComponent {
 
     this._imageHttpService.insertInsuranceImage(formData,this._user.id).subscribe({
       next: (data: any) => {
-        this._session.refreshUser(this._user.id)
+        this._session.refreshUser(this._user)
       },
       error: (error) => {
         console.log(error);
@@ -250,7 +250,7 @@ export class ProfilComponent {
 
     this._imageHttpService.insertLevelImage(formData,this._user.id).subscribe({
       next: (data: any) => {
-        this._session.refreshUser(this._user.id)
+        this._session.refreshUser(this._user)
       },
       error: (error) => {
         console.log(error);
@@ -270,7 +270,7 @@ export class ProfilComponent {
 
     this._imageHttpService.insertCertificatImage(formData,this._user.id).subscribe({
       next: (data: any) => {
-        this._session.refreshUser(this._user.id)
+        this._session.refreshUser(this._user)
       },
       error: (error) => {
         console.log(error);
@@ -282,7 +282,7 @@ export class ProfilComponent {
     this._organisationHttpService.getAll().subscribe({
       next: (data: any) => {
         this._organisations = data
-        console.log(this._organisations)
+        // console.log(this._organisations)
       },
       error: (error) => {
         console.log(error);
@@ -294,7 +294,7 @@ export class ProfilComponent {
     this._trainingHttpService.getByOrganisationId(id).subscribe({
       next: (data: any) => {
         this._trainings = data
-        console.log(this._trainings)
+        // console.log(this._trainings)
       },
       error: (error) => {
         console.log(error);
@@ -303,13 +303,13 @@ export class ProfilComponent {
   }
 
   level(){
-    console.log(this.formLevel)
-    console.log(this.formLevel.valid)
+    // console.log(this.formLevel)
+    // console.log(this.formLevel.valid)
     if(this.formLevel.valid){
       this._trainingHttpService.insertUserTraining(this.formLevel.value).subscribe({
         next: (data: any) => {
           this._trainings = data
-          this._user = this._session.refreshUser(this._user.id)
+          this._user = this._session.refreshUser(this._user)
           if(this._user && this._user.id){
             this.addToForm()
             this.getImages()
@@ -327,7 +327,7 @@ export class ProfilComponent {
     this._trainingHttpService.deleteUserTraining(trainingId,this._user.id).subscribe({
       next: (data: any) => {
         this._trainings = data
-        this._user = this._session.refreshUser(this._user.id)
+        this._user = this._session.refreshUser(this._user)
         if(this._user && this._user.id){
           this.addToForm()
           this.getImages()
@@ -343,7 +343,7 @@ export class ProfilComponent {
     this._trainingHttpService.updateMostLevel(id,this._user.id).subscribe({
       next: (data: any) => {
         this._trainings = data
-        this._user = this._session.refreshUser(this._user.id)
+        this._user = this._session.refreshUser(this._user)
         if(this._user && this._user.id){
           this.addToForm()
           this.getImages()

@@ -60,7 +60,7 @@ export class TrainingComponent implements OnInit {
     this._trainingHttpService.getByOrganisationId(id).subscribe({
       next: (data: any) => {
         this._trainings = data
-        console.log(this._trainings)
+        // console.log(this._trainings)
       },
       error: (error) => {
         console.log(error);
@@ -72,7 +72,7 @@ export class TrainingComponent implements OnInit {
     this._organisationHttpService.getAll().subscribe({
       next: (data: any) => {
         this._organisations = data
-        console.log(this._organisations)
+        // console.log(this._organisations)
       },
       error: (error) => {
         console.log(error);

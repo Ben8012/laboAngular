@@ -5,71 +5,84 @@
       <label for="firstname">Nom</label>
       <div class="mb-3 d-flex justify-content-center"  >
           <input type="text" class="form-control w-50" [ngClass]="{'errors' : Firstname.invalid}" formControlName="firstname" name="firstname" id="firstname" placeholder="Firstname">
-          <div *ngIf="Firstname.invalid && (Firstname.dirty || Firstname.touched)" >
-            <div class="errors" *ngIf="Firstname.errors['required']">Fistname est requis</div>
-            <div class="errors" *ngIf="Firstname.errors['minlength']">longueur minimum doit etre de 4 characteres </div>
-            <div class="errors" *ngIf="Firstname.errors['maxlength']">longueur maximum ne peut depasser 250 characteres</div>
-          </div>
+      </div>
+      <div class="mb-3 d-flex justify-content-center" >
+        <div *ngIf="Firstname.invalid && (Firstname.dirty || Firstname.touched)" >
+          <div class="errors" *ngIf="Firstname.errors['required']">le prénom est requis</div>
+          <div class="errors" *ngIf="Firstname.errors['minlength']">longueur minimum doit etre de 4 characteres </div>
+          <div class="errors" *ngIf="Firstname.errors['maxlength']">longueur maximum ne peut depasser 250 characteres</div>
+        </div>
       </div>
 
       <label for="lastname">Prénom</label>
       <div class="mb-3 d-flex justify-content-center">
-          <input type="text" class="form-control w-50" [ngClass]="{'errors' : Lastname.invalid}" formControlName="lastname" name="lastname" id="lastname" placeholder="Lastname" >
-          <div *ngIf="Lastname.invalid && (Lastname.dirty || Lastname.touched)">
-            <div class="errors" *ngIf="Lastname.errors['required']">Lastname est requis</div>
-            <div class="errors" *ngIf="Lastname.errors['minlength']">longueur minimum doit etre de 4 characteres </div>
-            <div class="errors" *ngIf="Lastname.errors['maxlength']">longueur maximum ne peut depasser 250 characteres</div>
-          </div>
+          <input type="text" class="form-control w-50" [ngClass]="{'errors' : Lastname.invalid}" formControlName="lastname" name="lastname" id="lastname" placeholder="Lastname" >         
+      </div>
+      <div class="mb-3 d-flex justify-content-center" >
+        <div *ngIf="Lastname.invalid && (Lastname.dirty || Lastname.touched)">
+          <div class="errors" *ngIf="Lastname.errors['required']">le nom est requis</div>
+          <div class="errors" *ngIf="Lastname.errors['minlength']">longueur minimum doit etre de 4 characteres </div>
+          <div class="errors" *ngIf="Lastname.errors['maxlength']">longueur maximum ne peut depasser 250 characteres</div>
+        </div>
       </div>
 
 
       <label for="birthdate">Date de naissance</label>
       <div class="mb-3 d-flex justify-content-center">
           <input type="date" class="form-control w-50" [ngClass]="{'errors' : Birthdate.invalid}" formControlName="birthdate" name="birthdate" id="birthdate" placeholder="Birthdate" >
-          <div *ngIf="Birthdate.invalid && (Birthdate.dirty || Birthdate.touched)">
-            <div class="errors" *ngIf="Birthdate.errors['required']">Birthdate est requis</div>
-          </div>
+      </div>
+      <div class="mb-3 d-flex justify-content-center" >
+        <div *ngIf="Birthdate.invalid && (Birthdate.dirty || Birthdate.touched)">
+          <div class="errors" *ngIf="Birthdate.errors['required']">la date de naissance est requise</div>
+        </div>
       </div>
 
       <label for="email">Email</label>
       <div class="mb-3 d-flex justify-content-center">
           <input type="email" class="form-control w-50" [ngClass]="{'errors' : Email.invalid}" formControlName="email" name="email" id="email" placeholder="Email">
-          <div *ngIf="Email.invalid && (Email.dirty || Email.touched)">
-            <div class="errors" *ngIf="Email.errors['required']">Email est requis</div>
-            <div class="errors" *ngIf="Email.errors['email']">Email doit etre de type email</div>
-          </div>
+      </div>
+      <div class="mb-3 d-flex justify-content-center" >
+        <div *ngIf="Email.invalid && (Email.dirty || Email.touched)">
+          <div class="errors" *ngIf="Email.errors['required']">l'e-mail est requis</div>
+          <div class="errors" *ngIf="Email.errors['email']">Email doit etre de type email</div>
+        </div>
       </div>
 
       <label for="password">Mot de passe</label>
       <div class="mb-3 d-flex justify-content-center">
           <input type="password" class="form-control w-50" [ngClass]="{'errors' : Password.invalid}" name="password" id="password" formControlName="password" placeholder="Password">
-          <div *ngIf="Password.invalid && (Password.dirty || Password.touched)">
-            <!-- {{ Password.errors |json }} -->
-            <div class="errors" *ngIf="Password.errors['required']">password est requis</div>
-            <div class="errors" *ngIf="Password.errors['minlength']">longueur minimum doit etre de 4 characteres </div>
-            <div class="errors" *ngIf="Password.errors['maxlength']">longueur maximum ne peut depasser 250 characteres</div>
-            <div class="errors" *ngIf="Password.errors['number']">{{Password.errors['number']}}</div>
-            <div class="errors" *ngIf="Password.errors['upper']">{{Password.errors['upper']}}</div>
-            <div class="errors" *ngIf="Password.errors['lower']">{{Password.errors['lower']}}</div>
-            <div class="errors" *ngIf="Password.errors['special']">{{Password.errors['special']}}</div>
-
-          </div>
+          
+      </div>
+      <div class="mb-3 d-flex justify-content-center" >
+        <div *ngIf="Password.invalid && (Password.dirty || Password.touched)">
+          <!-- {{ Password.errors |json }} -->
+          <div class="errors" *ngIf="Password.errors['required']">le mot de passe est requis</div>
+          <div class="errors" *ngIf="Password.errors['minlength']">longueur minimum doit etre de 4 characteres </div>
+          <div class="errors" *ngIf="Password.errors['maxlength']">longueur maximum ne peut depasser 250 characteres</div>
+          <div class="errors" *ngIf="Password.errors['number']">{{Password.errors['number']}}</div>
+          <div class="errors" *ngIf="Password.errors['upper']">{{Password.errors['upper']}}</div>
+          <div class="errors" *ngIf="Password.errors['lower']">{{Password.errors['lower']}}</div>
+          <div class="errors" *ngIf="Password.errors['special']">{{Password.errors['special']}}</div>
+        </div>
       </div>
 
       <label for="passwordConfirm">Confirmer votre mot de passe</label>
       <div class="mb-3 d-flex justify-content-center">
           <input type="password" class="form-control w-50" [ngClass]="{'errors' : ConfirmPassword.invalid}" name="passwordConfirm" id="passwordConfirm" formControlName="passwordConfirm" placeholder="Password Confirm">
-          <div *ngIf="ConfirmPassword.invalid && (ConfirmPassword.dirty || ConfirmPassword.touched)">
-            <!-- {{ ConfirmPassword.errors |json }} -->
-            <div class="errors" *ngIf="ConfirmPassword.errors['required']">ConfirmPassword est requis</div>
-            <div class="errors" *ngIf="ConfirmPassword.errors['minlength']">longueur minimum doit etre de 4 characteres </div>
-            <div class="errors" *ngIf="ConfirmPassword.errors['maxlength']">longueur maximum ne peut depasser 250 characteres</div>
-            <div class="errors" *ngIf="ConfirmPassword.errors['number']">{{ConfirmPassword.errors['number']}}</div>
-            <div class="errors" *ngIf="ConfirmPassword.errors['upper']">{{ConfirmPassword.errors['upper']}}</div>
-            <div class="errors" *ngIf="ConfirmPassword.errors['lower']">{{ConfirmPassword.errors['lower']}}</div>
-            <div class="errors" *ngIf="ConfirmPassword.errors['special']">{{ConfirmPassword.errors['special']}}</div>
-            <div class="errors" *ngIf="FormRegister.getError('passwordMatch') as error">{{error}}</div>
-          </div>
+          
+      </div>
+      <div class="mb-3 d-flex justify-content-center" >
+        <div *ngIf="ConfirmPassword.invalid && (ConfirmPassword.dirty || ConfirmPassword.touched)">
+          <!-- {{ ConfirmPassword.errors |json }} -->
+          <div class="errors" *ngIf="ConfirmPassword.errors['required']">la confirmation est requise</div>
+          <div class="errors" *ngIf="ConfirmPassword.errors['minlength']">longueur minimum doit etre de 4 characteres </div>
+          <div class="errors" *ngIf="ConfirmPassword.errors['maxlength']">longueur maximum ne peut depasser 250 characteres</div>
+          <div class="errors" *ngIf="ConfirmPassword.errors['number']">{{ConfirmPassword.errors['number']}}</div>
+          <div class="errors" *ngIf="ConfirmPassword.errors['upper']">{{ConfirmPassword.errors['upper']}}</div>
+          <div class="errors" *ngIf="ConfirmPassword.errors['lower']">{{ConfirmPassword.errors['lower']}}</div>
+          <div class="errors" *ngIf="ConfirmPassword.errors['special']">{{ConfirmPassword.errors['special']}}</div>
+          <div class="errors" *ngIf="FormRegister.getError('passwordMatch') as error">{{error}}</div>
+        </div>
       </div>
 
 

@@ -1,5 +1,6 @@
 <div class="text-center ">
   <form [formGroup]="FormLogin" (ngSubmit)="login()" >
+      <p class="errors" *ngIf="errorMessage !=''">{{errorMessage}}</p>
       <label for="email" class="form-label">Email</label>
       <div class="mb-3 d-flex justify-content-center">
         <input type="text" class="form-control w-50" formControlName="email" name="email" id="email" placeholder="Email" >
@@ -12,4 +13,10 @@
         <button type="submit" class="btn btn-dark">Login</button>
       </div>
   </form>
+  <div class="d-flex justify-content-center mt-3 p-3">
+    <p>Pour modifier votre mot passe écrivez votre email dans le formulaire ensuite cliquez ici ↓</p>
+  </div>
+  <div class="d-flex justify-content-center p-3">
+    <a class="btn btn-warning" (click)="resetPassword()">mot de passe oublié ?</a>
+  </div>
 </div>

@@ -4,6 +4,7 @@ import { UserSessionService } from './services/session/user-session.service';
 import { Router } from '@angular/router';
 import { isEmpty } from 'rxjs';
 import { UserHttpService } from './services/http/user.http.service';
+import { ChatService } from './services/http/chat.http.service';
 
 @Component({
   selector: 'app-root',
@@ -29,12 +30,13 @@ export class AppComponent implements OnInit {
   constructor(
     private _router : Router,
     private _session : UserSessionService,
-    private _userHttpService : UserHttpService
+    private _userHttpService : UserHttpService,
+    private _chatService : ChatService
   )
   {}
 
   ngOnInit(): void {
-     this.getUser();
+    this.getUser();
   }
 
   private getUser(){
@@ -43,18 +45,26 @@ export class AppComponent implements OnInit {
       this._userHttpService.getUserByToken(JSON.parse(token)).subscribe({
         next : (user :any) =>{
           if(user.id){
-            this._session.refreshUser(user.id)
+            this._user= user
+            
+            this._session.saveSession(this._user)
+            this._session.refreshUser(user)
+            this._chatService.connection()
           }else{
             this._session.$user.next({}as any)
           }
         },
         error : (error) => {
+          //this._session.clearSession()
+          this._session.$user.next({}as any)
+          this._router.navigate(['home']);
           console.log(error);
         }
       })
     }else{
+      //this._session.clearSession()
       this._session.$user.next({}as any)
-      this._router.navigate(['home']);
+      //this._router.navigate(['']);
     }
   }
 

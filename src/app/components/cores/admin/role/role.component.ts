@@ -40,7 +40,7 @@ export class RoleComponent implements OnInit {
       next: (data: any) => {
         this._users = data.filter((u: any) => u.role != 'super admin')
         this.addLevelToView(this._users)
-        console.log(this._users)
+        // console.log(this._users)
       },
       error: (data: any) => {
         console.log(data);

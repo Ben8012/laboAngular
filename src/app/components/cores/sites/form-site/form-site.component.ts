@@ -76,15 +76,15 @@ export class FormSiteComponent implements OnInit {
     this.route.url.subscribe(segments => {
       this._urlSegements = segments
       this._url = segments.join('/');
-      console.log("L'URL a changé :", this._url);
+      // console.log("L'URL a changé :", this._url);
 
       this.getUser()
       if (segments.length > 0 && segments[0].path === "update-site") {
-        console.log("URL contient 'update-site'");
+        // console.log("URL contient 'update-site'");
         this._id = segments[1].path
         this.getSiteById(this._id)
         this._activateButtons = false
-        console.log(this._id)
+        // console.log(this._id)
       }
     });
   }
@@ -118,7 +118,7 @@ export class FormSiteComponent implements OnInit {
             this.formSite.value.adress = null
           }
         }
-        console.log(this._site)
+        // console.log(this._site)
       },
       error: (error) => {
         console.log(error)
@@ -152,7 +152,7 @@ export class FormSiteComponent implements OnInit {
       number: adress.number,
       country: adress.country
     }
-    console.log(this._siteToSend)
+    // console.log(this._siteToSend)
   }
 
   toggleAddressForm() {
@@ -177,11 +177,11 @@ export class FormSiteComponent implements OnInit {
       this._siteToSend.url = this.formSite.value.url
       this._siteToSend.gps = this.formSite.value.gps
 
-      console.log(this._siteToSend)
+      // console.log(this._siteToSend)
    
       if (this._urlSegements[0].path === "update-site") {
         this._siteToSend.id = this._site.id
-        console.log('update')
+        // console.log('update')
         this._siteHttpService.update(this._siteToSend).subscribe({
           next: (data: any) => {
             this._site = data
@@ -193,7 +193,7 @@ export class FormSiteComponent implements OnInit {
         });
       }
       else if (this._urlSegements[0].path === "insert-site") {
-        console.log('insert')
+        // console.log('insert')
         this._siteHttpService.insert(this._siteToSend).subscribe({
           next: (data: any) => {
             this._site = data
@@ -273,7 +273,7 @@ export class FormSiteComponent implements OnInit {
   private getPlan(){
     if(this._site.guidMap != null){
       this._imageHttpService.getSiteMap(this._site.guidMap).subscribe(imageData => {
-        console.log(imageData)
+        // console.log(imageData)
         //this._planSite = this._sanitizer.bypassSecurityTrustResourceUrl(URL.createObjectURL(imageData));
         
         const reader = new FileReader();
@@ -281,7 +281,7 @@ export class FormSiteComponent implements OnInit {
           //this._planSite = e.target.result
           //this._planSite = this._planSite.replace(',', ',/9j/')
           this._planSite = this._sanitizer.bypassSecurityTrustResourceUrl(e.target.result);
-          console.log(this._planSite)
+          // console.log(this._planSite)
         }
         reader.readAsDataURL(imageData);
       });

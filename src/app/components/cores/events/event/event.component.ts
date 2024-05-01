@@ -61,7 +61,7 @@ export class EventComponent implements OnInit {
       this.getUser()
 
       if (segments.length > 0 && segments[0].path === "event" || segments[0].path === "formation") {
-        console.log("URL contient 'event ou formation'");
+        // console.log("URL contient 'event ou formation'");
         this.getAllEvents();
         this._activateButtons = false
       }
@@ -107,7 +107,7 @@ export class EventComponent implements OnInit {
         this.checkIfParticipe()
         this.formatEventForView()
         this.addLevelToView(this._events) 
-        console.log(this._events)
+        // console.log(this._events)
       },
       error : (error) => {
         console.log(error)
@@ -130,7 +130,7 @@ export class EventComponent implements OnInit {
         }
         this.formatEventForView()
         this.addLevelToView(this._events) 
-        console.log(this._events)
+        // console.log(this._events)
       },
       error : (error) => {
         console.log(error)
@@ -140,7 +140,7 @@ export class EventComponent implements OnInit {
    private getUser() {
     this._session.$user.subscribe((user: any) => {
       this._user = user;
-      console.log(this._user)
+      // console.log(this._user)
       if(this._user.id && this._urlSegements.length > 0 && (this._urlSegements[0].path === "my-events" || this._urlSegements[0].path === "my-book" )){
         //console.log("my-events")
         this.getEventsByUserId(this._user.id)
@@ -153,7 +153,7 @@ export class EventComponent implements OnInit {
 
 
   participe(event : any){
-      console.log(event)
+      // console.log(event)
       let participe = false
       event.demands.map((demand : any) => {
         if(demand.id == this._user.id){
@@ -192,6 +192,10 @@ export class EventComponent implements OnInit {
           if(p.id == this._user.id)
           event.isParticipe = true;
         })
+        event.demands.forEach((p : any) => {
+          if(p.id == this._user.id)
+            event.isParticipe = true;
+        })
     });
    }
 
@@ -201,7 +205,7 @@ export class EventComponent implements OnInit {
     const dialogRef = this.dialog.open(CreatorModalComponent);
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log('Le modal est fermé');
+      // console.log('Le modal est fermé');
       document.body.classList.remove('modal-open'); 
     });
    }
@@ -212,7 +216,7 @@ export class EventComponent implements OnInit {
     const dialogRef = this.dialog.open(DiveplaceModalComponent);
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log('Le modal est fermé');
+      // console.log('Le modal est fermé');
       document.body.classList.remove('modal-open'); 
     });
    }
@@ -223,7 +227,7 @@ export class EventComponent implements OnInit {
     const dialogRef = this.dialog.open(ClubModalComponent);
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log('Le modal est fermé');
+      // console.log('Le modal est fermé');
       document.body.classList.remove('modal-open'); 
     });
    }
@@ -234,7 +238,7 @@ export class EventComponent implements OnInit {
     const dialogRef = this.dialog.open(TrainingModalComponent);
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log('Le modal est fermé');
+      // console.log('Le modal est fermé');
       document.body.classList.remove('modal-open'); 
     });
    }
@@ -245,7 +249,7 @@ export class EventComponent implements OnInit {
     const dialogRef = this.dialog.open(OrganisationModalComponent);
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log('Le modal est fermé');
+      // console.log('Le modal est fermé');
       document.body.classList.remove('modal-open'); 
     });
    }
@@ -276,7 +280,7 @@ export class EventComponent implements OnInit {
       const dialogRef = this.dialog.open(DeleteEventModelComponent);
   
       dialogRef.afterClosed().subscribe(result => {
-        console.log('Le modal est fermé');
+        // console.log('Le modal est fermé');
         document.body.classList.remove('modal-open'); 
         if(this._urlSegements[0].path === "my-events"){
             this.getEventsByUserId(this._user.id)
@@ -306,7 +310,6 @@ export class EventComponent implements OnInit {
      }
   
      private addLevelToView(events :any){
-      console.log('ici')
       events.forEach((event : any) => {
         event.creator.trainings.forEach((training : any) =>{
           if(training.isMostLevel == true){

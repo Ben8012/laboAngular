@@ -3,6 +3,7 @@ import { Component, type OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { ActivatedRoute, ParamMap, Params } from '@angular/router';
 import { FMessage } from 'src/app/models/forms/message.form';
+import { DateHelperService } from 'src/app/services/helper/date.helper.service';
 import { ChatService } from 'src/app/services/http/chat.http.service';
 import { MessageHttpService } from 'src/app/services/http/message.http.service';
 import { UserSessionService } from 'src/app/services/session/user-session.service';
@@ -29,28 +30,27 @@ export class MessageComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private _session : UserSessionService,
-    private _messageHttpService : MessageHttpService,
     private _chatService : ChatService,
+    private _dateHelperService : DateHelperService,
     ) { }
 
   
   ngOnInit() {
-    this._chatService.connection()
-
+    
     this._chatService.myHub.on("ReceiveMessage", (message : any) => {
+      // console.log(message)
       if(message.sender.id == this._user.id || message.reciever.id == this._user.id){
-        this._session.refreshUser(this._user.id)
-        this._messages.push(message)
+        this._session.refreshUser(this._user)
+        this.getMessages()
       }
     })
 
     this._chatService.myHub.on("MessageDeleted", (message : any) => {
       if(message.senderId == this._user.id || message.recieverId == this._user.id){
-        this._session.refreshUser(this._user.id)
-        this._messages = this._messages.filter((m : any)=> { m.id != message.id})
+        this._session.refreshUser(this._user)
+        this.getMessages()
       }
     })
-
 
     this.route.params.subscribe((params: Params) => {
       this.id = params['id'];
@@ -66,7 +66,6 @@ export class MessageComponent implements OnInit {
         this._user = data
         if(this._user.id){
           this.getMessages()
-          this.isRead()
         }
       },
       error : (error) => {
@@ -74,26 +73,19 @@ export class MessageComponent implements OnInit {
       }}) ;
   }
 
-  private isRead(){
-    console.log('ici')
-    this._messageHttpService.isRead(this.id,this._user.id).subscribe({
-      next : (data :any) =>{
-       this.getMessages()
-      },
-      error : (error) => {
-        console.log(error)
-      }}) ;
-  }
+
 
   private getMessages(){
-    this._chatService.getMessage(this._user.id,this.id).subscribe({
-      next : (data :any) =>{
-        this._messages = data
-        console.log(data)
-       },
-       error : (error) => {
-         console.log(error)
-       }}) ;
+    this._user.friends.forEach((friend : any)=>{
+      if(friend.id == this.id){
+        this._messages= friend.messages
+        this._messages.forEach((message : any)=> {
+          message.createdAt = this._dateHelperService.formatDateToFrench(new Date(message.createdAt))
+
+        })
+      }
+    })
+    // console.log(this._messages)
   }
 
   addMessage(){

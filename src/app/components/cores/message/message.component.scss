@@ -2,7 +2,7 @@
   display: block;
 }
 
-.pink {
+.light-blue {
   background-color: lightblue;
 }
 
@@ -12,4 +12,18 @@
 
 .red{
   background-color: red;
+}
+
+.font-color-black{
+  color: black !important;
+  background-color: white;
+}
+
+.hover:hover{
+  color: white !important;
+  background-color :brown;
+}
+
+.min-width{
+  min-width: 10vh;
 }

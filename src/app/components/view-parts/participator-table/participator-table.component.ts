@@ -148,14 +148,14 @@ export class ParticipatorTableComponent implements OnInit {
       this._demands =  element[0].demands
       if(this._participators){this.formatDate(this._participators)}
       if(this._demands){ this.formatDate(this._demands)}
-      console.log(this._participators)
-      console.log(this._demands)
+      // console.log(this._participators)
+      // console.log(this._demands)
     }
 
     like(likedId: number) {
       this._userHttpService.like(this.User.id, likedId).subscribe((data: any[]) => {
         if(this.User && this.User.id){
-          this.User = this._session.refreshUser(this.User.id)
+          this.User = this._session.refreshUser(this.User)
         }
       });
     }

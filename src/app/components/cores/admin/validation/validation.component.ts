@@ -45,8 +45,8 @@ export class ValidationComponent implements OnInit {
       this._urlSegement = segments[0].path
       this._id = parseInt(segments[1].path)
       
-      console.log("L'URL a changé :", this._urlSegement);
-      console.log("L'URL a changé :", this._id);
+      // console.log("L'URL a changé :", this._urlSegement);
+      // console.log("L'URL a changé :", this._id);
 
       if(this._id){
         this.getUserToValidate(this._id)
@@ -63,7 +63,7 @@ export class ValidationComponent implements OnInit {
         this._user.medicalDateValidation = this._user.medicalDateValidation.substring(0,10)
         this._user.insuranceDateValidation = this._user.insuranceDateValidation.substring(0,10)
         this.getImages()
-        console.log(this._user)
+        // console.log(this._user)
       },
       error : (error) => {
         console.log(error)
@@ -73,7 +73,7 @@ export class ValidationComponent implements OnInit {
   private getUser() {
     this._session.$user.subscribe((user: any) => {
       this._me = user;
-      console.log(this._me)
+      // console.log(this._me)
     })
   }
 
@@ -139,8 +139,8 @@ export class ValidationComponent implements OnInit {
   }
 
   validation(){
-    console.log(this.formValidation.value)
-    console.log(this.formValidation.valid)
+    // console.log(this.formValidation.value)
+    // console.log(this.formValidation.valid)
   }
 
   rotateImage(imageId : string) {
@@ -155,7 +155,7 @@ export class ValidationComponent implements OnInit {
   }
 
   onSelectedinsuranceDate(event :any):void{
-        console.log(event.target.value)
+        // console.log(event.target.value)
         this._userHttpService.updateInsuranceDate(event.target.value,this._id).subscribe({
           next: (data: any) => {
             
@@ -167,7 +167,7 @@ export class ValidationComponent implements OnInit {
   }
 
   onSelectedcertificatDate(event :any):void{
-    console.log(event.target.value)
+    // console.log(event.target.value)
         this._userHttpService.updateCertificatDate(event.target.value,this._id).subscribe({
           next: (data: any) => {
             

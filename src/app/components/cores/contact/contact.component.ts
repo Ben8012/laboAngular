@@ -61,7 +61,7 @@ export class ContactComponent implements OnInit {
 
   like(likedId: number) {
     this._userHttpService.like(this._user.id, likedId).subscribe((data: any[]) => {
-      this._user = this._session.refreshUser(this._user.id)
+      this._user = this._session.refreshUser(this._user)
       this.getAllUsers()
       if(this._user &&this._user.id){
         this.refreshFriends();
@@ -71,7 +71,7 @@ export class ContactComponent implements OnInit {
 
   unlike(likedId: number) {
     this._userHttpService.unlike(this._user.id, likedId).subscribe((data: any[]) => {
-    this._user = this._session.refreshUser(this._user.id)
+    this._user = this._session.refreshUser(this._user)
     this.getAllUsers()
     if(this._user && this._user.id){
       this.refreshFriends();
@@ -81,7 +81,7 @@ export class ContactComponent implements OnInit {
 
   deletelike(id : number){
     this._userHttpService.deletelike(this._user.id, id).subscribe((data: any[]) => {
-      this._user = this._session.refreshUser(this._user.id)
+      this._user = this._session.refreshUser(this._user)
       this.getAllUsers()
       if(this._user && this._user.id){
         this.refreshFriends();
@@ -142,9 +142,9 @@ export class ContactComponent implements OnInit {
     });
 
     this._users = this._allUsers;
-    console.log('liked',this.Likeds)
-    console.log('liker',this.Likers)
-    console.log('users',this._users)
+    // console.log('liked',this.Likeds)
+    // console.log('liker',this.Likers)
+    // console.log('users',this._users)
 
   }
 

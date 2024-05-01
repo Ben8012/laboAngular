@@ -43,12 +43,12 @@ export class ClubComponent implements OnInit {
     this.route.url.subscribe(segments => {
       this._urlSegements = segments
       this._url = segments.join('/');
-      console.log("L'URL a changé :", this._url);
+      // console.log("L'URL a changé :", this._url);
 
       this.getUser()
 
       if (segments.length > 0 && segments[0].path === "club") {
-        console.log("URL contient 'club'");
+        // console.log("URL contient 'club'");
         this.getAllClubs();
         this._enableButtons = false
       }
@@ -75,7 +75,7 @@ export class ClubComponent implements OnInit {
         this.formatEventForView()  
         this.addLevelToView(this._clubs)  
         this.addLevelToView(this._clubs)
-        console.log(this._clubs)
+        // console.log(this._clubs)
       },
       error : (error) => {
         console.log(error)
@@ -89,7 +89,7 @@ export class ClubComponent implements OnInit {
         this.checkIfParticipe()
         this.formatEventForView()  
         this.addLevelToView(this._clubs) 
-        console.log(this._clubs) 
+        // console.log(this._clubs) 
       },
       error : (error) => {
         console.log(error)
@@ -100,7 +100,7 @@ export class ClubComponent implements OnInit {
     this._session.$user.subscribe((user: any) => {
       this._user = user;
       if(this._urlSegements.length > 0 && this._urlSegements[0].path === "my-clubs" && this._user.id){
-        console.log("my-clubs")
+        // console.log("my-clubs")
         this.getClubsByUserId(this._user.id)
         this._enableButtons = true
       }
@@ -134,7 +134,7 @@ export class ClubComponent implements OnInit {
     const dialogRef = this.dialog.open(CreatorModalComponent);
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log('Le modal est fermé');
+      // console.log('Le modal est fermé');
       document.body.classList.remove('modal-open'); 
     });
    }
@@ -146,6 +146,10 @@ export class ClubComponent implements OnInit {
           if(p.id == this._user.id)
           club.isParticipe = true;
         })
+      club.demands.forEach((p : any) => {
+        if(p.id == this._user.id)
+        club.isParticipe = true;
+      })
     });
    }
 
@@ -158,7 +162,7 @@ export class ClubComponent implements OnInit {
     const dialogRef = this.dialog.open(DeleteEventModelComponent);
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log('Le modal est fermé');
+      // console.log('Le modal est fermé');
       document.body.classList.remove('modal-open'); 
       this.getClubsByUserId(this._user.id)
     });

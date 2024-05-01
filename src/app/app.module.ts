@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { NavbarComponent } from './components/bars/navbar/navbar.component';
@@ -42,6 +42,8 @@ import { AdminHomeComponent } from './components/cores/admin/admin-home/admin-ho
 import { FormTrainingComponent } from './components/cores/admin/form-training/form-training.component';
 import { FormOrganisationComponent } from './components/cores/admin/form-organisation/form-organisation.component';
 import { ValidationComponent } from './components/cores/admin/validation/validation.component';
+import { HttpInterceptorService } from './services/interceptor/http-interceptor.service';
+import { ResetPasswordComponent } from './components/user/reset-password/reset-password.component';
 
 
 @NgModule({
@@ -79,7 +81,8 @@ import { ValidationComponent } from './components/cores/admin/validation/validat
     AdminHomeComponent,
     FormTrainingComponent,
     FormOrganisationComponent,
-    ValidationComponent
+    ValidationComponent,
+    ResetPasswordComponent
 
   ],
   imports: [
@@ -92,7 +95,9 @@ import { ValidationComponent } from './components/cores/admin/validation/validat
     FormsModule
 
   ],
-  providers: [],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: HttpInterceptorService, multi: true }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

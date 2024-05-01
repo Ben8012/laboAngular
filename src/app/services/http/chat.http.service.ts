@@ -19,7 +19,6 @@ export class ChatService {
   ) { }
 
   connection() {
-    console.log(apiUrl+"Chathub")
     this.myHub = new signalr.HubConnectionBuilder()
               .withUrl(apiUrl+"Chathub").build()
     this.myHub.start()

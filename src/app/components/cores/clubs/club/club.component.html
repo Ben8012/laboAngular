@@ -11,17 +11,33 @@
             </td>
             <td class="d-flex flex-column min-width">
                 <button *ngIf="User.id && !club.isParticipe && User.id != club.creator.id"
-                    class="btn btn-success hover border font-color-black m-1" (click)="participe(club.id)"><i
-                        class="bi bi-hand-thumbs-up-fill"></i></button>
+                    class="btn btn-success hover border font-color-black m-1" (click)="participe(club.id)">
+                    <div class="d-flex flex-column align-items-center">
+                        <i class="bi bi-hand-thumbs-up-fill"></i>
+                        <span style=" font-style: italic;">je participe</span>
+                      </div>
+                    </button>
                 <button *ngIf="User.id && club.isParticipe && User.id != club.creator.id"
-                    class="btn btn-warning border font-color-black hover m-1" (click)="unparticipe(club.id)"><i
-                        class="bi bi-hand-thumbs-down-fill"></i></button>
+                    class="btn btn-warning border font-color-black hover m-1" (click)="unparticipe(club.id)">
+                    <div class="d-flex flex-column align-items-center">
+                        <i class="bi bi-hand-thumbs-down-fill"></i>
+                        <span style=" font-style: italic;">je ne participe pas</span>
+                    </div> 
+                    </button>
                 <button *ngIf="User.id && EnableButtons && User.id == club.creator.id"
-                    class="btn btn-danger border font-color-black hover m-1" (click)="deleteClub(club)"><i
-                        class="bi bi-trash"></i></button>
+                    class="btn btn-danger border font-color-black hover m-1" (click)="deleteClub(club)">
+                    <div class="d-flex flex-column align-items-center">
+                        <i class="bi bi-trash"></i>
+                        <span style=" font-style: italic;">supprimer</span>
+                    </div> 
+                </button>
                 <button *ngIf="User.id && EnableButtons && User.id == club.creator.id"
-                    class="btn btn-warning border font-color-black hover m-1" (click)="updateClub(club)"><i
-                        class="bi bi-arrow-clockwise"></i></button>
+                    class="btn btn-warning border font-color-black hover m-1" (click)="updateClub(club)"> 
+                    <div class="d-flex flex-column align-items-center">
+                        <i class="bi bi-arrow-clockwise"></i>
+                        <span style=" font-style: italic;">modifier</span>
+                    </div> 
+                </button>
 
             </td>
         </tr>
@@ -33,8 +49,12 @@
                 </div>
             </td>
             <td class="d-flex flex-column min-width">
-                <button class="btn btn-light hover border font-color-black m-1" (click)="creatorInfo(club.creator)"><i
-                        class="bi bi-info-circle"></i></button>
+                <button class="btn btn-light hover border font-color-black m-1" (click)="creatorInfo(club.creator)">
+                    <div class="d-flex flex-column align-items-center">
+                        <i class="bi bi-info-circle"></i>
+                        <span style=" font-style: italic;">infos</span>
+                    </div> 
+                </button>
             </td>
 
         </tr>

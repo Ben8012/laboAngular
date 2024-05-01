@@ -31,7 +31,7 @@ export class DiveplaceModalComponent implements OnInit {
   ngOnInit(): void {
     this.getUser()
     this.modalData = this._modalDataService.getData();
-    console.log(this.modalData)
+    // console.log(this.modalData)
   }
 
   onClose(): void {

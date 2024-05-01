@@ -21,50 +21,56 @@ import { AdminHomeComponent } from './components/cores/admin/admin-home/admin-ho
 import { FormTrainingComponent } from './components/cores/admin/form-training/form-training.component';
 import { FormOrganisationComponent } from './components/cores/admin/form-organisation/form-organisation.component';
 import { ValidationComponent } from './components/cores/admin/validation/validation.component';
+import { UserGuardService } from './services/guard/user-guard.service';
+import { AdminGuardService } from './services/guard/admin-guard.service';
+import { SuperAdminGuardService } from './services/guard/super-admin-guard.service';
+import { ResetPasswordComponent } from './components/user/reset-password/reset-password.component';
+import { ResetPasswordGuardService } from './services/guard/reset-password-guard.service';
 
 const routes: Routes = [
   { path: '', component : HomeComponent},
-  { path: 'profil', component : ProfilComponent},
+  { path: 'profil', component : ProfilComponent, canActivate : [UserGuardService]},
   { path: 'login', component : LoginComponent},
   { path: 'register', component : RegisterComponent},
 
   { path: 'event', component : EventComponent},
-  { path: 'my-events', component : EventComponent},
+  { path: 'my-events', component : EventComponent, canActivate : [UserGuardService]},
   { path: 'formation', component : EventComponent},
 
   { path: 'club', component : ClubComponent},
-  { path: 'my-clubs', component : ClubComponent},
+  { path: 'my-clubs', component : ClubComponent, canActivate : [UserGuardService]},
 
   { path: 'site', component : SiteComponent},
-  { path: 'insert-site', component : FormSiteComponent},
-  { path: 'update-site/:id', component : FormSiteComponent},
+  { path: 'insert-site', component : FormSiteComponent , canActivate : [AdminGuardService]},
+  { path: 'update-site/:id', component : FormSiteComponent , canActivate : [AdminGuardService]},
 
-  { path: 'contact', component : ContactComponent},
-  { path: 'message/:id', component : MessageComponent},
+  { path: 'contact', component : ContactComponent, canActivate : [UserGuardService]},
+  { path: 'message/:id', component : MessageComponent , canActivate : [UserGuardService]},
 
-  { path: 'update-event/:id', component : FormEventComponent},
-  { path: 'insert-event', component : FormEventComponent},
+  { path: 'update-event/:id', component : FormEventComponent, canActivate : [UserGuardService]},
+  { path: 'insert-event', component : FormEventComponent , canActivate : [UserGuardService]},
 
-  
-  { path: 'update-club/:id', component : FormClubComponent},
-  { path: 'insert-club', component : FormClubComponent},
+  { path: 'update-club/:id', component : FormClubComponent, canActivate : [UserGuardService]},
+  { path: 'insert-club', component : FormClubComponent, canActivate : [UserGuardService]},
 
-  { path: 'my-book', component : EventComponent},
-  { path: 'update-book/:id', component : FormBookComponent},
-  { path: 'insert-book/:id', component : FormBookComponent},
+  { path: 'my-book', component : EventComponent, canActivate : [UserGuardService]},
+  { path: 'update-book/:id', component : FormBookComponent , canActivate : [UserGuardService]},
+  { path: 'insert-book/:id', component : FormBookComponent, canActivate : [UserGuardService]},
 
-  { path: 'admin-home', component : AdminHomeComponent,
+  {path : 'reset-password/:token', component : ResetPasswordComponent },
+  // ,canActivate : [ResetPasswordGuardService]
+
+  { path: 'admin-home', component : AdminHomeComponent, canActivate : [AdminGuardService],
     children:[
       { path: 'admin-site', component : SiteComponent},
  
-
       { path: 'training', component : TrainingComponent},
       { path: 'insert-training/:id', component : FormTrainingComponent},
       { path: 'update-training/:id', component : FormTrainingComponent},
       { path: 'insert-organisation', component : FormOrganisationComponent},
       { path: 'update-organisation/:id', component : FormOrganisationComponent},
 
-      { path: 'role', component : RoleComponent},
+      { path: 'role', component : RoleComponent, canActivate : [SuperAdminGuardService]},
       { path: 'admin', component : AdminComponent},
       { path: 'validation/:id', component : ValidationComponent},
 
@@ -75,9 +81,9 @@ const routes: Routes = [
 
 ];
 
-const routerOptions: ExtraOptions = {
-  onSameUrlNavigation: 'reload' // Cette ligne force le rafraîchissement de la page si l'URL est la même mais que les paramètres changent
-};
+// const routerOptions: ExtraOptions = {
+//   onSameUrlNavigation: 'reload' // Cette ligne force le rafraîchissement de la page si l'URL est la même mais que les paramètres changent
+// };
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

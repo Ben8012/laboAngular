@@ -18,12 +18,10 @@ export class UserHttpService {
   ) { }
 
   register(register : IRegister): Observable<any>{
-    console.log(register)
     return this.http.post<any>(apiUrl,register)
   }
 
   login(login : ILoginUser):Observable<IUser>{
-    console.log('test')
     return this.http.post<IUser>(apiUrl+'Login',login)
   }
 
@@ -84,6 +82,16 @@ export class UserHttpService {
   updateCertificatDate(date : any, userId :any): Observable<any>{
     const send = { Date : date}
     return this.http.put<any>(apiUrl+'UpdateCertificatDate/'+userId,send)
+  }
+
+  sendEmailToResetPassword(email : string):Observable<any>{
+    const send = {Email : email}
+    return this.http.post(apiUrl+"SendEmailToResetPassword",send)
+  }
+
+  resetPassword(password : string,email: string): Observable<any>{
+    const send = {Password : password, Email : email}
+    return this.http.post(apiUrl+"ResetPassword",send)
   }
 
 

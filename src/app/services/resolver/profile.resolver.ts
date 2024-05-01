@@ -26,7 +26,7 @@ export class ProfilResolver implements Resolve<any> {
       this._session.$user.subscribe(data => {
         this.user = data
       })
-      console.log(this.user);
+      // console.log(this.user);
       const headers = new HttpHeaders({'Authorization': `Bearer ${this.user.token}`});
       return this.$http.get<any>(`https://localhost:7022/User/`+this.user.id
       //, {headers}
