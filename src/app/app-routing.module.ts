@@ -31,7 +31,7 @@ const routes: Routes = [
   { path: '', component : HomeComponent},
   { path: 'profil', component : ProfilComponent, canActivate : [UserGuardService]},
   { path: 'login', component : LoginComponent},
-  // { path: 'register', component : RegisterComponent},
+  { path: 'register', component : RegisterComponent},
 
   { path: 'event', component : EventComponent},
   { path: 'my-events', component : EventComponent, canActivate : [UserGuardService]},
@@ -57,8 +57,7 @@ const routes: Routes = [
   { path: 'update-book/:id', component : FormBookComponent , canActivate : [UserGuardService]},
   { path: 'insert-book/:id', component : FormBookComponent, canActivate : [UserGuardService]},
 
-  {path : 'reset-password/:token', component : ResetPasswordComponent },
-  // ,canActivate : [ResetPasswordGuardService]
+  {path : 'reset-password/:token', component : ResetPasswordComponent ,canActivate : [ResetPasswordGuardService]},
 
   { path: 'admin-home', component : AdminHomeComponent, canActivate : [AdminGuardService],
     children:[

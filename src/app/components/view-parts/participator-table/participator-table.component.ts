@@ -1,10 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { drawRectangle } from 'pdf-lib';
 import { ClubHttpService } from 'src/app/services/http/club.http.service';
 import { EventHttpService } from 'src/app/services/http/event.http.servive';
 import { UserHttpService } from 'src/app/services/http/user.http.service';
+import { ModalDataService } from 'src/app/services/modal/modal.data.service';
 import { UserSessionService } from 'src/app/services/session/user-session.service';
+import { CreatorModalComponent } from '../../modals/CreatorModal/CreatorModal.component';
 
 @Component({
   selector: 'app-participator-table',
@@ -31,7 +34,9 @@ export class ParticipatorTableComponent implements OnInit {
     private _eventHttpService : EventHttpService,
     private _clubHttpService : ClubHttpService,
     private _userHttpService : UserHttpService,
-    private _session : UserSessionService
+    private _session : UserSessionService,
+    private _modalDataService : ModalDataService,
+    public dialog: MatDialog,
   ) {}
 
   ngOnInit(): void {
@@ -157,6 +162,26 @@ export class ParticipatorTableComponent implements OnInit {
         if(this.User && this.User.id){
           this.User = this._session.refreshUser(this.User)
         }
+      });
+    }
+
+    seeLevel(user : any){
+      console.log(user)
+      if(user.trainings){
+        user.trainings.map((training : any)=>{
+          if(training.isMostLevel ==  true){
+            user.level = training.name
+            user.organisation = training.organisation.name
+          }
+        })
+      }
+      this._modalDataService.setData(user);
+      document.body.classList.add('modal-open');
+      const dialogRef = this.dialog.open(CreatorModalComponent);
+  
+      dialogRef.afterClosed().subscribe(result => {
+        // console.log('Le modal est fermé');
+        document.body.classList.remove('modal-open'); 
       });
     }
   

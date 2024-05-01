@@ -10,21 +10,6 @@
         <input type="password" class="form-control w-50" name="password" id="password" formControlName="password" placeholder="Password"  >
       </div>
       
-      <div class="mb-3 justify-content-around">
-        <input type="checkbox" id="condition" formControlName="condition"> Accepter les conditions d'utilisation
-        <button class="btn btn-light hover border font-color-black m-1" (click)="checkCondition()">
-          <div class="d-flex flex-column align-items-center">
-              <i class="bi bi-info-circle"></i>
-              <!-- <span style=" font-style: italic;">infos</span> -->
-          </div> 
-      </button>
-      </div>
-      <div class="mb-3 d-flex justify-content-center" >
-        <div *ngIf="Condition.invalid && (Condition.dirty || Condition.touched)">
-          <div class="errors" *ngIf="Condition.errors['required']">Accpeter les conditions par vous connecter</div>
-        </div>
-      </div>
-        
       <div class="mb-3 d-flex justify-content-center">
         <button type="submit" [disabled]="FormLogin.invalid" class="btn btn-dark">Login</button>  
       </div>

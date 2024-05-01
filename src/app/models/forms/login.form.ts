@@ -4,6 +4,6 @@ export const FLogin = function () {
     return new FormGroup({
         email: new FormControl(null, [Validators.required]),
         password: new FormControl(null, [Validators.required]),
-        condition: new FormControl(null, [Validators.requiredTrue]),
+        // condition: new FormControl(null, [Validators.requiredTrue]),
     })
 }

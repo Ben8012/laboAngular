@@ -1,29 +1,5 @@
 <div class="modal-container scroll">
     <div class=" modal-content card m-1">
-        <!-- <div class="card-body">
-            <div class="d-flex justify-content-between">
-                <h4 class="mx-auto">{{ modalData.name}}</h4>
-                <button mat-button class="btn btn-light " (click)="onClose()"><i class="bi bi-x-square"></i></button>
-            </div>
-            <hr>
-            <div class="d-flex justify-content-center">
-                <img [src]="'../../../../assets/sites/'+modalData.picture" alt="" class="size"/>
-            </div>
-            <hr>
-            <h6 class="text-underline text-center">Adresse :</h6>
-            <h6 class="text-center"> {{modalData.adress.street}} {{modalData.adress.number}},</h6>
-            <h6 class="text-center"> {{modalData.adress.postCode}} {{modalData.adress.city}},</h6>
-            <hr>
-            <h6 class="text-underline text-center">Description :</h6>
-            <h6 class="text-center">{{modalData.description}}</h6>
-            <p class="text-center"> GPS : {{modalData.gps}}</p>
-            <hr>
-            <h6 class="text-center">Profondeur : {{modalData.maxDepp}}</h6>
-            <hr>
-            <div class="text-center">
-                <button mat-button class="btn btn-light " (click)="onClose()">Fermer</button>
-            </div>
-        </div> -->
         <div class="card m-1">
             <div class="card-body">
                 <div class="d-flex justify-content-between m-3 ">
@@ -32,39 +8,6 @@
                 </div>
                 <table class="table">
                     <tbody>
-                        <tr class="d-flex justify-content-between ">
-                            <td class="border rounded">
-                                <app-vote [User]="User" [VoteAvg]="modalData.avgVote" [Vote]="modalData.userVote"></app-vote>
-                                <!-- <h6>Note moyenne : {{modalData.avgVote}}/5</h6>
-                                <h6>Ma note : {{modalData.userVote}}/5</h6> -->
-                            </td>
-                            <!-- <td class="m-auto border rounded">
-                                <h5 class="m-3">{{modalData.name}}</h5>
-                            </td> -->
-                            <td class="  border rounded">
-                                <div class="d-flex justify-content-center">
-                                    <h6 class="m-auto">Noter</h6>
-                                    <select class="form-select w-25" [(ngModel)]="SelectedOption"
-                                        (change)="onOptionChange(modalData.id)">
-                                        <option value="0">0</option>
-                                        <option value="1">1</option>
-                                        <option value="2">2</option>
-                                        <option value="3">3</option>
-                                        <option value="4">4</option>
-                                        <option value="5">5</option>
-                                    </select>
-                                </div>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-                <table class="table">
-                    <tbody>
-                        <tr>
-                            <td class="text-center">
-                                <img [src]="'../../../../assets/sites/'+modalData.picture" alt="" class="size border rounded" />
-                            </td>
-                        </tr>
                         <tr>
                             <td class=" text-center my-2">
                                 <h6>{{modalData.description}}</h6>
@@ -91,12 +34,12 @@
                                 <a class="btn btn-primary" [href]="modalData.url" target="_blank">Site Officiel</a>
                             </td>
                         </tr>
-                        <tr>
+                        <!-- <tr>
                             <td class=" text-center my-2">
                                 <a class="btn btn-primary" [href]="'../../.././../assets/plans/'+modalData.map">Télécharger la
                                     carte</a>
                             </td>
-                        </tr>
+                        </tr> -->
                         <tr>
                             <td class=" text-center my-2">
                                 <a class="btn btn-primary"

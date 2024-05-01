@@ -12,6 +12,7 @@ export const FRegister = function () {
         password: new FormControl(null, [Validators.required, Validators.minLength(4),Validators.maxLength(250), passwordValidator()]),
         passwordConfirm: new FormControl(null, [Validators.required, passwordValidator()]),
         phone : new FormControl(null,),
+        condition: new FormControl(null, [Validators.requiredTrue]),
 
 
     },

@@ -6,6 +6,9 @@ import { UserHttpService } from 'src/app/services/http/user.http.service';
 import { IUser } from 'src/app/models/interfaces/user.model';
 import { UserSessionService } from 'src/app/services/session/user-session.service';
 import { Router } from '@angular/router';
+import { ModalDataService } from 'src/app/services/modal/modal.data.service';
+import { MatDialog } from '@angular/material/dialog';
+import { ConditionModalComponent } from '../../modals/conditionModal/conditionModal.component';
 
 @Component({
   selector: 'app-register',
@@ -25,12 +28,15 @@ export class RegisterComponent {
   get Birthdate():any {return this.formRegister.get('birthdate');}
   get Password():any {return this.formRegister.get('password');}
   get ConfirmPassword():any {return this.formRegister.get('passwordConfirm');}
+  get Condition():any {return this.formRegister.get('condition');}
   get Errors():any{return this.formRegister.errors}
 
   constructor(
     private _userHttpService: UserHttpService,
     private _session : UserSessionService,
-    private _route : Router
+    private _route : Router,
+    private _modalDataService : ModalDataService,
+    public dialog: MatDialog,
     )
     { }
 
@@ -50,6 +56,17 @@ export class RegisterComponent {
 
       }) ;
     }
+  }
+
+  checkCondition(){
+    //this._modalDataService.setData(creator);
+    document.body.classList.add('modal-open');
+    const dialogRef = this.dialog.open(ConditionModalComponent);
+
+    dialogRef.afterClosed().subscribe(result => {
+      // console.log('Le modal est fermé');
+      document.body.classList.remove('modal-open'); 
+    });
   }
 
 

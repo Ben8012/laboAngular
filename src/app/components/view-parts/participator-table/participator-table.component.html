@@ -32,28 +32,29 @@
       {{participe.age}} ans
     </td>
     <td class="text-center border">
-      <ng-container *ngIf="participe.medicalDateValidation.getTime() <= Today.getTime(); else checkIcon">
+      <ng-container *ngIf="participe.medicalDateValidation.getTime() <= Today.getTime(); else checkmedicalDateValidation">
         <i class="bi bi-x" style="color:red"></i>
       </ng-container>
-      <ng-template #checkIcon>
+      <ng-template #checkmedicalDateValidation>
         <i class="bi bi-check-lg" style="color:green"></i>
       </ng-template>
     </td>
     <td class="text-center border">
-      <ng-container *ngIf="participe.insuranceDateValidation.getTime() <= Today.getTime(); else checkIcon">
+      <ng-container *ngIf="participe.insuranceDateValidation.getTime() <= Today.getTime(); else checkinsuranceDateValidation">
         <i class="bi bi-x" style="color:red"></i>
       </ng-container>
-      <ng-template #checkIcon>
+      <ng-template #checkinsuranceDateValidation>
         <i class="bi bi-check-lg" style="color:green"></i>
       </ng-template>
 
     </td>
     <td class="text-center border">
-      <ng-container *ngIf="!participe.isLevelValid; else checkIcon">
+      <ng-container *ngIf="!participe.isLevelValid; else checkLevelValid">
         <i class="bi bi-x" style="color:red;"></i>
       </ng-container>
-      <ng-template #checkIcon>
-        <i class="bi bi-check-lg" style="color:green"></i>
+      <ng-template #checkLevelValid>
+        <!-- <i class="bi bi-check-lg" style="color:green"></i> -->
+        <a class="btn btn-light hover border font-color-black" (click)="seeLevel(participe)"><i class="bi bi-eye"></i></a>
       </ng-template>
     </td>
 
@@ -124,28 +125,30 @@
         {{demand.age}} ans
       </td>
       <td class="text-center border">
-        <ng-container *ngIf="demand.medicalDateValidation.getTime() <= Today.getTime(); else checkIcon">
+        <ng-container *ngIf="demand.medicalDateValidation.getTime() <= Today.getTime(); else checkmedicalDateValidation">
           <i class="bi bi-x" style="color:red"></i>
         </ng-container>
-        <ng-template #checkIcon>
+        <ng-template #checkmedicalDateValidation>
           <i class="bi bi-check-lg" style="color:green"></i>
         </ng-template>
       </td>
       <td class="text-center border">
-        <ng-container *ngIf="demand.insuranceDateValidation.getTime() <= Today.getTime(); else checkIcon">
+        <ng-container *ngIf="demand.insuranceDateValidation.getTime() <= Today.getTime(); else checkinsuranceDateValidation">
           <i class="bi bi-x" style="color:red"></i>
         </ng-container>
-        <ng-template #checkIcon>
+        <ng-template #checkinsuranceDateValidation>
           <i class="bi bi-check-lg" style="color:green"></i>
         </ng-template>
 
       </td>
       <td class="text-center border">
-        <ng-container *ngIf="!demand.isLevelValid; else checkIcon">
+        <ng-container *ngIf="!demand.isLevelValid; else checkLevelValid">
           <i class="bi bi-x" style="color:red;"></i>
         </ng-container>
-        <ng-template #checkIcon>
-          <i class="bi bi-check-lg" style="color:green"></i>
+        <ng-template #checkLevelValid>
+          <!-- <i class="bi bi-check-lg" style="color:green"></i> -->
+          <a class="btn btn-light hover border font-color-black" (click)="seeLevel(demand)"><i class="bi bi-eye"></i></a>
+
         </ng-template>
       </td>
 
