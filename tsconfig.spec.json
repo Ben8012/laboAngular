@@ -7,6 +7,8 @@
       "jasmine"
     ]
   },
-  "include": ["src/**/*.ts"],
-  "exclude": ["./out-tsc/spec"]
+  "include": [
+    "src/**/*.spec.ts",
+    "src/**/*.d.ts"
+  ]
 }
