@@ -166,7 +166,7 @@ export class ParticipatorTableComponent implements OnInit {
     }
 
     seeLevel(user : any){
-      console.log(user)
+      // console.log(user)
       if(user.trainings){
         user.trainings.map((training : any)=>{
           if(training.isMostLevel ==  true){

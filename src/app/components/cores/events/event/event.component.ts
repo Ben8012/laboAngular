@@ -81,7 +81,7 @@ export class EventComponent implements OnInit {
       event.type = "event"
       
       if(event.diveplace.guidImage != null){
-        this._imageHttpService.getSiteImage(event.diveplace.guidImage).subscribe(imageData => {
+        this._imageHttpService.getAllowedImage(event.diveplace.id,"SiteImage").subscribe(imageData => {
           const reader = new FileReader();
           reader.onload = (e: any) => {
             event.diveplace.image = e.target.result;

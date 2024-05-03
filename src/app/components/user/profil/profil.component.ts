@@ -75,48 +75,9 @@ export class ProfilComponent {
 
   ngOnInit() {
     this.getUser();
-    this.getAllOrganisation()
   }
 
-  private getImages(){
-    if(this._user.guidInsurance){
-      this._imageHttpService.getInsuranceImage(this._user.guidInsurance).subscribe(imageData => {
-        const reader = new FileReader();
-        reader.onload = (e: any) => {
-          this._user.imageInsurance = e.target.result;
-        }
-        reader.readAsDataURL(imageData);
-      });
-    }
-    if(this._user.guidLevel){
-      this._imageHttpService.getLevelImage(this._user.guidLevel).subscribe(imageData => {
-        const reader = new FileReader();
-        reader.onload = (e: any) => {
-          this._user.imageLevel = e.target.result;
-        }
-        reader.readAsDataURL(imageData);
-      });
-    }
-    if(this._user.guidCertificat){
-      this._imageHttpService.getCertificatImage(this._user.guidCertificat).subscribe(imageData => {
-        const reader = new FileReader();
-        reader.onload = (e: any) => {
-          this._user.imageCertificat = e.target.result;
-        }
-        reader.readAsDataURL(imageData);
-      });
-    }
-    if(this._user.guidImage){
-      this._imageHttpService.getProfilImage(this._user.guidImage).subscribe(imageData => {
-        const reader = new FileReader();
-        reader.onload = (e: any) => {
-          this._user.imageProfil = e.target.result;
-        }
-        reader.readAsDataURL(imageData);
-      });
-    }
-  }
-
+ 
   private addToForm(){
       let form = {
         firstname : this._user.firstname,
@@ -133,11 +94,9 @@ export class ProfilComponent {
       next: (data : any) => {
           this._user = data;
           if(this._user.id){
+            this.getAllOrganisation()
             this.addToForm()
-            this.getImages()
           }
-          // console.log(this._user)
-          
       },
       error:(data :any) => {
         console.log(data);
@@ -208,7 +167,7 @@ export class ProfilComponent {
 
     delete this.formProfil.value.image;
 
-    this._imageHttpService.insertProfilImage(formData,this._user.id).subscribe({
+    this._imageHttpService.insert(formData,this._user.id,"ProfilImage").subscribe({
       next: (data: any) => {
         this._session.refreshUser(this._user)
       },
@@ -228,7 +187,7 @@ export class ProfilComponent {
 
     delete this.formProfil.value.image;
 
-    this._imageHttpService.insertInsuranceImage(formData,this._user.id).subscribe({
+    this._imageHttpService.insert(formData,this._user.id,"InsuranceImage").subscribe({
       next: (data: any) => {
         this._session.refreshUser(this._user)
       },
@@ -248,7 +207,7 @@ export class ProfilComponent {
 
     delete this.formProfil.value.image;
 
-    this._imageHttpService.insertLevelImage(formData,this._user.id).subscribe({
+    this._imageHttpService.insert(formData,this._user.id,"LevelImage").subscribe({
       next: (data: any) => {
         this._session.refreshUser(this._user)
       },
@@ -268,7 +227,7 @@ export class ProfilComponent {
 
     delete this.formProfil.value.image;
 
-    this._imageHttpService.insertCertificatImage(formData,this._user.id).subscribe({
+    this._imageHttpService.insert(formData,this._user.id,"CertificatImage").subscribe({
       next: (data: any) => {
         this._session.refreshUser(this._user)
       },
@@ -312,7 +271,7 @@ export class ProfilComponent {
           this._user = this._session.refreshUser(this._user)
           if(this._user && this._user.id){
             this.addToForm()
-            this.getImages()
+            this._session.refreshUser(this._user)
             this.formLevel.value.userId = this._user.id
           }
         },
@@ -330,7 +289,7 @@ export class ProfilComponent {
         this._user = this._session.refreshUser(this._user)
         if(this._user && this._user.id){
           this.addToForm()
-          this.getImages()
+          this._session.refreshUser(this._user)
         }
       },
       error: (error) => {
@@ -346,7 +305,7 @@ export class ProfilComponent {
         this._user = this._session.refreshUser(this._user)
         if(this._user && this._user.id){
           this.addToForm()
-          this.getImages()
+          this._session.refreshUser(this._user)
         }
       },
       error: (error) => {

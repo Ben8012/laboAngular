@@ -16,91 +16,29 @@ export class ImageHttpService {
   constructor(
     private http:HttpClient,
   ) { }
+// les differents type
+  // ProfilImage
+  // InsuranceImage
+  // InsuranceImage
+  // LevelImage
+  // CertificatImage
+  // SiteImage
+  // SitePlan
+  // OrganisationImage
+  // TrainingImage
 
- 
-
-  insertProfilImage(formData : any, id : any): Observable<any>{
+  insert(formData : any, id : any,type :string): Observable<any>{
     const headers = new HttpHeaders();
     headers.append('Content-Type', 'multipart/form-data');
-    return this.http.post<any>(apiUrl+'ProfilImage/'+id,formData, { headers: headers })
+    return this.http.post<any>(apiUrl+id+'/'+type,formData, { headers: headers })
   }
 
-  getProfilImage(imageName: string): Observable<Blob> {
-    return this.http.get(apiUrl+'ProfilImage/'+imageName, { responseType: 'blob' });
+  getImage(id: number,type :string): Observable<Blob> {
+    return this.http.get(apiUrl+id+'/'+type, { responseType: 'blob' });
   }
 
-  insertInsuranceImage(formData : any, id : any): Observable<any>{
-    const headers = new HttpHeaders();
-    headers.append('Content-Type', 'multipart/form-data');
-    return this.http.post<any>(apiUrl+'InsuranceImage/'+id,formData, { headers: headers })
+  getAllowedImage(id: number,type :string): Observable<Blob> {
+    return this.http.get(apiUrl+"Allowed/"+id+'/'+type, { responseType: 'blob' });
   }
-
-  getInsuranceImage(imageName: string): Observable<Blob> {
-    return this.http.get(apiUrl+'InsuranceImage/'+imageName, { responseType: 'blob' });
-  }
-
-  insertLevelImage(formData : any, id : any): Observable<any>{
-    const headers = new HttpHeaders();
-    headers.append('Content-Type', 'multipart/form-data');
-    return this.http.post<any>(apiUrl+'LevelImage/'+id,formData, { headers: headers })
-  }
-
-  getLevelImage(imageName: string): Observable<Blob> {
-    return this.http.get(apiUrl+'LevelImage/'+imageName, { responseType: 'blob' });
-  }
-
-  insertCertificatImage(formData : any, id : any): Observable<any>{
-    const headers = new HttpHeaders();
-    headers.append('Content-Type', 'multipart/form-data');
-    return this.http.post<any>(apiUrl+'CertificatImage/'+id,formData, { headers: headers })
-  }
-
-  getCertificatImage(imageName: string): Observable<Blob> {
-    return this.http.get(apiUrl+'CertificatImage/'+imageName, { responseType: 'blob' });
-  }
-
-  insertSiteImage(formData : any, id : any): Observable<any>{
-    const headers = new HttpHeaders();
-    headers.append('Content-Type', 'multipart/form-data');
-    return this.http.post<any>(apiUrl+'SiteImage/'+id,formData, { headers: headers })
-  }
-
-  getSiteImage(imageName: string): Observable<Blob> {
-    return this.http.get(apiUrl+'SiteImage/'+imageName, { responseType: 'blob' });
-  }
-
-  insertSitePlan(formData : any, id : any): Observable<any>{
-    const headers = new HttpHeaders();
-    headers.append('Content-Type', 'multipart/form-data');
-    return this.http.post<any>(apiUrl+'SitePlan/'+id,formData, { headers: headers })
-  }
-
-  getSiteMap(imageName: string): Observable<Blob> {
-    return this.http.get(apiUrl+'SitePlan/'+imageName, { responseType: 'blob' });
-  }
-
-  insertOrganisationImage(formData : any, id : any): Observable<any>{
-    const headers = new HttpHeaders();
-    headers.append('Content-Type', 'multipart/form-data');
-    return this.http.post<any>(apiUrl+'OrganisationImage/'+id,formData, { headers: headers })
-  }
-
-  getOrganisationImage(imageName: string): Observable<Blob> {
-    return this.http.get(apiUrl+'OrganisationImage/'+imageName, { responseType: 'blob' });
-  }
-
-  insertTrainingImage(formData : any, id : any): Observable<any>{
-    const headers = new HttpHeaders();
-    headers.append('Content-Type', 'multipart/form-data');
-    return this.http.post<any>(apiUrl+'TrainingImage/'+id,formData, { headers: headers })
-  }
-
-  getTrainingImage(imageName: string): Observable<Blob> {
-    return this.http.get(apiUrl+'TrainingImage/'+imageName, { responseType: 'blob' });
-  }
-
-
-
- 
 
 }

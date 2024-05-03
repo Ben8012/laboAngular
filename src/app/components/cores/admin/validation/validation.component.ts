@@ -101,7 +101,7 @@ export class ValidationComponent implements OnInit {
 
   private getImages(){
     if(this._user.guidInsurance){
-      this._imageHttpService.getInsuranceImage(this._user.guidInsurance).subscribe(imageData => {
+      this._imageHttpService.getImage(this._user.id,"InsuranceImage").subscribe(imageData => {
         const reader = new FileReader();
         reader.onload = (e: any) => {
           this._user.imageInsurance = e.target.result;
@@ -110,7 +110,7 @@ export class ValidationComponent implements OnInit {
       });
     }
     if(this._user.guidLevel){
-      this._imageHttpService.getLevelImage(this._user.guidLevel).subscribe(imageData => {
+      this._imageHttpService.getImage(this._user.id,"LevelImage").subscribe(imageData => {
         const reader = new FileReader();
         reader.onload = (e: any) => {
           this._user.imageLevel = e.target.result;
@@ -119,7 +119,7 @@ export class ValidationComponent implements OnInit {
       });
     }
     if(this._user.guidCertificat){
-      this._imageHttpService.getCertificatImage(this._user.guidCertificat).subscribe(imageData => {
+      this._imageHttpService.getImage(this._user.id,"CertificatImage").subscribe(imageData => {
         const reader = new FileReader();
         reader.onload = (e: any) => {
           this._user.imageCertificat = e.target.result;
@@ -128,7 +128,7 @@ export class ValidationComponent implements OnInit {
       });
     }
     if(this._user.guidImage){
-      this._imageHttpService.getProfilImage(this._user.guidImage).subscribe(imageData => {
+      this._imageHttpService.getImage(this._user.id,"ProfilImage").subscribe(imageData => {
         const reader = new FileReader();
         reader.onload = (e: any) => {
           this._user.imageProfil = e.target.result;

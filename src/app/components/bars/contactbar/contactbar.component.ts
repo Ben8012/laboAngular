@@ -74,14 +74,6 @@ export class ContactbarComponent implements OnInit {
     this._isRead.UserId = parseInt(this._user.id),
     this._chatService.myHub.send("MessageIsRead", this._isRead)
     
-    // this._messageHttpService.isRead(id,this._user.id).subscribe({
-    //   next : (data :any) =>{
-    //     this._session.refreshUser(this._user.id)
-        
-    //   },
-    //   error : (error) => {
-    //     console.log(error)
-    //   }}) ;
   }
 
 }

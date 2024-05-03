@@ -213,7 +213,7 @@ export class FormTrainingComponent implements OnInit {
     const formData = new FormData();
     formData.append('image', this.selectedFileTraining, training.name+training.organisation.name+training.id);
 
-    this._imageHttpService.insertTrainingImage(formData,training.id).subscribe({
+    this._imageHttpService.insert(formData,training.id,"TrainingImage").subscribe({
       next: (data: any) => {
         this.getTrainingById(this._training.id)
       },
@@ -225,7 +225,7 @@ export class FormTrainingComponent implements OnInit {
 
   private getImage(){
     if(this._training.guidImage != ""){
-      this._imageHttpService.getTrainingImage(this._training.guidImage).subscribe(imageData => {
+      this._imageHttpService.getImage(this._training.id,"TrainingImage").subscribe(imageData => {
         const reader = new FileReader();
         reader.onload = (e: any) => {
           //this._imageSite = e.target.result;

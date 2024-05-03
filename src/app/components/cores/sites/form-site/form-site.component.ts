@@ -209,10 +209,12 @@ export class FormSiteComponent implements OnInit {
 
   onFileSelectedSite(event :any): void {
     this.selectedFileSite = event.target.files[0];
+    this.addSite(this._site)
   }
 
   onFileSelectedPlan(event :any): void {
     this.selectedFilePlan = event.target.files[0];
+    this.addPlan(this._site)
   }
 
   addSite(site : any){
@@ -225,7 +227,7 @@ export class FormSiteComponent implements OnInit {
 
     delete this.formSite.value.image;
 
-    this._imageHttpService.insertSiteImage(formData,site.id).subscribe({
+    this._imageHttpService.insert(formData,site.id,"SiteImage").subscribe({
       next: (data: any) => {
         this.getSiteById(this._id)
       },
@@ -245,7 +247,7 @@ export class FormSiteComponent implements OnInit {
 
     delete this.formSite.value.plan;
 
-    this._imageHttpService.insertSitePlan(formData,site.id).subscribe({
+    this._imageHttpService.insert(formData,site.id,"SitePlan").subscribe({
       next: (data: any) => {
         this.getSiteById(this._id)
       },
@@ -259,7 +261,7 @@ export class FormSiteComponent implements OnInit {
 
   private getImage(){
     if(this._site.guidImage != null){
-      this._imageHttpService.getSiteImage(this._site.guidImage).subscribe(imageData => {
+      this._imageHttpService.getImage(this._site.id,"SiteImage").subscribe(imageData => {
         const reader = new FileReader();
         reader.onload = (e: any) => {
           //this._imageSite = e.target.result;
@@ -272,7 +274,7 @@ export class FormSiteComponent implements OnInit {
 
   private getPlan(){
     if(this._site.guidMap != null){
-      this._imageHttpService.getSiteMap(this._site.guidMap).subscribe(imageData => {
+      this._imageHttpService.getImage(this._site.id,"SitePlan").subscribe(imageData => {
         // console.log(imageData)
         //this._planSite = this._sanitizer.bypassSecurityTrustResourceUrl(URL.createObjectURL(imageData));
         

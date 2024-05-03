@@ -35,7 +35,7 @@ export class SidebarComponent implements OnInit {
       this._user = user;
       if(this._user.guidImage){
         //this._userImage =this._session.ReturnUserImage(this._user)
-        this._session.GetUserImage(this._user)
+        //this._session.GetUserImage(this._user)
       }
     })
   }

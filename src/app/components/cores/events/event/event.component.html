@@ -53,7 +53,7 @@
                 <td class="text-center">
                     <span style="font-weight: bold;">Lieu :</span>{{event.diveplace.name}}
                     <div class="d-flex justify-content-center">
-                        <img [src]="event.diveplace.image" class="size border rounded" height="200vh" alt="Avatar"loading="lazy" />
+                        <img *ngIf="event.diveplace.image" [src]="event.diveplace.image" class="size border rounded" height="200vh" alt="Avatar"loading="lazy" />
                     </div>
                 </td>
                 <td class="d-flex flex-column min-width">

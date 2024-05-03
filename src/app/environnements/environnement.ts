@@ -1,4 +1,5 @@
 export const environment = {
-    production: false,
+    production: true,
     apiUrl: 'https://localhost:7022/'
+    //apiUrl: 'https://labodiveapi.azurewebsites.net/'
   };

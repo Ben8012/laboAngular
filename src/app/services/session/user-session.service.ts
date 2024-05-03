@@ -74,11 +74,13 @@ export class UserSessionService implements OnInit {
               data.organisation = training.organisation.name
             }
           })
-          this.CountUserMessage(data)
+          this.getUserImage(data)
+          this.countUserMessage(data)
           data.friends.forEach((friend : any)=> {
-            this.CountFriendMessages(friend,data)
-            this.GetFriendImage(friend)
+            this.countFriendMessages(friend,data)
+            this.getFriendImage(friend)
           })
+          //console.log(data)
           this.saveSession(data)
         },
         error : (error) => {
@@ -86,7 +88,7 @@ export class UserSessionService implements OnInit {
         }}) ;
   }
 
-  CountUserMessage(user :any){
+  private countUserMessage(user :any){
     user.countMessages = 0
     user.friends.map((friend : any)=>{
       friend.messages.forEach((message:any)=> {
@@ -97,7 +99,7 @@ export class UserSessionService implements OnInit {
     })
   }
 
-  CountFriendMessages(friend : any, user :any){
+  private countFriendMessages(friend : any, user :any){
     friend.countMessages = 0
     friend.messages.forEach((message:any)=> {
       if(message.reciever.id == user.id  && message.isRead == false){
@@ -106,9 +108,9 @@ export class UserSessionService implements OnInit {
     })
   }
 
-  GetFriendImage(friend : any){
-    if(friend.guidImage != ''){
-      this._imageHttpService.getProfilImage(friend.guidImage).subscribe(imageData => {
+  private getFriendImage(friend : any){
+    if(friend.guidImage != null){
+      this._imageHttpService.getImage(friend.id,"ProfilImage").subscribe(imageData => {
         const reader = new FileReader();
         reader.onload = (e: any) => {
           friend.imageUrl = e.target.result;
@@ -118,25 +120,44 @@ export class UserSessionService implements OnInit {
     }
   }
 
-  GetUserImage(user:any){
-    this._imageHttpService.getProfilImage(user.guidImage).subscribe(imageData => {
-      const reader = new FileReader();
-      reader.onload = (e: any) => {
-        user.imageProfil = e.target.result;
-      }
-      reader.readAsDataURL(imageData);
-    });
+  private getUserImage(user:any){
+    if(user.guidImage != null){
+      this._imageHttpService.getImage(user.id,"ProfilImage").subscribe(imageData => {
+        const reader = new FileReader();
+        reader.onload = (e: any) => {
+          user.imageProfil = e.target.result;
+        }
+        reader.readAsDataURL(imageData);
+      });
+    }
+    if(user.guidLevel != null){
+      this._imageHttpService.getImage(user.id,"LevelImage").subscribe(imageData => {
+        const reader = new FileReader();
+        reader.onload = (e: any) => {
+          user.imageLevel = e.target.result;
+        }
+        reader.readAsDataURL(imageData);
+      });
+    }
+    if(user.guidCertificat != null){
+      this._imageHttpService.getImage(user.id,"CertificatImage").subscribe(imageData => {
+        const reader = new FileReader();
+        reader.onload = (e: any) => {
+          user.imageCertificat = e.target.result;
+        }
+        reader.readAsDataURL(imageData);
+      });
+    }
+    if(user.guidInsurance != null){
+      this._imageHttpService.getImage(user.id,"InsuranceImage").subscribe(imageData => {
+        const reader = new FileReader();
+        reader.onload = (e: any) => {
+          user.imageInsurance = e.target.result;
+        }
+        reader.readAsDataURL(imageData);
+      });
+    }
   }
 
-  ReturnUserImage(user:any) {
-    this._imageHttpService.getProfilImage(user.guidImage).subscribe(imageData => {
-      const reader = new FileReader();
-      reader.onload = (e: any) => {
-        let imageProfil = e.target.result;
-        return imageProfil
-      }
-      reader.readAsDataURL(imageData);
-    });
-  }
-
+ 
 }

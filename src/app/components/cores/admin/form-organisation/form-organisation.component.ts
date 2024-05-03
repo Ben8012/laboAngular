@@ -178,7 +178,7 @@ export class FormOrganisationComponent implements OnInit {
     const formData = new FormData();
     formData.append('image', this.selectedFileOrganisation, organisation.name+organisation.id);
 
-    this._imageHttpService.insertOrganisationImage(formData,organisation.id).subscribe({
+    this._imageHttpService.insert(formData,organisation.id,"OrganisationImage").subscribe({
       next: (data: any) => {
         this.getOrganisationById(this._id)
       },
@@ -190,7 +190,7 @@ export class FormOrganisationComponent implements OnInit {
 
   private getImage(){
     if(this._organisation.guidImage != null){
-      this._imageHttpService.getOrganisationImage(this._organisation.guidImage).subscribe(imageData => {
+      this._imageHttpService.getImage(this._organisation.id,"OrganisationImage").subscribe(imageData => {
         const reader = new FileReader();
         reader.onload = (e: any) => {
           //this._imageSite = e.target.result;

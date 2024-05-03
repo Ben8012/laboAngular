@@ -59,9 +59,7 @@ export class SiteComponent implements OnInit {
         this._sites = data
 
         this._sites.forEach((site : any) => {
-          if(site.guidImage != ''){
             this.getImages(site)
-          }
         });
         //console.log(this._sites)
       },
@@ -75,10 +73,8 @@ export class SiteComponent implements OnInit {
       next : (data :any) =>{
         this._sites = data
 
-        this._sites.forEach((site : any) => {
-          if(site.guidImage != ''){
-            this.getImages(site)
-          }
+        this._sites.forEach((site : any) => {  
+          this.getImages(site)  
         });
         //console.log(this._sites)
       },
@@ -144,7 +140,7 @@ export class SiteComponent implements OnInit {
 
   private getImages(site : any){
     if(site.guidImage != null){
-      this._imageHttpService.getSiteImage(site.guidImage).subscribe(imageData => {
+      this._imageHttpService.getAllowedImage(site.id,"SiteImage").subscribe(imageData => {
         const reader = new FileReader();
         reader.onload = (e: any) => {
           site.image = e.target.result;
@@ -153,7 +149,7 @@ export class SiteComponent implements OnInit {
       });
     }
     if(site.guidMap != null){
-      this._imageHttpService.getSiteMap(site.guidMap).subscribe(imageData => {
+      this._imageHttpService.getAllowedImage(site.id,"SitePlan").subscribe(imageData => {
         const reader = new FileReader();
         reader.onload = (e: any) => {
           site.map = this._sanitizer.bypassSecurityTrustResourceUrl(e.target.result);

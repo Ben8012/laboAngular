@@ -49,7 +49,7 @@ export class AppComponent implements OnInit {
             
             this._session.saveSession(this._user)
             this._session.refreshUser(user)
-            this._chatService.connection()
+          
           }else{
             this._session.$user.next({}as any)
           }

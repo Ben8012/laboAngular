@@ -22,7 +22,7 @@ export class LoginComponent {
   private formLogin: FormGroup = FLogin();
   get FormLogin(): FormGroup { return this.formLogin; }
   
-  get Condition():any {return this.formLogin.get('condition');}
+  // get Condition():any {return this.formLogin.get('condition');}
 
   public errorMessage: string = '';
 
@@ -38,7 +38,7 @@ export class LoginComponent {
   
 
   login(){
-    console.log(this.formLogin)
+    // console.log(this.formLogin)
     if(this.formLogin.valid){
       this._userHttpService.login(this.formLogin.value).subscribe({
         next : (data :any) =>{
