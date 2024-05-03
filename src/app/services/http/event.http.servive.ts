@@ -16,7 +16,7 @@ export class EventHttpService {
   ) { }
 
   getAllEvent() : Observable<any>{
-    // console.log(apiUrl)
+    console.log(apiUrl)
     return this.http.get(apiUrl)
   }
 
