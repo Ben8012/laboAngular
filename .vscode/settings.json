@@ -7,5 +7,7 @@
             "externalTemplate": true,
             "skipStyle": false
         }
-    }
+    },
+    "appService.defaultWebAppToDeploy": "/subscriptions/c695b044-6b04-4a12-9239-43a6ec46984f/resourceGroups/TFE/providers/Microsoft.Web/sites/EnjoyYourDive",
+    "appService.deploySubpath": "dist\\labo"
 }
