@@ -44,6 +44,7 @@ export class ParticipatorTableComponent implements OnInit {
     this._today = new Date()
     this._participators = this.Element.participes
     this._demands = this.Element.demands
+    //console.log(this._participators)
 
     this.formatDate(this._participators)
     this.formatDate(this._demands)
@@ -166,7 +167,7 @@ export class ParticipatorTableComponent implements OnInit {
     }
 
     seeLevel(user : any){
-      // console.log(user)
+      //console.log(user)
       if(user.trainings){
         user.trainings.map((training : any)=>{
           if(training.isMostLevel ==  true){
