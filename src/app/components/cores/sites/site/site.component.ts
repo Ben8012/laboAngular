@@ -65,9 +65,10 @@ export class SiteComponent implements OnInit {
       this._urlSegements = segments[0].path
       // console.log(segments)
       this.getUser()
+      this.getSites()
 
     });
-    console.log(this._phoneSize)
+    //console.log(this._phoneSize)
  
    }
 
@@ -114,13 +115,13 @@ export class SiteComponent implements OnInit {
     this._session.$user.subscribe({
       next : (data :any) =>{
         this._user = data;
-        if(this._user && this._user.id){
-          this._observableService.getAllSiteAndVote(this._user);
-        }
-        else{
-          this._observableService.getAllSite()
-        }
-        this.getSites()
+        // if(this._user && this._user.id){
+        //   this._observableService.getAllSiteAndVote(this._user);
+        // }
+        // else{
+        //   this._observableService.getAllSite()
+        // }
+        
       },
       error : (error) => {
         console.log(error)
@@ -129,9 +130,12 @@ export class SiteComponent implements OnInit {
 
     private getSites() {
       this._observableService.$sites.subscribe({
-        next : (data :any) =>{
-          this._sites = data;
-          this._chargingPageMessage =''
+        next : (sites :any) =>{
+          //console.log(sites)
+          if(sites && sites.length > 0){
+            this._sites = sites
+            this._chargingPageMessage =""
+          }
         },
         error : (error) => {
           console.log(error)

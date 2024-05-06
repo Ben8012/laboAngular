@@ -4,6 +4,7 @@ import { Router } from "@angular/router";
 import { BehaviorSubject, Observable, Subject, from, switchMap } from "rxjs";
 import { IUser } from "src/app/models/interfaces/user.model";
 import { ImageHttpService } from '../http/image.http.service';
+import { ObservableService } from '../observable/observable.service';
 
 
 @Injectable({
@@ -23,7 +24,8 @@ export class UserSessionService implements OnInit {
   constructor(
     private _router : Router,
     private _userHttpService: UserHttpService,
-    private _imageHttpService : ImageHttpService
+    private _imageHttpService : ImageHttpService,
+    private _obersvableService : ObservableService
     )
   {}
 
@@ -53,6 +55,7 @@ export class UserSessionService implements OnInit {
     })
 
     this.getAllUsers()
+    this._obersvableService.getAllSiteAndVote(data)
 
     this.$user.next(data);
     //console.log(data)
@@ -107,6 +110,7 @@ export class UserSessionService implements OnInit {
           this.addMostLevel(users)
           this.$users.next(users);
           this.filterConatcatsForView(this.User,users)
+          console.log('contacts chargés')
         }
       },
       error: (data: any) => {

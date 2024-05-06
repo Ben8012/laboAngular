@@ -62,7 +62,6 @@ export class AppComponent implements OnInit {
           if(user.id){
             this._user= user
             this._session.saveSession(this._user)
-            this._session.getAllUsers();
             this._chargingPageMessage =""
           }else{
             this._session.$user.next({}as any)
@@ -77,6 +76,7 @@ export class AppComponent implements OnInit {
       })
     }else{
       //this._session.clearSession()
+      this._observableService.getAllSite();
       this._session.$user.next({}as any)
       //this._router.navigate(['']);
     }

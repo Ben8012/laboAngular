@@ -25,7 +25,6 @@ export class ObservableService implements OnInit {
     private _eventHttpService: EventHttpService,
     private _imageHttpService : ImageHttpService,
     private _dateHelperService : DateHelperService,
-    private _session : UserSessionService,
     private _clubHttpService : ClubHttpService,
     private _siteHttpService : SiteHttpService,
     private _sanitizer: DomSanitizer,
@@ -66,6 +65,7 @@ export class ObservableService implements OnInit {
         this.formatEventForView(events)
         this.addLevelToView(events) 
         this.saveEvents(events)
+        console.log('events chargés')
       },
       error : (error) => {
         console.log(error)
@@ -79,6 +79,7 @@ export class ObservableService implements OnInit {
         this.formatClubForView(clubs)  
         this.addLevelToView(clubs)  
         this.saveClubs(clubs)
+        console.log('clubs chargés')
       },
       error : (error) => {
         console.log(error)
@@ -88,12 +89,12 @@ export class ObservableService implements OnInit {
    getAllSiteAndVote(user : any){
     this._siteHttpService.getAllSiteAndVote(user.id).subscribe({
       next : (data :any) =>{
-        //console.log(data)
         if(data && data.length > 0){
           data.forEach((site : any) => {  
             this.getImages(site)  
           });
           this.saveSites(data)
+          console.log('sites chargés')
         }
       },
       error : (error) => {
@@ -109,6 +110,7 @@ export class ObservableService implements OnInit {
               this.getImages(site)
           });
           this.saveSites(data)
+          console.log('sites chargés')
         }
       },
       error : (error) => {
