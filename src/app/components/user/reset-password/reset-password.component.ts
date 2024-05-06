@@ -52,7 +52,7 @@ export class ResetPasswordComponent {
     if (this._formResetPassword.valid) {
       this._httpUser.resetPassword(this.FormResetPassword.value.password,this._user.email).subscribe({
         next: (data: any) => {
-          this._session.refreshUser(data);
+          this._session.saveSession(data);
           this._router.navigate(['login']);
         },
         error: (data: any) => {

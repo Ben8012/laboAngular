@@ -148,7 +148,7 @@ export class ProfilComponent {
     if (this.formProfil.valid) {
       this._userHttpService.update(this.formProfil.value, this._user.id).subscribe({
         next: (data: any) => {
-          this._session.refreshUser(this._user)
+          this._session.saveSession(data)
         },
         error: (error) => {
           console.log(error);
@@ -169,7 +169,7 @@ export class ProfilComponent {
 
     this._imageHttpService.insert(formData,this._user.id,"ProfilImage").subscribe({
       next: (data: any) => {
-        this._session.refreshUser(this._user)
+        this._session.saveSession(data)
       },
       error: (error) => {
         console.log(error);
@@ -189,7 +189,7 @@ export class ProfilComponent {
 
     this._imageHttpService.insert(formData,this._user.id,"InsuranceImage").subscribe({
       next: (data: any) => {
-        this._session.refreshUser(this._user)
+        this._session.saveSession(data)
       },
       error: (error) => {
         console.log(error);
@@ -209,7 +209,7 @@ export class ProfilComponent {
 
     this._imageHttpService.insert(formData,this._user.id,"LevelImage").subscribe({
       next: (data: any) => {
-        this._session.refreshUser(this._user)
+        this._session.saveSession(data)
       },
       error: (error) => {
         console.log(error);
@@ -229,7 +229,7 @@ export class ProfilComponent {
 
     this._imageHttpService.insert(formData,this._user.id,"CertificatImage").subscribe({
       next: (data: any) => {
-        this._session.refreshUser(this._user)
+        this._session.saveSession(data)
       },
       error: (error) => {
         console.log(error);

@@ -13,7 +13,7 @@ import { UserSessionService } from 'src/app/services/session/user-session.servic
 })
 export class SidebarComponent implements OnInit {
 
-  @Input() PhoneSize : boolean = false
+  @Input() IsPhoneSize: any;
 
   private _isContactBarVisible : boolean = false
   get IsContactBarVisible() : boolean {return this._isContactBarVisible}
@@ -48,7 +48,6 @@ export class SidebarComponent implements OnInit {
     if(message == 'hidden'){
       this._isContactBarVisible = false
     }
-    
   }
 
 }

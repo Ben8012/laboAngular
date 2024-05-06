@@ -7,6 +7,7 @@ import { CreatorModalComponent } from '../../../modals/CreatorModal/CreatorModal
 import { DateHelperService } from 'src/app/services/helper/date.helper.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DeleteEventModelComponent } from 'src/app/components/modals/delete-eventModel/delete-eventModel.component';
+import { ObservableService } from 'src/app/services/observable/observable.service';
 
 @Component({
   selector: 'app-club',
@@ -28,6 +29,10 @@ export class ClubComponent implements OnInit {
   get User(): any { return this._user; }
   private _user!: any;
 
+  get ChargingPageMessage(): any { return this._chargingPageMessage; }
+  private _chargingPageMessage: string = "Page en chargement ...";
+  
+
   constructor(
     private _clubHttpService: ClubHttpService,
     private _session: UserSessionService,
@@ -36,6 +41,7 @@ export class ClubComponent implements OnInit {
     private _dateHelperService : DateHelperService,
     private _router : Router,
     private route: ActivatedRoute,
+    private _observableService : ObservableService,
     ) { }
 
   ngOnInit(): void {
@@ -55,45 +61,71 @@ export class ClubComponent implements OnInit {
     });
    }
 
-   formatEventForView(){
-    this._clubs.forEach((club : any) => {
-      club.createdAt = this._dateHelperService.formatDateToFrench(new Date(club.createdAt))
-      club.participes.forEach((participe : any) => {
-        participe.insuranceDateValidation = new Date(participe.insuranceDateValidation)
-        participe.medicalDateValidation = new Date(participe.medicalDateValidation)
-      });
-      club.type="club"
-      
-    });
-   }
+  
 
    getAllClubs(){
-    this._clubHttpService.getAll().subscribe({
-      next : (data :any) =>{
-        this._clubs = data
-        this.checkIfParticipe()
-        this.formatEventForView()  
-        this.addLevelToView(this._clubs)  
-        this.addLevelToView(this._clubs)
-        // console.log(this._clubs)
-      },
-      error : (error) => {
-        console.log(error)
-      }}) ;
+    this._observableService.$clubs.subscribe((clubs: any) => {
+      // console.log(clubs)
+     if(clubs && clubs.length > 0){
+        clubs = clubs.filter((event : any) => event.creator.id != this._user.id)
+        if(this._user.id){
+          this.checkIfParticipe(clubs)
+        }
+        this._clubs = clubs
+        this._chargingPageMessage =""
+     }     
+    })
+    
+    // this._clubHttpService.getAll().subscribe({
+    //   next : (data :any) =>{
+    //     this._clubs = data
+    //     this.checkIfParticipe()
+    //     this.formatEventForView()  
+    //     this.addLevelToView(this._clubs)  
+    //     this.addLevelToView(this._clubs)
+       
+    //     // console.log(this._clubs)
+    //     if(this._clubs.length == 0){
+    //       this._chargingPageMessage ="Il n'y encore de groupe créer"
+    //     }else{
+    //       this._chargingPageMessage =""
+    //     }
+    //   },
+    //   error : (error) => {
+    //     console.log(error)
+    //   }}) ;
    }
 
-   getClubsByUserId(id : any){
-    this._clubHttpService.getClubByUserId(id).subscribe({
-      next : (data :any) =>{
-        this._clubs = data
-        this.checkIfParticipe()
-        this.formatEventForView()  
-        this.addLevelToView(this._clubs) 
-        // console.log(this._clubs) 
-      },
-      error : (error) => {
-        console.log(error)
-      }}) ;
+   getClubsByUserId(){
+    this._observableService.$clubs.subscribe((clubs: any) => {
+    // console.log(clubs)
+    if(clubs && clubs.length > 0){
+      clubs = clubs.filter((event : any) => event.creator.id == this._user.id)
+      if(this._user.id){
+        this.checkIfParticipe(clubs)
+      }
+      this._clubs = clubs
+      this._chargingPageMessage =""
+    }
+    })
+
+    // this._clubHttpService.getClubByUserId(id).subscribe({
+    //   next : (data :any) =>{
+    //     this._clubs = data
+    //     this.checkIfParticipe()
+    //     this.formatEventForView()  
+    //     this.addLevelToView(this._clubs) 
+   
+    //     // console.log(this._clubs) 
+    //     if(this._clubs.length == 0){
+    //       this._chargingPageMessage ="Vous n'avez pas encore créer de groupe"
+    //     }else{
+    //       this._chargingPageMessage =""
+    //     }
+    //   },
+    //   error : (error) => {
+    //     console.log(error)
+    //   }}) ;
    }
 
    private getUser() {
@@ -101,27 +133,43 @@ export class ClubComponent implements OnInit {
       this._user = user;
       if(this._urlSegements.length > 0 && this._urlSegements[0].path === "my-clubs" && this._user.id){
         // console.log("my-clubs")
-        this.getClubsByUserId(this._user.id)
+        this.getClubsByUserId()
         this._enableButtons = true
       }
     })
   }
 
   
-  participe(id : any){
-    this._clubHttpService.participe(this._user.id,id).subscribe({
+  participe(club : any){
+    // console.log(event)
+    let participe = false
+    club.demands.map((demand : any) => {
+      if(demand.id == this._user.id){
+        alert("vous avez deja fait une demande")
+        participe = true
+      }
+      else{
+        participe = false
+      }
+    })
+    if(!participe){
+    club.hiddenButtons = true
+    this._clubHttpService.participe(this._user.id,club.id).subscribe({
       next : (data :any) =>{
-        this.getAllClubs()
+        this._observableService.getAllClubs()
       },
       error : (error) => {
         console.log(error)
       }}) ;
+    }
  }
-
- unparticipe(id : any){
-  this._clubHttpService.unParticipe(this._user.id,id).subscribe({
+//  this._chargingPageMessage="Nouvelles données en chargement ..."
+ unparticipe(club : any){
+  club.hiddenButtons = true
+  this._clubHttpService.unParticipe(this._user.id,club.id).subscribe({
     next : (data :any) =>{
-      this.getAllClubs()
+      this._observableService.getAllClubs()
+      
     },
     error : (error) => {
       console.log(error)
@@ -139,8 +187,8 @@ export class ClubComponent implements OnInit {
     });
    }
 
-   checkIfParticipe(){
-    this._clubs.forEach(club => {
+   private checkIfParticipe(clubs : any){
+    clubs.forEach((club:any) => {
       club.isParticipe = false
       club.participes.forEach((p : any) => {
           if(p.id == this._user.id)
@@ -156,42 +204,16 @@ export class ClubComponent implements OnInit {
   updateClub(event : any){
     this._router.navigate(['update-club',event.id])
   }
-  deleteClub(event : any){
-    this._modalDataService.setData(event);
+
+  deleteClub(club : any){
+    this._modalDataService.setData(club);
     document.body.classList.add('modal-open');
     const dialogRef = this.dialog.open(DeleteEventModelComponent);
 
     dialogRef.afterClosed().subscribe(result => {
       // console.log('Le modal est fermé');
       document.body.classList.remove('modal-open'); 
-      this.getClubsByUserId(this._user.id)
     });
    }
  
-
-
-   private addMostLevel(elements :any){
-    elements.map((element : any) => {
-      element.trainings.map((training : any)=>{
-        if(training.isMostLevel ==  true){
-          element.level = training.name
-          element.organisation = training.organisation.name
-        }
-      })
-    });
-   }
-
-   private addLevelToView(clubs :any){
-    clubs.forEach((club : any) => {
-      club.creator.trainings.forEach((training : any) =>{
-        if(training.isMostLevel == true){
-          club.creator.level = training.name
-          club.creator.organisation = training.organisation.name
-        }
-      });
-      this.addMostLevel(club.creator.friends)
-      this.addMostLevel(club.creator.likeds)
-      this.addMostLevel(club.creator.likers)
-    });
-   }
 }

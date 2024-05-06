@@ -1,4 +1,7 @@
-<div class="text-center ">
+<div class=" text-center m-5" *ngIf="ChargingPageMessage !=''">
+  <h4>{{ChargingPageMessage}}</h4>
+</div>
+<div class="text-center " *ngIf="ChargingPageMessage ==''">
   <form [formGroup]="FormLogin" (ngSubmit)="login()" >
       <p class="errors" *ngIf="errorMessage !=''">{{errorMessage}}</p>
       <label for="email" class="form-label">Email</label>

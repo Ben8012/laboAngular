@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { UserSessionService } from 'src/app/services/session/user-session.service';
 
 @Component({
@@ -7,6 +7,7 @@ import { UserSessionService } from 'src/app/services/session/user-session.servic
   styleUrls: ['./navbar.component.scss']
 })
 export class NavbarComponent implements OnInit {
+  @Input() IsPhoneSize: any;
 
   private _user! : any
   get User(): any  { return this._user; }

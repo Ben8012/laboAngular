@@ -1,4 +1,4 @@
-import { Component, type OnInit } from '@angular/core';
+import { Component, HostListener, type OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -7,6 +7,7 @@ import { ImageHttpService } from 'src/app/services/http/image.http.service';
 import { SiteHttpService } from 'src/app/services/http/site.http.service';
 import { UserHttpService } from 'src/app/services/http/user.http.service';
 import { ModalDataService } from 'src/app/services/modal/modal.data.service';
+import { ObservableService } from 'src/app/services/observable/observable.service';
 import { UserSessionService } from 'src/app/services/session/user-session.service';
 
 @Component({
@@ -33,6 +34,19 @@ export class SiteComponent implements OnInit {
   private _planSite : any
   get PlanSite(): any  { return this._planSite; }
 
+  get ChargingPageMessage(): any { return this._chargingPageMessage; }
+  private _chargingPageMessage: string = "Page en chargement ...";
+
+  private _phoneSize : boolean = false
+  get PhoneSize() : boolean {return this._phoneSize}
+
+  @HostListener('window:resize', ['$event'])
+  onResize() {
+    // console.log('phoneSize: '+this._phoneSize)
+    // console.log(window.innerWidth)
+    this._phoneSize = window.innerWidth <= 580;
+  }
+
   constructor(
     private _siteHttpService: SiteHttpService,
     private _router : Router,
@@ -42,63 +56,87 @@ export class SiteComponent implements OnInit {
     private _imageHttpService : ImageHttpService,
     private _sanitizer: DomSanitizer,
     private route: ActivatedRoute,
+    private _observableService : ObservableService
     ) { }
 
   ngOnInit(): void {
+    this._phoneSize = window.innerWidth <= 580
     this.route.url.subscribe(segments => {
       this._urlSegements = segments[0].path
       // console.log(segments)
       this.getUser()
+
     });
+    console.log(this._phoneSize)
  
    }
 
-   private getAll(){
-    this._siteHttpService.getAll().subscribe({
-      next : (data :any) =>{
-        this._sites = data
+  //  private getAll(){
+  //   this._siteHttpService.getAll().subscribe({
+  //     next : (data :any) =>{
+  //       this._sites = data
 
-        this._sites.forEach((site : any) => {
-            this.getImages(site)
-        });
-        //console.log(this._sites)
-      },
-      error : (error) => {
-        console.log(error)
-      }}) ;
-   }
+  //       this._sites.forEach((site : any) => {
+  //           this.getImages(site)
+  //       });
+  //       if(this._sites.length == 0){
+  //         this._chargingPageMessage ="Vous n'avez pas de site referencé"
+  //       }else{
+  //         this._chargingPageMessage =""
+  //       }
+  //     },
+  //     error : (error) => {
+  //       console.log(error)
+  //     }}) ;
+  //  }
 
-   private getAllSiteAndVote(){
-    this._siteHttpService.getAllSiteAndVote(this._user.id).subscribe({
-      next : (data :any) =>{
-        this._sites = data
+  //  private getAllSiteAndVote(){
+  //   this._siteHttpService.getAllSiteAndVote(this._user.id).subscribe({
+  //     next : (data :any) =>{
+  //       this._sites = data
 
-        this._sites.forEach((site : any) => {  
-          this.getImages(site)  
-        });
-        //console.log(this._sites)
-      },
-      error : (error) => {
-        console.log(error)
-      }}) ;
-   }
+  //       this._sites.forEach((site : any) => {  
+  //         this.getImages(site)  
+  //       });
+  //       if(this._sites.length == 0){
+  //         this._chargingPageMessage ="Vous n'avez pas de site referencé"
+  //       }else{
+  //         this._chargingPageMessage =""
+  //       }
+  //     },
+  //     error : (error) => {
+  //       console.log(error)
+  //     }}) ;
+  //  }
+
 
    private getUser() {
     this._session.$user.subscribe({
       next : (data :any) =>{
         this._user = data;
-        if(this._user.id){
-          this.getAllSiteAndVote();
+        if(this._user && this._user.id){
+          this._observableService.getAllSiteAndVote(this._user);
         }
         else{
-          this.getAll()
+          this._observableService.getAllSite()
         }
+        this.getSites()
       },
       error : (error) => {
         console.log(error)
       }}) ;
-     
     }
+
+    private getSites() {
+      this._observableService.$sites.subscribe({
+        next : (data :any) =>{
+          this._sites = data;
+          this._chargingPageMessage =''
+        },
+        error : (error) => {
+          console.log(error)
+        }}) ;
+      }
   
 
   
@@ -130,7 +168,7 @@ export class SiteComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       // console.log('Le modal est fermé');
       document.body.classList.remove('modal-open'); 
-      this.getAllSiteAndVote()
+      this._observableService.getAllSiteAndVote(this._user.id);
     });
    }
 
@@ -138,24 +176,24 @@ export class SiteComponent implements OnInit {
     this._router.navigate(['update-site',event.id])
   }
 
-  private getImages(site : any){
-    if(site.guidImage != null){
-      this._imageHttpService.getAllowedImage(site.id,"SiteImage").subscribe(imageData => {
-        const reader = new FileReader();
-        reader.onload = (e: any) => {
-          site.image = e.target.result;
-        }
-        reader.readAsDataURL(imageData);
-      });
-    }
-    if(site.guidMap != null){
-      this._imageHttpService.getAllowedImage(site.id,"SitePlan").subscribe(imageData => {
-        const reader = new FileReader();
-        reader.onload = (e: any) => {
-          site.map = this._sanitizer.bypassSecurityTrustResourceUrl(e.target.result);
-        }
-        reader.readAsDataURL(imageData);
-      });
-    }
-  }
+  // private getImages(site : any){
+  //   if(site.guidImage != null){
+  //     this._imageHttpService.getAllowedImage(site.id,"SiteImage").subscribe(imageData => {
+  //       const reader = new FileReader();
+  //       reader.onload = (e: any) => {
+  //         site.image = e.target.result;
+  //       }
+  //       reader.readAsDataURL(imageData);
+  //     });
+  //   }
+  //   if(site.guidMap != null){
+  //     this._imageHttpService.getAllowedImage(site.id,"SitePlan").subscribe(imageData => {
+  //       const reader = new FileReader();
+  //       reader.onload = (e: any) => {
+  //         site.map = this._sanitizer.bypassSecurityTrustResourceUrl(e.target.result);
+  //       }
+  //       reader.readAsDataURL(imageData);
+  //     });
+  //   }
+  // }
 }

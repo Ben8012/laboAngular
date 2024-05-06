@@ -1,4 +1,5 @@
-<div class="d-flex justify-content-center border-bottom pt-1">
+<!-- [ngClass]="{'max-width-phone': IsPhoneSize}" -->
+<div class="d-flex justify-content-center border-bottom pt-1 mx-4" [ngClass]="{'px-3': IsPhoneSize}">
   <a *ngIf="!User?.id" a routerLink="/login" class="list-group-item list-group-item-action text-center mx-5 p-2 w-25 my-2" title="Login">
     <div class="d-flex flex-column align-items-center">
       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-box-arrow-right" viewBox="0 0 16 16">
@@ -20,23 +21,34 @@
     </div>
   </a>
   
-  <a *ngIf="User?.id" class="list-group-item list-group-item-action mx-4 p-1 my-2" routerLink="/profil" role="button" title="Mon profil">
+  <a *ngIf="User?.id" [ngClass]="{'m-auto': IsPhoneSize,'mx-4 p-1':!IsPhoneSize}" class="list-group-item list-group-item-action my-2" routerLink="/profil" role="button" title="Mon profil">
     <div class="d-flex flex-column align-items-center">
       <img *ngIf="User.guidImage != ''" [src]="User.imageProfil" class="rounded-circle" height="25"Zalt="Avatar" loading="lazy" />
-      <span style=" font-style: italic;">{{User.firstname}}</span>
+      <span *ngIf="!IsPhoneSize" style=" font-style: italic;">{{User.firstname}}</span>
     </div>
   </a>
-  <a *ngIf="User?.id" routerLink="/my-book" class="list-group-item list-group-item-action mx-4 p-1 my-2" title="Mon Carnet">
+  <a *ngIf="User && User.role == 'admin' || User.role == 'super admin'" routerLink="/admin-home/admin" [ngClass]="{'m-auto': IsPhoneSize,'mx-4 p-1 my-auto':!IsPhoneSize}" class="list-group-item list-group-item-action" >
+    <div class="d-flex flex-column align-items-center">
+      <svg  xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-emoji-sunglasses" viewBox="0 0 16 16">
+        <path d="M4.968 9.75a.5.5 0 1 0-.866.5A4.5 4.5 0 0 0 8 12.5a4.5 4.5 0 0 0 3.898-2.25.5.5 0 1 0-.866-.5A3.5 3.5 0 0 1 8 11.5a3.5 3.5 0 0 1-3.032-1.75M7 5.116V5a1 1 0 0 0-1-1H3.28a1 1 0 0 0-.97 1.243l.311 1.242A2 2 0 0 0 4.561 8H5a2 2 0 0 0 1.994-1.839A3 3 0 0 1 8 6c.393 0 .74.064 1.006.161A2 2 0 0 0 11 8h.438a2 2 0 0 0 1.94-1.515l.311-1.242A1 1 0 0 0 12.72 4H10a1 1 0 0 0-1 1v.116A4.2 4.2 0 0 0 8 5c-.35 0-.69.04-1 .116"/>
+        <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-1 0A7 7 0 1 0 1 8a7 7 0 0 0 14 0"/>
+      </svg>
+        <!-- <i class="bi bi-emoji-sunglasses"></i> -->
+        <!-- &nbsp; Admin -->
+        <span *ngIf="!IsPhoneSize" style=" font-style: italic;">Admin</span>
+    </div>
+  </a>
+  <a *ngIf="User?.id" routerLink="/my-book" [ngClass]="{'m-auto': IsPhoneSize,'mx-4 p-1 my-auto':!IsPhoneSize}" class="list-group-item list-group-item-action" title="Mon Carnet">
     <div class="d-flex flex-column align-items-center">
       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-book" viewBox="0 0 16 16">
         <path d="M1 2.828c.885-.37 2.154-.769 3.388-.893 1.33-.134 2.458.063 3.112.752v9.746c-.935-.53-2.12-.603-3.213-.493-1.18.12-2.37.461-3.287.811zm7.5-.141c.654-.689 1.782-.886 3.112-.752 1.234.124 2.503.523 3.388.893v9.923c-.918-.35-2.107-.692-3.287-.81-1.094-.111-2.278-.039-3.213.492zM8 1.783C7.015.936 5.587.81 4.287.94c-1.514.153-3.042.672-3.994 1.105A.5.5 0 0 0 0 2.5v11a.5.5 0 0 0 .707.455c.882-.4 2.303-.881 3.68-1.02 1.409-.142 2.59.087 3.223.877a.5.5 0 0 0 .78 0c.633-.79 1.814-1.019 3.222-.877 1.378.139 2.8.62 3.681 1.02A.5.5 0 0 0 16 13.5v-11a.5.5 0 0 0-.293-.455c-.952-.433-2.48-.952-3.994-1.105C10.413.809 8.985.936 8 1.783"/>
       </svg>
       <!-- <i class="bi bi-book fa-fw me-3"></i> -->
       <!-- &nbsp; mon carnet -->
-      <span style=" font-style: italic;">mon carnet</span>
+      <span *ngIf="!IsPhoneSize" style=" font-style: italic;">mon carnet</span>
     </div>
   </a>
-  <a *ngIf="User?.id" routerLink="/my-events" class="list-group-item list-group-item-action mx-4 p-1 my-2" title="Mes Events">
+  <a *ngIf="User?.id" routerLink="/my-events" [ngClass]="{'m-auto': IsPhoneSize,'mx-4 p-1 my-auto':!IsPhoneSize}" class="list-group-item list-group-item-action" title="Mes Events">
     <div class="d-flex flex-column align-items-center">
       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-calendar-event" viewBox="0 0 16 16">
         <path d="M11 6.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5z"/>
@@ -44,20 +56,20 @@
       </svg>
       <!-- <i class="bi bi-calendar-event fa-fw me-3"></i> -->
       <!-- &nbsp; mes events -->
-      <span style=" font-style: italic;">mes events</span>
+      <span *ngIf="!IsPhoneSize" style=" font-style: italic;">mes events</span>
     </div>
   </a>
-  <a *ngIf="User?.id" routerLink="/my-clubs" class="list-group-item list-group-item-action mx-4 p-1 my-2" title="Mes Clubs">
+  <a *ngIf="User?.id" routerLink="/my-clubs" [ngClass]="{'m-auto': IsPhoneSize,'mx-4 p-1 my-auto':!IsPhoneSize}" class="list-group-item list-group-item-action" title="Mes Clubs">
     <div class="d-flex flex-column align-items-center">
       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-shop" viewBox="0 0 16 16">
         <path d="M2.97 1.35A1 1 0 0 1 3.73 1h8.54a1 1 0 0 1 .76.35l2.609 3.044A1.5 1.5 0 0 1 16 5.37v.255a2.375 2.375 0 0 1-4.25 1.458A2.37 2.37 0 0 1 9.875 8 2.37 2.37 0 0 1 8 7.083 2.37 2.37 0 0 1 6.125 8a2.37 2.37 0 0 1-1.875-.917A2.375 2.375 0 0 1 0 5.625V5.37a1.5 1.5 0 0 1 .361-.976zm1.78 4.275a1.375 1.375 0 0 0 2.75 0 .5.5 0 0 1 1 0 1.375 1.375 0 0 0 2.75 0 .5.5 0 0 1 1 0 1.375 1.375 0 1 0 2.75 0V5.37a.5.5 0 0 0-.12-.325L12.27 2H3.73L1.12 5.045A.5.5 0 0 0 1 5.37v.255a1.375 1.375 0 0 0 2.75 0 .5.5 0 0 1 1 0M1.5 8.5A.5.5 0 0 1 2 9v6h1v-5a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1v5h6V9a.5.5 0 0 1 1 0v6h.5a.5.5 0 0 1 0 1H.5a.5.5 0 0 1 0-1H1V9a.5.5 0 0 1 .5-.5M4 15h3v-5H4zm5-5a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1zm3 0h-2v3h2z"/>
       </svg>
       <!-- <i class="bi bi-shop fa-fw me-3"></i> -->
       <!-- &nbsp; mes groups -->
-      <span style=" font-style: italic;">mes groupes</span>
+      <span *ngIf="!IsPhoneSize" style=" font-style: italic;">mes groupes</span>
     </div>
   </a>
-  <a *ngIf="User?.id" class="list-group-item list-group-item-action mx-4 p-1 my-2" (click)="contactBarVisibility()" role="button" title="Mes Contacts">
+  <a *ngIf="User?.id" [ngClass]="{'m-auto': IsPhoneSize,'mx-4 p-1 my-auto':!IsPhoneSize}" class="list-group-item list-group-item-action" (click)="contactBarVisibility()" role="button" title="Mes Contacts">
     <div class="d-flex justify-content-center">
       <div class="d-flex flex-column align-items-center">
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chat-text" viewBox="0 0 16 16">
@@ -66,12 +78,12 @@
         </svg>
         <!-- <i class="bi bi-chat-text me-3"></i> -->
         <!-- &nbsp; mes amis -->
-        <span style=" font-style: italic;">messages</span>
+        <span *ngIf="!IsPhoneSize" style=" font-style: italic;">messages</span>
       </div>
-      &nbsp;&nbsp;&nbsp;
+      <span *ngIf="!IsPhoneSize">&nbsp;&nbsp;&nbsp;</span>
       <span *ngIf="User.countMessages > 0" class="rounded-circle border p-1 my-auto">{{User.countMessages}}</span>
     </div>
   </a>
-  <app-contactbar class="contactBarPostion" (HiddenContactBar)="event($event)" *ngIf="IsContactBarVisible" [PhoneSize]="PhoneSize"></app-contactbar>
+  <app-contactbar class="contactBarPostion" (HiddenContactBar)="event($event)" *ngIf="IsContactBarVisible" [PhoneSize]="IsPhoneSize"></app-contactbar>
 </div>
 

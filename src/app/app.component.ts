@@ -5,6 +5,10 @@ import { Router } from '@angular/router';
 import { isEmpty } from 'rxjs';
 import { UserHttpService } from './services/http/user.http.service';
 import { ChatService } from './services/http/chat.http.service';
+import { EventHttpService } from './services/http/event.http.servive';
+import { ImageHttpService } from './services/http/image.http.service';
+import { ObservableService } from './services/observable/observable.service';
+import { DateHelperService } from './services/helper/date.helper.service';
 
 @Component({
   selector: 'app-root',
@@ -13,11 +17,16 @@ import { ChatService } from './services/http/chat.http.service';
 })
 export class AppComponent implements OnInit {
 
-  private _phoneSize : boolean = true
+  private _phoneSize : boolean = false
   get PhoneSize() : boolean {return this._phoneSize}
 
   private _user! : any
   get User(): any { return this._user; }
+
+  get ChargingPageMessage(): any { return this._chargingPageMessage; }
+  private _chargingPageMessage: string = "";
+
+  
 
   @HostListener('window:resize', ['$event'])
   onResize() {
@@ -31,25 +40,30 @@ export class AppComponent implements OnInit {
     private _router : Router,
     private _session : UserSessionService,
     private _userHttpService : UserHttpService,
-    private _chatService : ChatService
+    private _chatService : ChatService,
+    private _observableService : ObservableService
   )
   {}
 
   ngOnInit(): void {
+    this._phoneSize = window.innerWidth <= 580
+    this._chatService.connection()
     this.getUser();
+    this._observableService.getAllEvents();
+    this._observableService.getAllClubs();
   }
 
   private getUser(){
     let token : any = (localStorage.getItem('token') ?? null);
     if(token != null){
+      this._chargingPageMessage ="Connexion à votre compte en cour ..."
       this._userHttpService.getUserByToken(JSON.parse(token)).subscribe({
         next : (user :any) =>{
           if(user.id){
             this._user= user
-            
             this._session.saveSession(this._user)
-            this._session.refreshUser(user)
-          
+            this._session.getAllUsers();
+            this._chargingPageMessage =""
           }else{
             this._session.$user.next({}as any)
           }
@@ -68,5 +82,7 @@ export class AppComponent implements OnInit {
     }
   }
 
+
+  
  
 }

@@ -13,6 +13,7 @@ import { DateHelperService } from 'src/app/services/helper/date.helper.service';
 import { DeleteEventModelComponent } from 'src/app/components/modals/delete-eventModel/delete-eventModel.component';
 import { ActivatedRoute, NavigationEnd, Params, Router } from '@angular/router';
 import { ImageHttpService } from 'src/app/services/http/image.http.service';
+import { ObservableService } from 'src/app/services/observable/observable.service';
 
 @Component({
   selector: 'app-event',
@@ -38,6 +39,9 @@ export class EventComponent implements OnInit {
   get Today(): any { return this._today; }
   private _today: any;
 
+  get ChargingPageMessage(): any { return this._chargingPageMessage; }
+  private _chargingPageMessage: string = "Page en chargement ...";
+
   constructor(
     private _eventHttpService: EventHttpService,
     private _userHttpService: UserHttpService,
@@ -47,7 +51,8 @@ export class EventComponent implements OnInit {
     private _dateHelperService : DateHelperService,
     private _router : Router,
     private route: ActivatedRoute,
-    private _imageHttpService : ImageHttpService
+    private _imageHttpService : ImageHttpService,
+    private _observableService : ObservableService,
     ) { }
 
   ngOnInit(): void {
@@ -59,7 +64,6 @@ export class EventComponent implements OnInit {
       //console.log("L'URL a changé :", this._url);
 
       this.getUser()
-
       if (segments.length > 0 && segments[0].path === "event" || segments[0].path === "formation") {
         // console.log("URL contient 'event ou formation'");
         this.getAllEvents();
@@ -68,88 +72,118 @@ export class EventComponent implements OnInit {
     });
    }
 
-   formatEventForView(){
-    this._events.forEach((event : any) => {
-      event.startDateFrench = this._dateHelperService.formatDateToFrench(new Date(event.startDate))
-      event.endDateFrench = this._dateHelperService.formatDateToFrench(new Date(event.endDate))
-      event.participes.forEach((participe : any) => {
-        participe.insuranceDateValidation = new Date(participe.insuranceDateValidation)
-        participe.medicalDateValidation = new Date(participe.medicalDateValidation)
-      });
-      event.startDate = new Date(event.startDate)
-      event.endDate = new Date(event.endDate)
-      event.type = "event"
-      
-      if(event.diveplace.guidImage != null){
-        this._imageHttpService.getAllowedImage(event.diveplace.id,"SiteImage").subscribe(imageData => {
-          const reader = new FileReader();
-          reader.onload = (e: any) => {
-            event.diveplace.image = e.target.result;
-          }
-          reader.readAsDataURL(imageData);
-        });
-      }
-      
-    });
-   }
-
-
-   getEventsByUserId(id : any){
-    this._eventHttpService.getEventByUserId(id).subscribe({
-      next : (data :any) =>{
-        this._events = data
-        if(this._urlSegements[0].path === "my-events"){
-          this._events = this._events.filter((event : any) => new Date(event.startDate).getTime() >= this._today.getTime())
-        }
-        if(this._urlSegements[0].path === "my-book"){
-          this._events = this._events.filter((event : any) => new Date(event.startDate).getTime() < this._today.getTime())
-        }
-        this.checkIfParticipe()
-        this.formatEventForView()
-        this.addLevelToView(this._events) 
-        // console.log(this._events)
-      },
-      error : (error) => {
-        console.log(error)
-      }}) ;
-   }
-
-   getAllEvents(){
-    this._eventHttpService.getAllEvent().subscribe({
-      next : (data :any) =>{
-        this._events = data
-        this._events = this._events.filter((event : any) => new Date(event.startDate).getTime() > this._today.getTime())
-        this._events = this._events.filter((event : any) => event.creator.id != this._user.id)
-        this.checkIfParticipe()
-        this._activateButtons = false
-        if(this._urlSegements[0].path === "event" ){
-          this._events = this._events.filter(e => e.training == null)
-        }
-        if(this._urlSegements[0].path === "formation" ){
-          this._events = this._events.filter(e => e.training != null)
-        }
-        this.formatEventForView()
-        this.addLevelToView(this._events) 
-        // console.log(this._events)
-      },
-      error : (error) => {
-        console.log(error)
-      }}) ;
-   }
-
    private getUser() {
     this._session.$user.subscribe((user: any) => {
       this._user = user;
       // console.log(this._user)
       if(this._user.id && this._urlSegements.length > 0 && (this._urlSegements[0].path === "my-events" || this._urlSegements[0].path === "my-book" )){
         //console.log("my-events")
-        this.getEventsByUserId(this._user.id)
+        this.getEventsByUserId()
         this._activateButtons = true
       }
       
     })
   }
 
+
+
+   getEventsByUserId(){
+    this._observableService.$events.subscribe((events: any) => {
+      // console.log(events)
+     if(events && events.length > 0){
+        events = events.filter((event : any) => event.creator.id == this._user.id)
+        if(this._urlSegements[0].path === "my-events"){
+          events = events.filter((event : any) => new Date(event.startDate).getTime() >= this._today.getTime())
+        }
+        if(this._urlSegements[0].path === "my-book"){
+          events = events.filter((event : any) => new Date(event.startDate).getTime() < this._today.getTime())
+        }
+        if(this._user.id){
+          this.checkIfParticipe(events)
+        }
+        this._chargingPageMessage =""
+        this._events = events;
+      }
+    })
+
+    // this._eventHttpService.getEventByUserId(id).subscribe({
+    //   next : (data :any) =>{
+    //     this._events = data
+    //     if(this._urlSegements[0].path === "my-events"){
+    //       this._events = this._events.filter((event : any) => new Date(event.startDate).getTime() >= this._today.getTime())
+    //     }
+    //     if(this._urlSegements[0].path === "my-book"){
+    //       this._events = this._events.filter((event : any) => new Date(event.startDate).getTime() < this._today.getTime())
+    //     }
+    //     this.checkIfParticipe()
+    //     this.formatEventForView()
+    //     this.addLevelToView(this._events) 
+    //     //console.log(this._events)
+    //     if(this._events.length == 0){
+    //       this._chargingPageMessage ="Vous n'avez pas d'évenement(s) actuellement ou ceux ci sont dans votre carnet"
+    //     }else{
+    //       this._chargingPageMessage =""
+    //     }
+    //   },
+    //   error : (error) => {
+    //     console.log(error)
+    //   }}) ;
+   }
+
+   getAllEvents(){
+    this._observableService.$events.subscribe((events: any) => {
+      // console.log(events)
+     if(events && events.length > 0){
+        events = events.filter((event : any) => new Date(event.startDate).getTime() > this._today.getTime())
+        events = events.filter((event : any) => event.creator.id != this._user.id)
+        this._activateButtons = false
+        if(this._urlSegements[0].path === "event" ){
+          events = events.filter((event : any) => event.training == null)
+        }
+        if(this._urlSegements[0].path === "formation" ){
+          events = events.filter((event : any) => event.training != null)
+        }
+        if(events.length == 0){
+          this._chargingPageMessage ="Vous n'avez pas d'évenement(s) actuellement ou ceux ci sont dans votre carnet"
+        }else{
+          this._chargingPageMessage =""
+        }
+        if(this._user.id){
+          this.checkIfParticipe(events)
+        }
+        this._events = events
+     }
+      
+    })
+
+
+    // this._eventHttpService.getAllEvent().subscribe({
+    //   next : (data :any) =>{
+    //     this._events = data
+    //     this._events = this._events.filter((event : any) => new Date(event.startDate).getTime() > this._today.getTime())
+    //     this._events = this._events.filter((event : any) => event.creator.id != this._user.id)
+    //     this.checkIfParticipe()
+    //     this._activateButtons = false
+    //     if(this._urlSegements[0].path === "event" ){
+    //       this._events = this._events.filter(e => e.training == null)
+    //     }
+    //     if(this._urlSegements[0].path === "formation" ){
+    //       this._events = this._events.filter(e => e.training != null)
+    //     }
+    //     this.formatEventForView()
+    //     this.addLevelToView(this._events) 
+    //     if(this._events.length == 0){
+    //       this._chargingPageMessage ="Il n'y encore d'évenement(s) futur créer"
+    //     }else{
+    //       this._chargingPageMessage =""
+    //     }
+    //   },
+    //   error : (error) => {
+    //     console.log(error)
+    //   }}) ;
+   }
+
+ 
 
 
   participe(event : any){
@@ -165,9 +199,10 @@ export class EventComponent implements OnInit {
         }
       })
       if(!participe){
+        event.hiddenButtons = true
         this._eventHttpService.participe(this._user.id,event.id).subscribe({
           next : (data :any) =>{
-            this.getAllEvents()
+            this._observableService.getAllEvents()
           },
           error : (error) => {
             console.log(error)
@@ -176,17 +211,19 @@ export class EventComponent implements OnInit {
    }
 
    unparticipe(event : any){
+    event.hiddenButtons = true
     this._eventHttpService.unParticipe(this._user.id,event.id).subscribe({
       next : (data :any) =>{
-        this.getAllEvents()
+        this._observableService.getAllEvents()
       },
       error : (error) => {
         console.log(error)
       }}) ;
    }
 
-   checkIfParticipe(){
-    this._events.forEach(event => {
+ 
+   private checkIfParticipe(events :any){
+    events.forEach((event :any) => {
         event.isParticipe = false
         event.participes.forEach((p : any) => {
           if(p.id == this._user.id)
@@ -283,7 +320,8 @@ export class EventComponent implements OnInit {
         // console.log('Le modal est fermé');
         document.body.classList.remove('modal-open'); 
         if(this._urlSegements[0].path === "my-events"){
-            this.getEventsByUserId(this._user.id)
+            // this.getEventsByUserId()
+            this._observableService.getAllEvents()
             this._activateButtons = true
         }
         if(this._urlSegements[0].path === "event" || this._urlSegements[0].path === "formation"){
@@ -297,30 +335,4 @@ export class EventComponent implements OnInit {
      updateEvent(event : any){
       this._router.navigate(['update-event',event.id])
     }
-
-    private addMostLevel(elements :any){
-      elements.map((element : any) => {
-        element.trainings.map((training : any)=>{
-          if(training.isMostLevel ==  true){
-            element.level = training.name
-            element.organisation = training.organisation.name
-          }
-        })
-      });
-     }
-  
-     private addLevelToView(events :any){
-      events.forEach((event : any) => {
-        event.creator.trainings.forEach((training : any) =>{
-          if(training.isMostLevel == true){
-            event.creator.level = training.name
-            event.creator.organisation = training.organisation.name
-          }
-        });
-        this.addMostLevel(event.creator.friends)
-        this.addMostLevel(event.creator.likeds)
-        this.addMostLevel(event.creator.likers)
-      });
-     }
-
 }

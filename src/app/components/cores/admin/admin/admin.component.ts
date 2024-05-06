@@ -37,47 +37,24 @@ export class AdminComponent implements OnInit {
   }
 
   private getAllUsers() {
-    this._userHttpService.getAllUsers().subscribe({
-      next: (data: any) => {
-        this._users = data
-        this.addLevelToView(this._users)
-        // console.log(this._users)
-      },
-      error: (data: any) => {
-        console.log(data);
-      }
+    this._session.$users.subscribe((users: any) => {
+      this._users = users;
+      
     })
+    // this._userHttpService.getAllUsers().subscribe({
+    //   next: (data: any) => {
+    //     this._users = data
+    //     this.addLevelToView(this._users)
+    //     // console.log(this._users)
+    //   },
+    //   error: (data: any) => {
+    //     console.log(data);
+    //   }
+    // })
   }
 
   role(id: number) {
     this._router.navigate(['admin-home/validation/',id])
   }
 
-
-  private addMostLevel(elements :any){
-    elements.map((element : any) => {
-      if(element.trainings){
-        element.trainings.map((training : any)=>{
-          if(training.isMostLevel ==  true){
-            element.level = training.name
-            element.organisation = training.organisation.name
-          }
-        })
-      }
-    });
-   }
-
-   private addLevelToView(users :any){
-    users.forEach((user : any) => {
-      user.trainings.forEach((training : any) =>{
-        if(training.isMostLevel == true){
-          user.level = training.name
-          user.organisation = training.organisation.name
-        }
-      });
-      this.addMostLevel(user.friends)
-      this.addMostLevel(user.likeds)
-      this.addMostLevel(user.likers)
-    });
-   }
 }

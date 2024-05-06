@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FValidation } from 'src/app/models/forms/validation.form';
 import { ImageHttpService } from 'src/app/services/http/image.http.service';
 import { TrainingHttpService } from 'src/app/services/http/training.http.service';
@@ -37,6 +37,7 @@ export class ValidationComponent implements OnInit {
     private _trainingHttpService : TrainingHttpService,
     private _imageHttpService : ImageHttpService,
     private _session: UserSessionService,
+    private _router : Router,
   ) {}
 
   ngOnInit(): void {
@@ -60,10 +61,15 @@ export class ValidationComponent implements OnInit {
     this._userHttpService.getUserById(id).subscribe({
       next : (data :any) =>{
         this._user = data
-        this._user.medicalDateValidation = this._user.medicalDateValidation.substring(0,10)
-        this._user.insuranceDateValidation = this._user.insuranceDateValidation.substring(0,10)
-        this.getImages()
         // console.log(this._user)
+        if(this._user.id){
+          if(this._user.medicalDateValidation != null){
+            this._user.medicalDateValidation = this._user.medicalDateValidation.substring(0,10)
+          }
+          if(this._user.insuranceDateValidation != null)
+          this._user.insuranceDateValidation = this._user.insuranceDateValidation.substring(0,10)
+          this.getImages()
+        }
       },
       error : (error) => {
         console.log(error)
@@ -71,9 +77,13 @@ export class ValidationComponent implements OnInit {
   }
 
   private getUser() {
-    this._session.$user.subscribe((user: any) => {
-      this._me = user;
-      // console.log(this._me)
+    this._session.$user.subscribe({
+      next: (data : any) => {
+        this._me = data;
+      },
+      error:(data :any) => {
+        console.log(data);
+      }
     })
   }
 
@@ -176,6 +186,10 @@ export class ValidationComponent implements OnInit {
             console.log(error);
           }
         });
+}
+
+goToMessage(id :any) {
+  this._router.navigate(['message/',id])
 }
 
  

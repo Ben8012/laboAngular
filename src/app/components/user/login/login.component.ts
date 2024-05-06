@@ -26,6 +26,9 @@ export class LoginComponent {
 
   public errorMessage: string = '';
 
+  get ChargingPageMessage(): any { return this._chargingPageMessage; }
+  private _chargingPageMessage: string = "";
+
   constructor(
       private _userHttpService : UserHttpService,
       private _route : Router,
@@ -40,11 +43,13 @@ export class LoginComponent {
   login(){
     // console.log(this.formLogin)
     if(this.formLogin.valid){
+      this._chargingPageMessage ="Connexion a votre compte en cour..."
       this._userHttpService.login(this.formLogin.value).subscribe({
         next : (data :any) =>{
           this._session.saveSession(data)
-          this._session.refreshUser(data)
+          //this._session.refreshUser(data)
           this._chatService.connection()
+          this._chargingPageMessage =""
           this._route.navigate([''])
         },
         error : (error) => {
@@ -59,6 +64,7 @@ export class LoginComponent {
     let email = this.formLogin.value.email
     this._userHttpService.sendEmailToResetPassword(email).subscribe({
       next : (data : any)=>{
+        //this._session.saveSession(data)
         alert("un email vous a été envoyé sur l'adresse "+email+" !")
         this._route.navigate(['']);
       },

@@ -36,8 +36,7 @@ export class MessageComponent implements OnInit {
 
   
   ngOnInit() {
-    this._chatService.connection()
-
+    
     this._chatService.myHub.on("ReceiveMessage", (message : any) => {
       // console.log(message)
       if(message.sender.id == this._user.id || message.reciever.id == this._user.id){

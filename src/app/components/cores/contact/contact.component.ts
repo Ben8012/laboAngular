@@ -13,8 +13,8 @@ import { forEach } from 'jszip';
 export class ContactComponent implements OnInit {
 
 
-  private _user!: any; 
-  private _allUsers!: any; 
+  get User(): any[] { return this._user; }
+  private _user: any; 
 
   get Friends(): any[] { return this._friends; }
   private _friends: any[] = [];
@@ -28,125 +28,56 @@ export class ContactComponent implements OnInit {
   get Users(): any[] { return this._users; }
   private _users: any[] = [];
 
+  get ChargingPageMessage(): any { return this._chargingPageMessage; }
+  private _chargingPageMessage: string = "Page en chargement ...";
+
   
   constructor(
     private _userHttpService: UserHttpService,
-    private _session: UserSessionService
+    private _session: UserSessionService,
+    private _observableService : ObservableService
   ) { }
 
   ngOnInit(): void {
-    this.getAllUsers();
+    this.getUser();
   }
 
   private getUser() {
     this._session.$user.subscribe((user: any) => {
       this._user = user;
-      if(this._user.id){
-        this.refreshFriends()
-      }
+      this._likeds = user.likeds
+      this._likers = user.likers
+      this._friends = user.friends
+      this._users = user.contacts
+      this._chargingPageMessage=''
+      console.log(user)
     })
   }
 
-  private getAllUsers() {
-    this._userHttpService.getAllUsers().subscribe({
-      next: (data: any) => {
-        this._allUsers = data
-        this.getUser();
-      },
-      error: (data: any) => {
-        console.log(data);
-      }
-    })
-  }
 
-  like(likedId: number) {
-    this._userHttpService.like(this._user.id, likedId).subscribe((data: any[]) => {
-      this._user = this._session.refreshUser(this._user)
-      this.getAllUsers()
-      if(this._user &&this._user.id){
-        this.refreshFriends();
-      }
+
+  like(liked: any) {
+    liked.hiddenButtons = true
+    this._userHttpService.like(this._user.id, liked.id).subscribe((data: any[]) => {
+      this._session.refreshUser(this._user)
     });
   }
 
-  unlike(likedId: number) {
-    this._userHttpService.unlike(this._user.id, likedId).subscribe((data: any[]) => {
-    this._user = this._session.refreshUser(this._user)
-    this.getAllUsers()
-    if(this._user && this._user.id){
-      this.refreshFriends();
-    }
+  unlike(liked: any) {
+    liked.hiddenButtons = true
+    this._userHttpService.unlike(this._user.id, liked.id).subscribe((data: any[]) => {
+    this._session.refreshUser(this._user)
     });
   }
 
-  deletelike(id : number){
-    this._userHttpService.deletelike(this._user.id, id).subscribe((data: any[]) => {
-      this._user = this._session.refreshUser(this._user)
-      this.getAllUsers()
-      if(this._user && this._user.id){
-        this.refreshFriends();
-      }
+  deletelike(user : any){
+    user.hiddenButtons = true
+    this._userHttpService.deletelike(this._user.id, user.id).subscribe((data: any[]) => {
+      this._session.refreshUser(this._user)
       });
   }
 
-  private refreshFriends(){
-    
-
-    this._friends = this._user.friends
-    this._likeds = this._user.likeds
-    this._likers = this._user.likers
-
-    this._allUsers = this._allUsers.filter((u: any) => u.id != this._user.id)
-    
-    this._friends.map((friend : any) => {
-      this._likers = this._likers.filter((l: any) => l.id != friend.id)
-      this._likeds = this._likeds.filter((l: any) => l.id != friend.id)
-
-   
-      this._allUsers = this._allUsers.filter((u: any) => u.id != friend.id)
-      friend.trainings.map((training : any)=>{
-        if(training.isMostLevel ==  true){
-          friend.level = training.name
-          friend.organisation = training.organisation.name
-        }
-      })
-    });
-
-    this._likeds.map((liked : any) => {
-      this._allUsers = this._allUsers.filter((u: any) => u.id != liked.id)
-      liked.trainings.map((training : any)=>{
-        if(training.isMostLevel ==  true){
-          liked.level = training.name
-          liked.organisation = training.organisation.name
-        }
-      })
-    });
-
-    this._likers.map((liker : any) => {
-      this._allUsers = this._allUsers.filter((u: any) => u.id != liker.id)
-      liker.trainings.map((training : any)=>{
-        if(training.isMostLevel ==  true){
-          liker.level = training.name
-          liker.organisation = training.organisation.name
-        }
-      })
-    });
-
-    this._users.map((user : any) => {
-      user.trainings.map((training : any)=>{
-        if(training.isMostLevel ==  true){
-          user.level = training.name
-          user.organisation = training.organisation.name
-        }
-      })
-    });
-
-    this._users = this._allUsers;
-    // console.log('liked',this.Likeds)
-    // console.log('liker',this.Likers)
-    // console.log('users',this._users)
-
-  }
+  
 
 }
 

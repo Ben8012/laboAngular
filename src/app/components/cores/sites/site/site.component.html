@@ -1,4 +1,7 @@
-<div *ngIf="User && UrlSegements =='admin-site'" class="text-center">
+<div class=" text-center m-5" *ngIf="ChargingPageMessage !=''">
+    <h4>{{ChargingPageMessage}}</h4>
+</div>
+<div *ngIf="User && UrlSegements =='admin-site'" class="text-center" [ngClass]="{'px-3': PhoneSize}">
     <button class="btn btn-primary hover m-3" routerLink="insert-site/">
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-square" viewBox="0 0 16 16">
             <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z"/>
@@ -7,7 +10,7 @@
         <!-- <i class="bi bi-plus-square"></i> -->
     </button>
 </div>
-<div *ngFor="let site of Sites">
+<div *ngFor="let site of Sites" >
     <table class="table border rounded">
         <tr>
             <td class="text-center">
@@ -34,7 +37,13 @@
         </tr>
         <tr>
             <td class="text-center border-top">
-                <div class="d-flex justify-content-around">
+                <div class="d-flex justify-content-around" *ngIf="!PhoneSize">
+                    <img *ngIf="site.image" [src]="site.image" class="size border rounded" height="200vh" alt="Avatar"
+                        loading="lazy" />
+                    <img *ngIf="site.map" [src]="site.map" class="size border rounded" height="200vh" alt="Avatar"
+                        loading="lazy" />
+                </div>
+                <div class="d-flex flex-column" *ngIf="PhoneSize">
                     <img *ngIf="site.image" [src]="site.image" class="size border rounded" height="200vh" alt="Avatar"
                         loading="lazy" />
                     <img *ngIf="site.map" [src]="site.map" class="size border rounded" height="200vh" alt="Avatar"
@@ -58,14 +67,25 @@
                     target="_blank">Go</a>
                 <a *ngIf="site.url" class="btn btn-light hover border font-color-black m-1" [href]="site.url"
                     target="_blank">Url</a>
+                <div *ngIf="PhoneSize">
+                    <h6 class="p-1 border-top">{{site.description}}</h6>
+                    <div class="d-flex flex-column border-bottom border-top p-1">
+                        <h6>Profondeur : {{site.maxDepp}} mètres</h6>
+                        <h6>Tarif : {{site.price}}€</h6>
+                    </div>
+                    <div class="d-flex flex-column p-1">
+                        <h6>Compresseur : {{site.compressor ? 'Oui' :'Non'}}</h6>
+                        <h6>Restauration : {{site.restoration ? 'Oui' :'Non'}}</h6>
+                    </div>
+                </div>
             </td>
         </tr>
-        <tr>
+        <tr *ngIf="!PhoneSize">
             <td colspan="2" class="text-center border-top">
                 <h6>{{site.description}}</h6>
             </td>
         </tr>
-        <tr>
+        <tr *ngIf="!PhoneSize">
             <td colspan="2" class=" text-center">
                 <div class="d-flex justify-content-around border-bottom border-top">
                     <h6>Profondeur : {{site.maxDepp}} mètres</h6>
@@ -73,7 +93,7 @@
                 </div>
             </td>
         </tr>
-        <tr>
+        <tr *ngIf="!PhoneSize">
             <td colspan="2" class=" text-center">
                 <div class="d-flex justify-content-around">
                     <h6>Compresseur : {{site.compressor ? 'Oui' :'Non'}}</h6>

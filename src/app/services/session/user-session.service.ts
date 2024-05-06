@@ -12,10 +12,13 @@ import { ImageHttpService } from '../http/image.http.service';
 export class UserSessionService implements OnInit {
 
   public $user: BehaviorSubject<IUser> = new BehaviorSubject({} as any);
+  public $users: BehaviorSubject<IUser> = new BehaviorSubject({} as any);
+
 
   get User(): any {
     return this.$user.value;
   }
+
 
   constructor(
     private _router : Router,
@@ -28,16 +31,39 @@ export class UserSessionService implements OnInit {
   ngOnInit(): void {
   }
 
-  saveSession(user: any) {
-      localStorage.clear();
-      localStorage.setItem('token', JSON.stringify(user.token))
-      this.$user.next(user);
+  saveSession(data: any) {
+    localStorage.clear();
+    localStorage.setItem('token', JSON.stringify(data.token))
+    
+
+    data.trainings.map((training : any)=>{
+      if(training.isMostLevel ==  true){
+        data.level = training.name
+        data.organisation = training.organisation.name
+      }
+    })
+   
+    this.countUserMessage(data)
+    this.$user.next(data);
+    this.getUserImage(data)
+    
+    data.friends.forEach((friend : any)=> {
+      this.countFriendMessages(friend,data)
+      this.getFriendImage(friend)
+    })
+
+    this.getAllUsers()
+
+    this.$user.next(data);
+    //console.log(data)
   }
 
   clearSession() {
       localStorage.clear()
       this.$user.next({} as any)
   }
+
+
 
   isUserConnected():boolean{
     if(this.User.token != ''){
@@ -67,20 +93,6 @@ export class UserSessionService implements OnInit {
   refreshUser(user : any){
       this._userHttpService.getUserById(user.id).subscribe({
         next : (data :any) =>{
-          data.token = user.token
-          data.trainings.map((training : any)=>{
-            if(training.isMostLevel ==  true){
-              data.level = training.name
-              data.organisation = training.organisation.name
-            }
-          })
-          this.getUserImage(data)
-          this.countUserMessage(data)
-          data.friends.forEach((friend : any)=> {
-            this.countFriendMessages(friend,data)
-            this.getFriendImage(friend)
-          })
-          //console.log(data)
           this.saveSession(data)
         },
         error : (error) => {
@@ -88,9 +100,38 @@ export class UserSessionService implements OnInit {
         }}) ;
   }
 
+  getAllUsers() {
+    this._userHttpService.getAllUsers().subscribe({
+      next: (users: any) => {
+        if(users && users.length > 0){
+          this.addMostLevel(users)
+          this.$users.next(users);
+          this.filterConatcatsForView(this.User,users)
+        }
+      },
+      error: (data: any) => {
+        console.log(data);
+      }
+    })
+  }
+
+  private addMostLevel(elements :any){
+    elements.map((element : any) => {
+      if(element.trainings){
+        element.trainings.map((training : any)=>{
+          if(training.isMostLevel ==  true){
+            element.level = training.name
+            element.organisation = training.organisation.name
+          }
+        })
+      }
+    });
+   }
+
   private countUserMessage(user :any){
     user.countMessages = 0
     user.friends.map((friend : any)=>{
+      friend.hiddenButtons = false
       friend.messages.forEach((message:any)=> {
         if(message.reciever.id == user.id && message.isRead == false){
           user.countMessages++
@@ -159,5 +200,62 @@ export class UserSessionService implements OnInit {
     }
   }
 
- 
+  private filterConatcatsForView(user:any, allUsers :any){
+
+    allUsers = allUsers.filter((u: any) => u.id != user.id)
+    
+    user.friends.map((friend : any) => {
+      user.likeds = user.likeds.filter((l: any) => l.id != friend.id)
+      user.likers = user.likers.filter((l: any) => l.id != friend.id)
+
+      allUsers = allUsers.filter((u: any) => u.id != friend.id)
+      friend.trainings.map((training : any)=>{
+        if(training.isMostLevel ==  true){
+          friend.level = training.name
+          friend.organisation = training.organisation.name
+        }
+      })
+      friend.chargingMessage=""
+      friend.hiddenButtons = false
+    });
+
+    user.likeds.map((liked : any) => {
+      allUsers = allUsers.filter((u: any) => u.id != liked.id)
+      liked.trainings.map((training : any)=>{
+        if(training.isMostLevel ==  true){
+          liked.level = training.name
+          liked.organisation = training.organisation.name
+        }
+      })
+      liked.chargingMessage=""
+      liked.hiddenButtons = false
+    });
+
+    user.likers.map((liker : any) => {
+      allUsers = allUsers.filter((u: any) => u.id != liker.id)
+      liker.trainings.map((training : any)=>{
+        if(training.isMostLevel ==  true){
+          liker.level = training.name
+          liker.organisation = training.organisation.name
+        }
+      })
+      liker.chargingMessage=""
+      liker.hiddenButtons = false
+    });
+
+    allUsers.map((user : any) => {
+      // user.trainings.map((training : any)=>{
+      //   if(training.isMostLevel ==  true){
+      //     user.level = training.name
+      //     user.organisation = training.organisation.name
+      //   }
+      // })
+      user.chargingMessage=""
+      user.hiddenButtons = false
+    });
+
+    user.contacts = allUsers
+    this.$user.next(user)
+  }
+
 }
