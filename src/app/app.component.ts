@@ -47,7 +47,6 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     this._phoneSize = window.innerWidth <= 580
-    this._chatService.connection()
     this.getUser();
     this._observableService.getAllEvents();
     this._observableService.getAllClubs();
@@ -57,7 +56,7 @@ export class AppComponent implements OnInit {
   private getUser(){
     let token : any = (localStorage.getItem('token') ?? null);
     if(token != null){
-      this._chargingPageMessage ="Connexion à votre compte en cour ..."
+      this._chargingPageMessage ="Connexion à votre compte en cours ..."
       try {
         this._userHttpService.getUserByToken(JSON.parse(token)).subscribe({
           next : (user :any) =>{
@@ -65,6 +64,7 @@ export class AppComponent implements OnInit {
               this._user= user
               this._session.saveSession(this._user)
               this._chargingPageMessage =""
+              this._chatService.connection()
             }else{
               this._session.$user.next({}as any)
             }
