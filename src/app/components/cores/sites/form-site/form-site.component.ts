@@ -185,7 +185,7 @@ export class FormSiteComponent implements OnInit {
         this._siteHttpService.update(this._siteToSend).subscribe({
           next: (data: any) => {
             this._site = data
-            this._router.navigate(['site'])
+            this._router.navigate(['admin-home/admin-site'])
           },
           error: (error) => {
             console.log(error);
@@ -197,7 +197,7 @@ export class FormSiteComponent implements OnInit {
         this._siteHttpService.insert(this._siteToSend).subscribe({
           next: (data: any) => {
             this._site = data
-            this._router.navigate(['site'])
+            this._router.navigate(['admin-home/admin-site'])
           },
           error: (error) => {
             console.log(error);

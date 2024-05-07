@@ -3,7 +3,9 @@ import { FormGroup } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { FAdress } from 'src/app/models/forms/adress.form';
 import { FClub } from 'src/app/models/forms/club.form';
+import { DateHelperService } from 'src/app/services/helper/date.helper.service';
 import { ClubHttpService } from 'src/app/services/http/club.http.service';
+import { ObservableService } from 'src/app/services/observable/observable.service';
 import { UserSessionService } from 'src/app/services/session/user-session.service';
 
 @Component({
@@ -40,15 +42,22 @@ export class FormClubComponent implements OnInit {
   private _user!: any
   get User(): any { return this._user; }
 
-  private _club: any
+  private _club : any
   get Club(): any { return this._club; }
 
+  private _clubs : any [] = []
+  //get Clubs(): any { return this._clubs; }
+
+  get ChargingPageMessage(): any { return this._chargingPageMessage; }
+  private _chargingPageMessage: string = "Page en chargement ...";
 
   constructor(
     private route: ActivatedRoute,
     private _session: UserSessionService,
     private _clubHttpService: ClubHttpService,
     private _router: Router,
+    private _observableService : ObservableService,
+    private _dateHelperService : DateHelperService,
   ) { }
 
   ngOnInit() {
@@ -58,12 +67,16 @@ export class FormClubComponent implements OnInit {
       // console.log("L'URL a changé :", this._url);
 
       this.getUser()
-      if (segments.length > 0 && segments[0].path === "update-club") {
+      if (segments.length > 0 &&  segments[0].path === "update-club"  ) {
         //console.log("URL contient 'update-club'");
         this._id = segments[1].path
-        this.getClubById(this._id)
+        this.getAllClubs()
         this._activateButtons = false
       }
+      if(segments.length > 0 &&  segments[0].path === "insert-club"){
+        this.getAllClubs()
+      }
+    
     });
   }
 
@@ -71,7 +84,6 @@ export class FormClubComponent implements OnInit {
     this._session.$user.subscribe({
       next: (data: any) => {
         this._user = data
-        //console.log(this._user)
         if (this._user.id) {
         }
       },
@@ -81,25 +93,48 @@ export class FormClubComponent implements OnInit {
     });
   }
 
-  private getClubById(id: any) {
-    this._clubHttpService.getClubById(id).subscribe({
-      next: (data: any) => {
-        this._club = data
-        if (this._club.id) {
-          this.addToFormClub()
-          if (this._club.adress) {
-            this.addAddressToFormClub(this._club.adress)
-          }
-          else{
-            this.formClub.value.adress = null
+
+  private getAllClubs() {
+    this._observableService.$clubs.subscribe((clubs: any) => {
+      if(clubs && clubs.length > 0){
+        this._clubs = clubs
+        if(this._id){
+          this._clubs.forEach((club : any)=>{
+            if(club.id == this._id){
+              this._club=club
+            }
+          })
+          if(this._club.id){
+            this.addToFormClub()
+            if (this._club.adress) {
+              this.addAddressToFormClub(this._club.adress)
+            }
+            else{
+              this.formClub.value.adress = null
+            }
           }
         }
-        // console.log(this._club)
-      },
-      error: (error) => {
-        console.log(error)
       }
-    });
+    })
+    this._chargingPageMessage=""
+    // this._clubHttpService.getClubById(id).subscribe({
+    //   next: (data: any) => {
+    //     this._club = data
+    //     if (this._club.id) {
+          // this.addToFormClub()
+          // if (this._club.adress) {
+          //   this.addAddressToFormClub(this._club.adress)
+          // }
+          // else{
+          //   this.formClub.value.adress = null
+          // }
+    //     }
+    //     // console.log(this._club)
+    //   },
+    //   error: (error) => {
+    //     console.log(error)
+    //   }
+    // });
   }
 
   private addToFormClub() {
@@ -121,10 +156,22 @@ export class FormClubComponent implements OnInit {
 
       if (this._urlSegements[0].path === "update-club") {
         this._clubToSend.id = this._club.id
-        // console.log('update')
+        this._clubs.forEach((club : any)=>{
+          if(club.id == this._club.id){
+            club.hiddenButtons = true
+          }
+        })
         this._clubHttpService.update(this._clubToSend).subscribe({
           next: (data: any) => {
-            this._club = data
+            //console.log(data)
+            this.formatClubForView(data)  
+            this.addLevelToView(data)
+            this._clubs.forEach((club: any, index: number) => {
+              if (club.id === data.id) {
+                  this._clubs[index] = data; // Remplacer l'élément réel dans le tableau
+              }
+            });
+            this._observableService.$clubs.next(this._clubs)
             this._router.navigate(['my-clubs'])
           },
           error: (error) => {
@@ -133,10 +180,12 @@ export class FormClubComponent implements OnInit {
         });
       }
       else if (this._urlSegements[0].path === "insert-club") {
-        // console.log('insert')
         this._clubHttpService.insert(this._clubToSend).subscribe({
           next: (data: any) => {
-            this._club = data
+            this.formatClubForView(data)  
+            this.addLevelToView(data)
+            this._clubs.push(data)
+            this._observableService.$clubs.next(this._clubs)
             this._router.navigate(['my-clubs'])
           },
           error: (error) => {
@@ -150,7 +199,7 @@ export class FormClubComponent implements OnInit {
   unparticipe(id: any) {
     this._clubHttpService.unParticipe(id, this._club.id).subscribe({
       next: (data: any) => {
-        this.getClubById(this._id)
+        this._observableService.getAllClubs()
       },
       error: (error) => {
         console.log(error)
@@ -178,21 +227,39 @@ export class FormClubComponent implements OnInit {
     // console.log(this._clubToSend)
   }
 
-  // disableControlFormAdress() {
-  //   this.Adress.get('street')?.disable();
-  //   this.Adress.get('number')?.disable();
-  //   this.Adress.get('city')?.disable();
-  //   this.Adress.get('postCode')?.disable();
-  //   this.Adress.get('country')?.disable();
-  // }
 
-  // enableControlFormAdress() {
-  //   this.Adress.get('street')?.enable();
-  //   this.Adress.get('number')?.enable();
-  //   this.Adress.get('city')?.enable();
-  //   this.Adress.get('postCode')?.enable();
-  //   this.Adress.get('country')?.enable();
-  // }
+  private formatClubForView(club : any){
+      club.createdAt = this._dateHelperService.formatDateToFrench(new Date(club.createdAt))
+      club.participes.forEach((participe : any) => {
+        participe.insuranceDateValidation = new Date(participe.insuranceDateValidation)
+        participe.medicalDateValidation = new Date(participe.medicalDateValidation)
+      });
+      club.type="club"
+      club.chargingMessage=""
+      club.hiddenButtons = false
+   }
+
+   private addLevelToView(club :any){
+      club.creator.trainings.forEach((training : any) =>{
+        if(training.isMostLevel == true){
+          club.creator.level = training.name
+          club.creator.organisation = training.organisation.name
+        }
+      });
+      this.addMostLevel(club.creator.friends)
+      this.addMostLevel(club.creator.likeds)
+      this.addMostLevel(club.creator.likers)
+    }
+
+    private addMostLevel(elements :any){
+      elements.map((element : any) => {
+        element.trainings.map((training : any)=>{
+          if(training.isMostLevel ==  true){
+            element.level = training.name
+            element.organisation = training.organisation.name
+          }
+        })
+      });
+     }
 }
-
 

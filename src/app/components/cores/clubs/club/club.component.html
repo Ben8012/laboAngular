@@ -15,7 +15,7 @@
     <table class="table border rounded">
         <tr>
             <td class=" text-center ">
-                <h4 class="color-red">{{club.hiddenButtons ? "Changement en cour ..." :''}}</h4>
+                <h4 *ngIf="club.hiddenButtons" class="color-red">{{club.hiddenButtons ? "Changement en cour ..." :''}}</h4>
                 <h4>{{club.name}}</h4>
                 <h6>Date de création le {{club.createdAt}}</h6>
             </td>
@@ -51,7 +51,7 @@
                         <span style=" font-style: italic;">supprimer</span>
                     </div> 
                 </button>
-                <button *ngIf="User.id && EnableButtons && User.id == club.creator.id"
+                <button *ngIf="User.id && EnableButtons && User.id == club.creator.id && !club.hiddenButtons"
                     class="btn btn-warning border font-color-black hover m-1" (click)="updateClub(club)"> 
                     <div class="d-flex flex-column align-items-center">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-clockwise" viewBox="0 0 16 16">

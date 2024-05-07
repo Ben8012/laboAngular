@@ -41,8 +41,7 @@ const routes: Routes = [
   { path: 'my-clubs', component : ClubComponent, canActivate : [UserGuardService]},
 
   { path: 'site', component : SiteComponent},
-  { path: 'insert-site', component : FormSiteComponent , canActivate : [AdminGuardService]},
-  { path: 'update-site/:id', component : FormSiteComponent , canActivate : [AdminGuardService]},
+ 
 
   { path: 'contact', component : ContactComponent, canActivate : [UserGuardService]},
   { path: 'message/:id', component : MessageComponent , canActivate : [UserGuardService]},
@@ -62,6 +61,8 @@ const routes: Routes = [
   { path: 'admin-home', component : AdminHomeComponent, canActivate : [AdminGuardService],
     children:[
       { path: 'admin-site', component : SiteComponent},
+      { path: 'insert-site', component : FormSiteComponent , canActivate : [AdminGuardService]},
+      { path: 'update-site/:id', component : FormSiteComponent , canActivate : [AdminGuardService]},
  
       { path: 'training', component : TrainingComponent},
       { path: 'insert-training/:id', component : FormTrainingComponent},

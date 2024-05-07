@@ -50,7 +50,7 @@ export class ContactComponent implements OnInit {
       this._friends = user.friends
       this._users = user.contacts
       this._chargingPageMessage=''
-      console.log(user)
+      //console.log(user)
     })
   }
 

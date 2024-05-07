@@ -115,12 +115,12 @@ export class SiteComponent implements OnInit {
     this._session.$user.subscribe({
       next : (data :any) =>{
         this._user = data;
-        // if(this._user && this._user.id){
-        //   this._observableService.getAllSiteAndVote(this._user);
-        // }
-        // else{
-        //   this._observableService.getAllSite()
-        // }
+        if(this._user && this._user.id){
+          this._observableService.getAllSiteAndVote(this._user);
+        }
+        else{
+          this._observableService.getAllSite()
+        }
         
       },
       error : (error) => {
@@ -177,7 +177,7 @@ export class SiteComponent implements OnInit {
    }
 
    updateSite(event : any){
-    this._router.navigate(['update-site',event.id])
+    this._router.navigate(['admin-home/update-site',event.id])
   }
 
   // private getImages(site : any){

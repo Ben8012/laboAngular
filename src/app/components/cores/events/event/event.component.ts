@@ -44,14 +44,11 @@ export class EventComponent implements OnInit {
 
   constructor(
     private _eventHttpService: EventHttpService,
-    private _userHttpService: UserHttpService,
     private _session: UserSessionService,
     private _modalDataService : ModalDataService,
     public dialog: MatDialog,
-    private _dateHelperService : DateHelperService,
     private _router : Router,
     private route: ActivatedRoute,
-    private _imageHttpService : ImageHttpService,
     private _observableService : ObservableService,
     ) { }
 
@@ -65,7 +62,7 @@ export class EventComponent implements OnInit {
 
       this.getUser()
       if (segments.length > 0 && segments[0].path === "event" || segments[0].path === "formation") {
-        // console.log("URL contient 'event ou formation'");
+        console.log("URL contient 'event ou formation'");
         this.getAllEvents();
         this._activateButtons = false
       }
@@ -101,7 +98,9 @@ export class EventComponent implements OnInit {
         if(this._user.id){
           this.checkIfParticipe(events)
         }
+        
         this._chargingPageMessage =""
+        
         this._events = events;
       }
     })
@@ -135,7 +134,7 @@ export class EventComponent implements OnInit {
       // console.log(events)
      if(events && events.length > 0){
         events = events.filter((event : any) => new Date(event.startDate).getTime() > this._today.getTime())
-        events = events.filter((event : any) => event.creator.id != this._user.id)
+        //events = events.filter((event : any) => event.creator.id != this._user.id)
         this._activateButtons = false
         if(this._urlSegements[0].path === "event" ){
           events = events.filter((event : any) => event.training == null)
@@ -143,16 +142,17 @@ export class EventComponent implements OnInit {
         if(this._urlSegements[0].path === "formation" ){
           events = events.filter((event : any) => event.training != null)
         }
-        if(events.length == 0){
-          this._chargingPageMessage ="Vous n'avez pas d'évenement(s) actuellement ou ceux ci sont dans votre carnet"
-        }else{
-          this._chargingPageMessage =""
-        }
         if(this._user.id){
           this.checkIfParticipe(events)
         }
         this._events = events
-     }
+        if(events.length == 0){
+          this._chargingPageMessage ="il n'y a pas d'évenements programmés ou ceux ci sont dans votre carnet"
+        }else{
+          this._chargingPageMessage =""
+        }
+        this._events = events;
+      }
       
     })
 
@@ -320,12 +320,9 @@ export class EventComponent implements OnInit {
         // console.log('Le modal est fermé');
         document.body.classList.remove('modal-open'); 
         if(this._urlSegements[0].path === "my-events"){
-            // this.getEventsByUserId()
-            this._observableService.getAllEvents()
             this._activateButtons = true
         }
         if(this._urlSegements[0].path === "event" || this._urlSegements[0].path === "formation"){
-          this.getAllEvents()
           this._activateButtons = false
       }
         

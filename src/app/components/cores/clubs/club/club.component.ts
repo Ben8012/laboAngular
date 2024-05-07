@@ -72,8 +72,12 @@ export class ClubComponent implements OnInit {
           this.checkIfParticipe(clubs)
         }
         this._clubs = clubs
-        this._chargingPageMessage =""
-     }     
+        if(clubs.length == 0){
+          this._chargingPageMessage ="il n'y a pas de groupes actuellement"
+        }else{
+          this._chargingPageMessage =""
+        }
+      }  
     })
     
     // this._clubHttpService.getAll().subscribe({
@@ -98,7 +102,7 @@ export class ClubComponent implements OnInit {
 
    getClubsByUserId(){
     this._observableService.$clubs.subscribe((clubs: any) => {
-    // console.log(clubs)
+    //console.log(clubs)
     if(clubs && clubs.length > 0){
       clubs = clubs.filter((event : any) => event.creator.id == this._user.id)
       if(this._user.id){
@@ -106,6 +110,9 @@ export class ClubComponent implements OnInit {
       }
       this._clubs = clubs
       this._chargingPageMessage =""
+    }
+    else{
+      this._chargingPageMessage ="il n'y a pas de goupes actuellement"
     }
     })
 
@@ -212,6 +219,7 @@ export class ClubComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       // console.log('Le modal est fermé');
+      this._observableService.getAllClubs()
       document.body.classList.remove('modal-open'); 
     });
    }

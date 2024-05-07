@@ -2,10 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { FEvent } from 'src/app/models/forms/event.form';
+import { DateHelperService } from 'src/app/services/helper/date.helper.service';
 import { ClubHttpService } from 'src/app/services/http/club.http.service';
 import { EventHttpService } from 'src/app/services/http/event.http.servive';
+import { ImageHttpService } from 'src/app/services/http/image.http.service';
 import { SiteHttpService } from 'src/app/services/http/site.http.service';
 import { TrainingHttpService } from 'src/app/services/http/training.http.service';
+import { ObservableService } from 'src/app/services/observable/observable.service';
 import { UserSessionService } from 'src/app/services/session/user-session.service';
 
 @Component({
@@ -30,6 +33,7 @@ export class FormEventComponent implements OnInit {
   private _user! : any
   get User(): any { return this._user; }
 
+  private _events : any[] = []
   private _event : any 
   get Event(): any  { return this._event; }
 
@@ -44,15 +48,18 @@ export class FormEventComponent implements OnInit {
   private _userClubs : any[] = []
   get Clubs(): any []  { return this._userClubs; }
 
+  get ChargingPageMessage(): any { return this._chargingPageMessage; }
+  private _chargingPageMessage: string = "Page en chargement ...";
 
   constructor(
     private route: ActivatedRoute,
     private _session : UserSessionService,
     private _eventHttpService : EventHttpService,
     private _siteHttpService : SiteHttpService,
-    private _traininghttpService : TrainingHttpService,
-    private _clubHtppService : ClubHttpService,
+    private _observableService : ObservableService,
     private _router : Router,
+    private _dateHelperService : DateHelperService,
+    private _imageHttpService : ImageHttpService,
     ) { }
 
   ngOnInit() {
@@ -60,10 +67,7 @@ export class FormEventComponent implements OnInit {
       this._id = (params['id']);
     });
     this.getUser()
-    // console.log(this._id)
-    if(this._id){
-      this.getEventById(this._id)
-    }
+    this.getAllEvents()
  }
  private getUser(){
    this._session.$user.subscribe({
@@ -79,18 +83,35 @@ export class FormEventComponent implements OnInit {
     }}) ;
  }
 
- private getEventById(id : any){
-  this._eventHttpService.getEventById(id).subscribe({
-    next : (data :any) =>{
-      this._event = data
-      if(this._event.id){
-        this.addToForm()
+ private getAllEvents(){
+    this._observableService.$events.subscribe((events: any) => {
+      if(events && events.length > 0){
+        this._events = events
+        if(this._id){
+          events.forEach((event : any)=>{
+            if(event.id == this._id){
+              this._event=event
+              //console.log(event)
+            }
+          })
+          if(this._event.id){
+            this.addToForm()
+          }
+        }
       }
-      // console.log(this._event)
-    },
-    error : (error) => {
-      console.log(error)
-    }}) ;
+    })
+    this._chargingPageMessage=""
+  // this._eventHttpService.getEventById(id).subscribe({
+  //   next : (data :any) =>{
+  //     this._event = data
+      // if(this._event.id){
+      //   this.addToForm()
+      //   this._chargingPageMessage=""
+      // }
+  //   },
+  //   error : (error) => {
+  //     console.log(error)
+  //   }}) ;
  }
 
  private getAllDiveplace(id :any){
@@ -109,8 +130,8 @@ export class FormEventComponent implements OnInit {
   let form = {
     id : this._event.id,
     name : this._event.name,
-    startdate : this._event.startDate,
-    enddate : this._event.endDate,
+    startdate : this._event.startDate.toISOString().substring(0,19),
+    enddate : this._event.endDate.toISOString().substring(0,19),
     diveplaceId : this._event.diveplace.id,
     trainingId : this._event.training ? this._event.training.id : 0,
     clubId : this._event.club ? this._event.club.id : 0,
@@ -126,8 +147,16 @@ export class FormEventComponent implements OnInit {
       // console.log('update')
       this._eventHttpService.update(this.formEvent.value).subscribe({
         next: (data: any) => {
-          this._event = data
-          this._router.navigate(['my-events'])
+           //console.log(data)
+           this.formatEventForView(data)  
+           this.addLevelToView(data)
+           this._events.forEach((event: any, index: number) => {
+             if (event.id === data.id) {
+                 this._events[index] = data; // Remplacer l'élément réel dans le tableau
+             }
+           });
+           this._observableService.$events.next(this._events)
+           this._router.navigate(['my-events'])
         },
         error: (error) => {
           console.log(error);
@@ -144,8 +173,14 @@ export class FormEventComponent implements OnInit {
       // console.log(this.formEvent.value)
       this._eventHttpService.insert(this.formEvent.value).subscribe({
         next: (data: any) => {
-          this._event = data
+          console.log(data)
+          console.log(this._events)
+          this.formatEventForView(data)  
+          this.addLevelToView(data)
+          this._events.push(data)
+          this._observableService.$events.next(this._events)
           this._router.navigate(['my-events'])
+
         },
         error: (error) => {
           console.log(error);
@@ -158,10 +193,57 @@ export class FormEventComponent implements OnInit {
   unparticipe(id : any){
     this._eventHttpService.unParticipe(id,this._event.id).subscribe({
       next : (data :any) =>{
-        this.getEventById(this._id)
+        this._observableService;this.getAllEvents()
       },
       error : (error) => {
         console.log(error)
       }}) ;
   }
+
+  private formatEventForView(event : any){
+    event.startDateFrench = this._dateHelperService.formatDateToFrench(new Date(event.startDate))
+      event.endDateFrench = this._dateHelperService.formatDateToFrench(new Date(event.endDate))
+      event.participes.forEach((participe : any) => {
+        participe.insuranceDateValidation = new Date(participe.insuranceDateValidation)
+        participe.medicalDateValidation = new Date(participe.medicalDateValidation)
+      });
+      event.startDate = new Date(event.startDate)
+      event.endDate = new Date(event.endDate)
+      event.type = "event"
+      event.chargingMessage=""
+      event.hiddenButtons = false
+      
+      if(event.diveplace.guidImage != null){
+        this._imageHttpService.getAllowedImage(event.diveplace.id,"SiteImage").subscribe(imageData => {
+          const reader = new FileReader();
+          reader.onload = (e: any) => {
+            event.diveplace.image = e.target.result;
+          }
+          reader.readAsDataURL(imageData);
+        });
+      }
+ }
+
+ private addLevelToView(event :any){
+    event.creator.trainings.forEach((training : any) =>{
+      if(training.isMostLevel == true){
+        event.creator.level = training.name
+        event.creator.organisation = training.organisation.name
+      }
+    });
+    this.addMostLevel(event.creator.friends)
+    this.addMostLevel(event.creator.likeds)
+    this.addMostLevel(event.creator.likers)
+  }
+
+  private addMostLevel(elements :any){
+    elements.map((element : any) => {
+      element.trainings.map((training : any)=>{
+        if(training.isMostLevel ==  true){
+          element.level = training.name
+          element.organisation = training.organisation.name
+        }
+      })
+    });
+   }
 }

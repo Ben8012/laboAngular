@@ -5,6 +5,7 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 import { FDivelog } from 'src/app/models/forms/divelog.form';
 import { DivelogHttpService } from 'src/app/services/http/divelog.http.service';
 import { EventHttpService } from 'src/app/services/http/event.http.servive';
+import { ObservableService } from 'src/app/services/observable/observable.service';
 import { UserSessionService } from 'src/app/services/session/user-session.service';
 
 @Component({
@@ -40,7 +41,6 @@ export class FormBookComponent implements OnInit{
     private route: ActivatedRoute,
     private _session : UserSessionService,
     private _divelogHttpService : DivelogHttpService,
-    private _eventHttpService : EventHttpService,
     private _router : Router,
     ) { }
 

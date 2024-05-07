@@ -1,4 +1,7 @@
-<div class="text-center">
+<div class=" text-center m-5" *ngIf="ChargingPageMessage !=''">
+  <h4>{{ChargingPageMessage}}</h4>
+</div>
+<div class="text-center" *ngIf="ChargingPageMessage ==''">
     <form class="border rounded p-2" [formGroup]="FormEvent" (ngSubmit)="send()" >
         <label for="firstname">Nom</label>
         <div class="mb-3 d-flex justify-content-center" >
