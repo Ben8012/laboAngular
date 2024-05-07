@@ -51,38 +51,39 @@ export class AppComponent implements OnInit {
     this.getUser();
     this._observableService.getAllEvents();
     this._observableService.getAllClubs();
+    this._observableService.getAllSite();
   }
 
   private getUser(){
     let token : any = (localStorage.getItem('token') ?? null);
     if(token != null){
       this._chargingPageMessage ="Connexion à votre compte en cour ..."
-      this._userHttpService.getUserByToken(JSON.parse(token)).subscribe({
-        next : (user :any) =>{
-          if(user.id){
-            this._user= user
-            this._session.saveSession(this._user)
-            this._chargingPageMessage =""
-          }else{
-            this._session.$user.next({}as any)
+      try {
+        this._userHttpService.getUserByToken(JSON.parse(token)).subscribe({
+          next : (user :any) =>{
+            if(user.id){
+              this._user= user
+              this._session.saveSession(this._user)
+              this._chargingPageMessage =""
+            }else{
+              this._session.$user.next({}as any)
+            }
+          },
+          error : (error) => {
+            //this._session.clearSession()
+            this._session.clearSession()
+            this._chargingPageMessage = ""
+            this._router.navigate(['']);
+            console.error("Echec (1) de la connexion connexion ...",error);
           }
-        },
-        error : (error) => {
-          //this._session.clearSession()
-          this._session.$user.next({}as any)
-          this._router.navigate(['home']);
-          console.log(error);
-        }
-      })
-    }else{
-      //this._session.clearSession()
-      this._observableService.getAllSite();
-      this._session.$user.next({}as any)
-      //this._router.navigate(['']);
+        })
+    } 
+    catch (erreur) {
+      this._session.clearSession()
+      this._chargingPageMessage = ""
+      this._router.navigate(['']);
+      console.error("Echec (2) de la connexion connexion...", erreur);
+    }
     }
   }
-
-
-  
- 
 }

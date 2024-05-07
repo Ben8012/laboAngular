@@ -54,6 +54,7 @@ export class LoginComponent {
         },
         error : (error) => {
           this.errorMessage = 'Login et / ou mot de passe incorrecte';
+          this._chargingPageMessage ="Login et / ou mot de passe incorrecte"
           console.log(error)
         }}) ;
     }

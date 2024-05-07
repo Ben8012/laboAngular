@@ -1,5 +1,6 @@
 <div class=" text-center m-5" *ngIf="ChargingPageMessage !=''">
   <h4>{{ChargingPageMessage}}</h4>
+  <button *ngIf="ChargingPageMessage=='Login et / ou mot de passe incorrecte'" class="btn btn-info" routerLink="/">recommencer</button>
 </div>
 <div class="text-center " *ngIf="ChargingPageMessage ==''">
   <form [formGroup]="FormLogin" (ngSubmit)="login()" >
