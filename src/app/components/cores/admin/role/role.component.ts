@@ -36,11 +36,14 @@ export class RoleComponent implements OnInit {
   }
 
   private getAllUsers() {
-    this._userHttpService.getAllUsers().subscribe({
-      next: (data: any) => {
-        this._users = data.filter((u: any) => u.role != 'super admin')
+    this._session.$users.subscribe({
+      next: (users: any) => {
+        if(users && users.length > 0)
+        this._users = users.filter((u: any) => u.role != 'super admin')
         this.addLevelToView(this._users)
-        // console.log(this._users)
+        this._users.forEach((user:any)=> {
+          user.hiddenButtons =false
+        })
       },
       error: (data: any) => {
         console.log(data);
@@ -48,10 +51,18 @@ export class RoleComponent implements OnInit {
     })
   }
 
-  admin(id: number) {
-    this._userHttpService.admin(id).subscribe({
+  admin(user: any) {
+    user.hiddenButtons =true
+    this._userHttpService.admin(user.id).subscribe({
       next: (data: any) => {
-        this.getAllUsers()
+        //console.log(data)
+        this._users.forEach((u:any)=> {
+          if(u.id == data.id ){
+            u.role = data.role
+            u.hiddenButtons =false
+          }
+        })
+        this._session.$users.next(data);
       },
       error: (data: any) => {
         console.log(data);
@@ -59,10 +70,18 @@ export class RoleComponent implements OnInit {
     });
   }
 
-  unadmin(id: number) {
-    this._userHttpService.unadmin(id).subscribe({
+  unadmin(user: any) {
+    user.hiddenButtons =true
+    this._userHttpService.unadmin(user.id).subscribe({
       next: (data: any) => {
-        this.getAllUsers()
+        //console.log(data)
+        this._users.forEach((u:any)=> {
+          if(u.id == data.id ){
+            u.role = data.role
+            u.hiddenButtons =false
+          }
+        })
+        this._session.$users.next(data);
       },
       error: (data: any) => {
         console.log(data);

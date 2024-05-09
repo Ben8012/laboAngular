@@ -149,6 +149,7 @@ export class ProfilComponent {
       this._userHttpService.update(this.formProfil.value, this._user.id).subscribe({
         next: (data: any) => {
           this._session.saveSession(data)
+          this._router.navigate(['/home']);
         },
         error: (error) => {
           console.log(error);

@@ -104,9 +104,10 @@ export class ParticipatorTableComponent implements OnInit {
     return age;
     }
   
-    add(participeId: any,ElementId : any){
+    add(participe: any,ElementId : any){
+      participe.hiddenButtons = true
       if(this.UrlSegements =='my-clubs' ){
-        this._clubHttpService.validationParticipate(participeId,ElementId).subscribe({
+        this._clubHttpService.validationParticipate(participe.id,ElementId).subscribe({
           next : (data:any) =>{
             this.addResultToView(data,ElementId)
           },
@@ -115,7 +116,7 @@ export class ParticipatorTableComponent implements OnInit {
           }}) ;
       }
       if(this.UrlSegements =='my-events' ){
-        this._eventHttpService.validationParticipate(participeId,ElementId).subscribe({
+        this._eventHttpService.validationParticipate(participe.id,ElementId).subscribe({
           next : (data:any) =>{
             this.addResultToView(data,ElementId)
           },
@@ -125,9 +126,10 @@ export class ParticipatorTableComponent implements OnInit {
       }
     }
 
-    erase(participeId: any,ElementId : any){
+    erase(participe: any,ElementId : any){
+      participe.hiddenButtons = true
       if(this.UrlSegements =='my-clubs' ){
-        this._clubHttpService.unValidationParticipate(participeId,ElementId).subscribe({
+        this._clubHttpService.unValidationParticipate(participe.id,ElementId).subscribe({
           next : (data:any) =>{
             this.addResultToView(data,ElementId)
           },
@@ -136,7 +138,7 @@ export class ParticipatorTableComponent implements OnInit {
           }}) ;
       }
       if(this.UrlSegements =='my-events' ){
-        this._eventHttpService.unValidationParticipate(participeId,ElementId).subscribe({
+        this._eventHttpService.unValidationParticipate(participe.id,ElementId).subscribe({
           next : (data:any) =>{
             this.addResultToView(data,ElementId)
           },
@@ -154,12 +156,14 @@ export class ParticipatorTableComponent implements OnInit {
       this._demands =  element[0].demands
       if(this._participators){this.formatDate(this._participators)}
       if(this._demands){ this.formatDate(this._demands)}
+      this.checkIfFriend()
       // console.log(this._participators)
       // console.log(this._demands)
     }
 
-    like(likedId: number) {
-      this._userHttpService.like(this.User.id, likedId).subscribe((data: any[]) => {
+    like(liked: any) {
+      liked.hiddenButtons = true
+      this._userHttpService.like(this.User.id, liked.id).subscribe((data: any[]) => {
         if(this.User && this.User.id){
           this.User = this._session.refreshUser(this.User)
         }

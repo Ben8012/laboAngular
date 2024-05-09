@@ -45,7 +45,7 @@ export class ClubComponent implements OnInit {
     ) { }
 
   ngOnInit(): void {
-
+    this._observableService.getAllClubs()
     this.route.url.subscribe(segments => {
       this._urlSegements = segments
       this._url = segments.join('/');
@@ -185,6 +185,7 @@ export class ClubComponent implements OnInit {
 
   creatorInfo(creator : any) :void{
     this._modalDataService.setData(creator);
+    this.dialog.closeAll();
     document.body.classList.add('modal-open');
     const dialogRef = this.dialog.open(CreatorModalComponent);
 
@@ -214,6 +215,7 @@ export class ClubComponent implements OnInit {
 
   deleteClub(club : any){
     this._modalDataService.setData(club);
+    this.dialog.closeAll();
     document.body.classList.add('modal-open');
     const dialogRef = this.dialog.open(DeleteEventModelComponent);
 

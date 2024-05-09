@@ -16,7 +16,7 @@
             <h6 class="text-center">{{modalData.organisation.name}}</h6>
             <p class="text-center">{{modalData.description}}</p>
             <h6 class="text-underline text-center">Prérequis :</h6>
-            <p class="text-center">{{modalData.prerequis.name}}</p>
+            <p class="text-center">{{modalData.prerequis ? modalData.prerequis.name : 'aucuns'}}</p>
             <hr>
             <div class="text-center">
                 <button mat-button class="btn btn-light " (click)="onClose()">Fermer</button>

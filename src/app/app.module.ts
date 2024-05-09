@@ -94,7 +94,7 @@ import { ConditionModalComponent } from './components/modals/conditionModal/cond
     HttpClientModule,
     CommonModule,
     MatDialogModule,
-    FormsModule
+    FormsModule,
 
   ],
   providers: [

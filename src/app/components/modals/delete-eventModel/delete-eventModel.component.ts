@@ -66,9 +66,9 @@ export class DeleteEventModelComponent implements OnInit {
       })
       this._clubtHttpService.disable(id).subscribe({
         next : (data :any) =>{
-          console.log('deleted')
+          //console.log('deleted')
           this._clubs = this._clubs.filter((club :any)=> club.id != id)
-          console.log(this._clubs)
+          //console.log(this._clubs)
           this._observableService.$clubs.next(this._clubs)
           this.dialogRef.close();
         },

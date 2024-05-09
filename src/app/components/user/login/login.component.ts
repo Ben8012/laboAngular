@@ -9,6 +9,7 @@ import { ChatService } from 'src/app/services/http/chat.http.service';
 import { ModalDataService } from 'src/app/services/modal/modal.data.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ConditionModalComponent } from '../../modals/conditionModal/conditionModal.component';
+import { ObservableService } from 'src/app/services/observable/observable.service';
 // import { SessionService } from '../../modules/security/services/session.service';
 // import { AuthService } from '../../modules/security/services/auth.service';
 
@@ -34,8 +35,8 @@ export class LoginComponent {
       private _route : Router,
       private _session : UserSessionService,
       private _chatService : ChatService,
-      private _modalDataService : ModalDataService,
       public dialog: MatDialog,
+      private _observableService : ObservableService
      ) { }
 
   
@@ -43,12 +44,14 @@ export class LoginComponent {
   login(){
     // console.log(this.formLogin)
     if(this.formLogin.valid){
-      this._chargingPageMessage ="Connexion a votre compte en cour..."
+      this._chargingPageMessage ="Connexion a votre compte en cours ..."
       this._userHttpService.login(this.formLogin.value).subscribe({
         next : (data :any) =>{
-          this._session.saveSession(data)
-          //this._session.refreshUser(data)
+          console.clear()
           this._chatService.connection()
+          this._session.saveSession(data)
+          this._session.getAllUsers()
+          this._observableService.getAllSiteAndVote(data);
           this._chargingPageMessage =""
           this._route.navigate([''])
         },

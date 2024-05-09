@@ -24,13 +24,20 @@ export class SidebarComponent implements OnInit {
   private _userImage : any
   get UserImage(): any  { return this._userImage; }
 
-  
+  private _isConnectionOpen : any
+  get IsConnectionOpen(): any  { return this._isConnectionOpen; }
+
+
+
   constructor(
     private _session : UserSessionService,
+    private _chatService : ChatService
     )
   {}
 
   ngOnInit(): void {
+    this.getConnectionState()
+
     this._session.$user.subscribe((user :any) =>{
       this._user = user;
       if(this._user.guidImage){
@@ -39,6 +46,17 @@ export class SidebarComponent implements OnInit {
       }
     })
   }
+
+  getConnectionState(){
+    this._chatService.$connection.subscribe({
+      next : (connection :any) =>{
+        this._isConnectionOpen = connection
+      },
+      error : (error) => {
+        console.log(error)
+      }}) ;
+  }
+  
 
   contactBarVisibility(){
     this._isContactBarVisible = !this._isContactBarVisible

@@ -173,8 +173,8 @@ export class FormEventComponent implements OnInit {
       // console.log(this.formEvent.value)
       this._eventHttpService.insert(this.formEvent.value).subscribe({
         next: (data: any) => {
-          console.log(data)
-          console.log(this._events)
+          //console.log(data)
+          //console.log(this._events)
           this.formatEventForView(data)  
           this.addLevelToView(data)
           this._events.push(data)

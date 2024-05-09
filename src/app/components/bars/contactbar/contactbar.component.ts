@@ -27,6 +27,9 @@ export class ContactbarComponent implements OnInit {
   private _user! : any
   get User(): any { return this._user; }
 
+  private _friendId : any
+  private isChanged :any
+
   private _isRead : any ={
     FriendId: null,
     UserId : null,
@@ -41,7 +44,7 @@ export class ContactbarComponent implements OnInit {
   ){ }
 
   ngOnInit(): void {
-   
+ 
     this._chatService.myHub.on("MessageReaded", (message : any) => {
       if(message.friendId == this._user.id || message.userId == this._user.id){
         this._session.refreshUser(this._user)
@@ -49,6 +52,7 @@ export class ContactbarComponent implements OnInit {
           this._route.navigate(['/message', message.friendId]);
         }
       }
+      
     })
 
     this._session.$user.subscribe(data => {
@@ -70,10 +74,27 @@ export class ContactbarComponent implements OnInit {
   }
 
   private isRead(id:any){
+
+    this._friendId = id
     this._isRead.FriendId = parseInt(id),
     this._isRead.UserId = parseInt(this._user.id),
     this._chatService.myHub.send("MessageIsRead", this._isRead)
     
+  }
+
+  private changeIsReadToUserMessage(message : any){
+    this._user.friends.forEach((friend : any)=>{
+      //count all messages
+      friend.messages.forEach((m:any)=> {
+        console.log(m)
+        console.log(message)
+        if(m.sender.id == message.friendId  && m.reciever.id == message.userId  && m.isRead == false){
+          console.log('ici')
+          message.isRead = true
+        }
+      })
+    })
+    this._session.$user.next(this._user)
   }
 
 }

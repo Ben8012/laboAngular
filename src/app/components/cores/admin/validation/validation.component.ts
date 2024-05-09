@@ -22,6 +22,9 @@ export class ValidationComponent implements OnInit {
   private _user!: any;
   get User(): any { return this._user; }
 
+  private _users!: any;
+  get Users(): any { return this._users; }
+
   private _me!: any;
   get Me(): any { return this._me; }
 
@@ -30,6 +33,9 @@ export class ValidationComponent implements OnInit {
   get CertificatDate():any {return this.formValidation.get('certificatDate');}
   get InsuranceDate():any {return this.formValidation.get('insuranceDate');}
   get Level():any {return this.formValidation.get('level');}
+
+  get ChargingPageMessage(): any { return this._chargingPageMessage; }
+  private _chargingPageMessage: string = "Page en chargement ...";
 
   constructor(
     private route: ActivatedRoute,
@@ -49,32 +55,66 @@ export class ValidationComponent implements OnInit {
       // console.log("L'URL a changé :", this._urlSegement);
       // console.log("L'URL a changé :", this._id);
 
+      this.getAllUsers()
       if(this._id){
-        this.getUserToValidate(this._id)
+        //this.getUserToValidate(this._id)
       
       }
       
     });
   }
 
-  private getUserToValidate(id : number){
-    this._userHttpService.getUserById(id).subscribe({
-      next : (data :any) =>{
-        this._user = data
-        // console.log(this._user)
-        if(this._user.id){
-          if(this._user.medicalDateValidation != null){
-            this._user.medicalDateValidation = this._user.medicalDateValidation.substring(0,10)
+  private getAllUsers() {
+    this._session.$users.subscribe({
+      next: (users : any) => {
+        if(users && users.length > 0){
+          this._users = users
+          if(this._id){
+            users.forEach((user : any)=>{
+              if(user.id == this._id){
+                //console.log(user)
+                this._user=user
+                if(this._user.medicalDateValidation != null){
+                  this._user.medicalDateValidation = this._user.medicalDateValidation.substring(0,10)
+                }
+                if(this._user.insuranceDateValidation != null)
+                this._user.insuranceDateValidation = this._user.insuranceDateValidation.substring(0,10)
+                this.getImages()
+                user.changeAssuranceDate = false
+                user.changeCertificatDate = false
+                user.changeLevel = false
+              }
+            })
+            if(this._user.id){
+            }
           }
-          if(this._user.insuranceDateValidation != null)
-          this._user.insuranceDateValidation = this._user.insuranceDateValidation.substring(0,10)
-          this.getImages()
         }
+        this._chargingPageMessage=""
       },
-      error : (error) => {
-        console.log(error)
-      }}) ;
+      error:(data :any) => {
+        console.log(data);
+      }
+    })
   }
+
+  // private getUserToValidate(id : number){
+  //   this._userHttpService.getUserById(id).subscribe({
+  //     next : (data :any) =>{
+  //       this._user = data
+  //       // console.log(this._user)
+  //       if(this._user.id){
+  //         if(this._user.medicalDateValidation != null){
+  //           this._user.medicalDateValidation = this._user.medicalDateValidation.substring(0,10)
+  //         }
+  //         if(this._user.insuranceDateValidation != null)
+  //         this._user.insuranceDateValidation = this._user.insuranceDateValidation.substring(0,10)
+  //         this.getImages()
+  //       }
+  //     },
+  //     error : (error) => {
+  //       console.log(error)
+  //     }}) ;
+  // }
 
   private getUser() {
     this._session.$user.subscribe({
@@ -87,10 +127,15 @@ export class ValidationComponent implements OnInit {
     })
   }
 
+  
+
   deletelevel(trainingId : any){
+    this._user.changeLevel =true
     this._trainingHttpService.deleteUserTraining(trainingId,this._user.id).subscribe({
       next: (data: any) => {
+        //console.log(data)
         this._user.trainings = data
+        this._user.changeLevel =false
       },
       error: (error) => {
         console.log(error);

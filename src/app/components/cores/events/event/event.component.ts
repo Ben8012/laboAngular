@@ -14,6 +14,7 @@ import { DeleteEventModelComponent } from 'src/app/components/modals/delete-even
 import { ActivatedRoute, NavigationEnd, Params, Router } from '@angular/router';
 import { ImageHttpService } from 'src/app/services/http/image.http.service';
 import { ObservableService } from 'src/app/services/observable/observable.service';
+import { NavigationHistoryService } from 'src/app/services/navigation/navigation.history.service';
 
 @Component({
   selector: 'app-event',
@@ -50,19 +51,26 @@ export class EventComponent implements OnInit {
     private _router : Router,
     private route: ActivatedRoute,
     private _observableService : ObservableService,
+    private navigationHistoryService: NavigationHistoryService
     ) { }
 
   ngOnInit(): void {
+    this._observableService.getAllEvents()
+    // const currentUrl = this.navigationHistoryService.getCurrentUrl();
+    // console.log('URL actuelle:', currentUrl);
+
     this._today = new Date()
    
     this.route.url.subscribe(segments => {
+      
       this._urlSegements = segments
       this._url = segments.join('/');
+      this.navigationHistoryService.pushUrl(this._url)
       //console.log("L'URL a changé :", this._url);
 
       this.getUser()
       if (segments.length > 0 && segments[0].path === "event" || segments[0].path === "formation") {
-        console.log("URL contient 'event ou formation'");
+        //console.log("URL contient 'event ou formation'");
         this.getAllEvents();
         this._activateButtons = false
       }
@@ -102,6 +110,7 @@ export class EventComponent implements OnInit {
         this._chargingPageMessage =""
         
         this._events = events;
+        //console.log('mu events',events)
       }
     })
 
@@ -152,6 +161,7 @@ export class EventComponent implements OnInit {
           this._chargingPageMessage =""
         }
         this._events = events;
+        // console.log(events)
       }
       
     })
@@ -238,6 +248,7 @@ export class EventComponent implements OnInit {
 
    creatorInfo(creator : any) :void{
     this._modalDataService.setData(creator);
+    this.dialog.closeAll();
     document.body.classList.add('modal-open');
     const dialogRef = this.dialog.open(CreatorModalComponent);
 
@@ -249,6 +260,7 @@ export class EventComponent implements OnInit {
 
    diveplaceInfo(diveplace : any){
     this._modalDataService.setData(diveplace);
+    this.dialog.closeAll();
     document.body.classList.add('modal-open');
     const dialogRef = this.dialog.open(DiveplaceModalComponent);
 
@@ -260,6 +272,7 @@ export class EventComponent implements OnInit {
 
    clubInfo(club: any){
     this._modalDataService.setData(club);
+    this.dialog.closeAll();
     document.body.classList.add('modal-open');
     const dialogRef = this.dialog.open(ClubModalComponent);
 
@@ -271,6 +284,7 @@ export class EventComponent implements OnInit {
 
    trainingInfo(training : any){
     this._modalDataService.setData(training);
+    this.dialog.closeAll();
     document.body.classList.add('modal-open');
     const dialogRef = this.dialog.open(TrainingModalComponent);
 
@@ -282,6 +296,7 @@ export class EventComponent implements OnInit {
 
    organisationInfo(organisation : any){
     this._modalDataService.setData(organisation);
+    this.dialog.closeAll();
     document.body.classList.add('modal-open');
     const dialogRef = this.dialog.open(OrganisationModalComponent);
 

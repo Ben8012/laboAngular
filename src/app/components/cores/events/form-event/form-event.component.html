@@ -58,8 +58,8 @@
           </div>
         </div>
 
-        <label for="club">Groupe</label>
-        <div class="mb-3 d-flex justify-content-center">
+        <label *ngIf="User.clubs.length > 0" for="club">Groupe</label>
+        <div *ngIf="User.clubs.length > 0" class="mb-3 d-flex justify-content-center">
             <select formControlName="clubId" class="form-select w-50">
                 <option *ngFor="let club of User.clubs" [value]="club.id">{{ club.name }}</option>
             </select>

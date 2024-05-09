@@ -2,7 +2,7 @@ import { IUser } from './models/interfaces/user.model';
 import { Component, HostListener, OnInit } from '@angular/core';
 import { UserSessionService } from './services/session/user-session.service';
 import { Router } from '@angular/router';
-import { isEmpty } from 'rxjs';
+import { interval, isEmpty, startWith, switchMap } from 'rxjs';
 import { UserHttpService } from './services/http/user.http.service';
 import { ChatService } from './services/http/chat.http.service';
 import { EventHttpService } from './services/http/event.http.servive';
@@ -50,40 +50,59 @@ export class AppComponent implements OnInit {
     this.getUser();
     this._observableService.getAllEvents();
     this._observableService.getAllClubs();
-    this._observableService.getAllSite();
+
+    // // Démarrez l'intervalle toutes les 2 minutes (120000 millisecondes)
+    //this.refreshDatas()
+  }
+
+  private refreshDatas(){
+    setTimeout(() => {
+      this._observableService.refreshViews()
+    // Répétez l'appel toutes les 2 minutes
+    this.refreshDatas()
+    }, 120000);
   }
 
   private getUser(){
     let token : any = (localStorage.getItem('token') ?? null);
     if(token != null){
-      this._chargingPageMessage ="Connexion à votre compte en cours ..."
       try {
-        this._userHttpService.getUserByToken(JSON.parse(token)).subscribe({
+        token = JSON.parse(token)
+      } 
+      catch (erreur) {
+        this._session.clearSession()
+        this._chargingPageMessage = ""
+        this._router.navigate(['']);
+        console.clear()
+        console.error("Echec (2) de la connexion connexion...", erreur);
+      }
+      
+      this._chargingPageMessage ="Connexion à votre compte en cours ..."
+        this._userHttpService.getUserByToken(token).subscribe({
           next : (user :any) =>{
             if(user.id){
+              this._chatService.connection()
               this._user= user
               this._session.saveSession(this._user)
+              this._observableService.getAllSiteAndVote(user);
+              this._session.getAllUsers()
               this._chargingPageMessage =""
-              this._chatService.connection()
             }else{
+              this._observableService.getAllSite();
               this._session.$user.next({}as any)
             }
           },
           error : (error) => {
             //this._session.clearSession()
-            this._session.clearSession()
             this._chargingPageMessage = ""
             this._router.navigate(['']);
+            console.clear()
             console.error("Echec (1) de la connexion connexion ...",error);
           }
         })
-    } 
-    catch (erreur) {
-      this._session.clearSession()
-      this._chargingPageMessage = ""
-      this._router.navigate(['']);
-      console.error("Echec (2) de la connexion connexion...", erreur);
-    }
+      
+    }else{
+      this._observableService.getAllSite();
     }
   }
 }

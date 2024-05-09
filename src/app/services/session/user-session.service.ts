@@ -5,6 +5,7 @@ import { BehaviorSubject, Observable, Subject, from, switchMap } from "rxjs";
 import { IUser } from "src/app/models/interfaces/user.model";
 import { ImageHttpService } from '../http/image.http.service';
 import { ObservableService } from '../observable/observable.service';
+import { DateHelperService } from '../helper/date.helper.service';
 
 
 @Injectable({
@@ -20,17 +21,26 @@ export class UserSessionService implements OnInit {
     return this.$user.value;
   }
 
+  get Users(): any {
+    return this.$users.value;
+  }  
+
+  private _users : any
+
+
+
 
   constructor(
     private _router : Router,
     private _userHttpService: UserHttpService,
     private _imageHttpService : ImageHttpService,
-    private _obersvableService : ObservableService
+    private _dateHelperService : DateHelperService,
     )
   {}
 
 
   ngOnInit(): void {
+    
   }
 
   saveSession(data: any) {
@@ -45,24 +55,22 @@ export class UserSessionService implements OnInit {
       }
     })
    
-    this.countUserMessage(data)
     this.$user.next(data);
     this.getUserImage(data)
-    
+    this.countUserMessage(data)
     data.friends.forEach((friend : any)=> {
       this.countFriendMessages(friend,data)
       this.getFriendImage(friend)
     })
 
-    this.getAllUsers()
-    this._obersvableService.getAllSiteAndVote(data)
-
     this.$user.next(data);
+    console.log('user chargé')
     //console.log(data)
   }
 
   clearSession() {
       localStorage.clear()
+      //this.$users.next({} as any)
       this.$user.next({} as any)
   }
 
@@ -96,6 +104,7 @@ export class UserSessionService implements OnInit {
   refreshUser(user : any){
       this._userHttpService.getUserById(user.id).subscribe({
         next : (data :any) =>{
+          this.filterConatcatsForView(data, this._users)
           this.saveSession(data)
         },
         error : (error) => {
@@ -108,9 +117,11 @@ export class UserSessionService implements OnInit {
       next: (users: any) => {
         if(users && users.length > 0){
           this.addMostLevel(users)
-          this.$users.next(users);
+          this._users = users
           this.filterConatcatsForView(this.User,users)
+          this.$users.next(users);
           console.log('contacts chargés')
+          //this.getAllUsersBehevior()
         }
       },
       error: (data: any) => {
@@ -147,6 +158,7 @@ export class UserSessionService implements OnInit {
   private countFriendMessages(friend : any, user :any){
     friend.countMessages = 0
     friend.messages.forEach((message:any)=> {
+      message.createdAt = this._dateHelperService.formatDateToFrench(new Date(message.createdAt))
       if(message.reciever.id == user.id  && message.isRead == false){
         friend.countMessages++
       }
@@ -205,61 +217,61 @@ export class UserSessionService implements OnInit {
   }
 
   private filterConatcatsForView(user:any, allUsers :any){
+    //console.log(allUsers)
+    if(allUsers.length > 0){
+      allUsers.map((user : any) => {
+        user.chargingMessage=""
+        user.hiddenButtons = false
+      });
+  
+      allUsers = allUsers.filter((u: any) => u.id != user.id)
+      
+      user.friends.map((friend : any) => {
+        user.likeds = user.likeds.filter((l: any) => l.id != friend.id)
+        user.likers = user.likers.filter((l: any) => l.id != friend.id)
+  
+        allUsers = allUsers.filter((u: any) => u.id != friend.id)
+        friend.trainings.map((training : any)=>{
+          if(training.isMostLevel ==  true){
+            friend.level = training.name
+            friend.organisation = training.organisation.name
+          }
+        })
+        friend.chargingMessage=""
+        friend.hiddenButtons = false
+      });
+  
+      user.likeds.map((liked : any) => {
+        allUsers = allUsers.filter((u: any) => u.id != liked.id)
+        liked.trainings.map((training : any)=>{
+          if(training.isMostLevel ==  true){
+            liked.level = training.name
+            liked.organisation = training.organisation.name
+          }
+        })
+        liked.chargingMessage=""
+        liked.hiddenButtons = false
+      });
+  
+      user.likers.map((liker : any) => {
+        allUsers = allUsers.filter((u: any) => u.id != liker.id)
+        liker.trainings.map((training : any)=>{
+          if(training.isMostLevel ==  true){
+            liker.level = training.name
+            liker.organisation = training.organisation.name
+          }
+        })
+        liker.chargingMessage=""
+        liker.hiddenButtons = false
+      });
+  
+      user.contacts = allUsers
+      //console.log(user)
+      this.$user.next(user)
 
-    allUsers = allUsers.filter((u: any) => u.id != user.id)
-    
-    user.friends.map((friend : any) => {
-      user.likeds = user.likeds.filter((l: any) => l.id != friend.id)
-      user.likers = user.likers.filter((l: any) => l.id != friend.id)
-
-      allUsers = allUsers.filter((u: any) => u.id != friend.id)
-      friend.trainings.map((training : any)=>{
-        if(training.isMostLevel ==  true){
-          friend.level = training.name
-          friend.organisation = training.organisation.name
-        }
-      })
-      friend.chargingMessage=""
-      friend.hiddenButtons = false
-    });
-
-    user.likeds.map((liked : any) => {
-      allUsers = allUsers.filter((u: any) => u.id != liked.id)
-      liked.trainings.map((training : any)=>{
-        if(training.isMostLevel ==  true){
-          liked.level = training.name
-          liked.organisation = training.organisation.name
-        }
-      })
-      liked.chargingMessage=""
-      liked.hiddenButtons = false
-    });
-
-    user.likers.map((liker : any) => {
-      allUsers = allUsers.filter((u: any) => u.id != liker.id)
-      liker.trainings.map((training : any)=>{
-        if(training.isMostLevel ==  true){
-          liker.level = training.name
-          liker.organisation = training.organisation.name
-        }
-      })
-      liker.chargingMessage=""
-      liker.hiddenButtons = false
-    });
-
-    allUsers.map((user : any) => {
-      // user.trainings.map((training : any)=>{
-      //   if(training.isMostLevel ==  true){
-      //     user.level = training.name
-      //     user.organisation = training.organisation.name
-      //   }
-      // })
-      user.chargingMessage=""
-      user.hiddenButtons = false
-    });
-
-    user.contacts = allUsers
-    this.$user.next(user)
+    }
   }
+
+
 
 }

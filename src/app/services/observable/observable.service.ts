@@ -9,6 +9,7 @@ import { DateHelperService } from '../helper/date.helper.service';
 import { ClubHttpService } from '../http/club.http.service';
 import { SiteHttpService } from '../http/site.http.service';
 import { DomSanitizer } from '@angular/platform-browser';
+import { ChatService } from '../http/chat.http.service';
 
 @Injectable({
   providedIn: 'root'
@@ -18,6 +19,7 @@ export class ObservableService implements OnInit {
   public $events: BehaviorSubject<any> = new BehaviorSubject( {} as any);
   public $clubs: BehaviorSubject<any> = new BehaviorSubject( {} as any);
   public $sites: BehaviorSubject<any> = new BehaviorSubject( {} as any);
+  public $messages: BehaviorSubject<any> = new BehaviorSubject( {} as any);
 
   private _user! : any
 
@@ -28,6 +30,8 @@ export class ObservableService implements OnInit {
     private _clubHttpService : ClubHttpService,
     private _siteHttpService : SiteHttpService,
     private _sanitizer: DomSanitizer,
+    private _session : UserSessionService,
+    private _chatService : ChatService
   ) {}
 
   ngOnInit(): void {
@@ -56,6 +60,14 @@ export class ObservableService implements OnInit {
 
   clearSites(){
     this.$sites.next({} as any)
+  }
+
+  clearMessages(){
+    this.$messages.next({} as any)
+  }
+
+  saveMessages(friend: any) {
+    this.$messages.next(friend);
   }
 
   getAllEvents(){
@@ -123,8 +135,14 @@ export class ObservableService implements OnInit {
       event.startDateFrench = this._dateHelperService.formatDateToFrench(new Date(event.startDate))
       event.endDateFrench = this._dateHelperService.formatDateToFrench(new Date(event.endDate))
       event.participes.forEach((participe : any) => {
+        participe.hiddenButtons = false
         participe.insuranceDateValidation = new Date(participe.insuranceDateValidation)
         participe.medicalDateValidation = new Date(participe.medicalDateValidation)
+      });
+      event.demands.forEach((demand : any) => {
+        demand.hiddenButtons = false
+        demand.insuranceDateValidation = new Date(demand.insuranceDateValidation)
+        demand.medicalDateValidation = new Date(demand.medicalDateValidation)
       });
       event.startDate = new Date(event.startDate)
       event.endDate = new Date(event.endDate)
@@ -142,6 +160,7 @@ export class ObservableService implements OnInit {
         });
       }
       
+      
     });
    }
 
@@ -149,6 +168,7 @@ export class ObservableService implements OnInit {
     clubs.forEach((club : any) => {
       club.createdAt = this._dateHelperService.formatDateToFrench(new Date(club.createdAt))
       club.participes.forEach((participe : any) => {
+        club.hiddenButtons = false
         participe.insuranceDateValidation = new Date(participe.insuranceDateValidation)
         participe.medicalDateValidation = new Date(participe.medicalDateValidation)
       });
@@ -203,6 +223,36 @@ export class ObservableService implements OnInit {
         reader.readAsDataURL(imageData);
       });
     }
+  }
+
+  refreshViews():void{
+    this.getUser()
+    this.getAllClubs()
+    this.getAllEvents()
+    if(this._user.id){
+      this.getAllSiteAndVote(this._user)
+      //this._session.refreshUser(this._user)
+      this._session.getAllUsers()
+      this._chatService.connection()
+    }else{
+      this.getAllSite()
+    }
+  }
+
+  private getUser(){
+    this._session.$user.subscribe({
+      next: (data : any) => {
+          this._user = data;
+          // if (this._user.value && Object.keys(this._user.value).length === 0) {
+          //   console.log("Le BehaviorSubject est vide !");
+          // } else {
+          //   console.log("Le BehaviorSubject n'est pas vide !");
+          // }
+      },
+      error:(data :any) => {
+        console.log(data);
+      }
+    })
   }
 
 }

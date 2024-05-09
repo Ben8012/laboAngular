@@ -4,6 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { UserHttpService } from 'src/app/services/http/user.http.service';
 import { ObservableService } from 'src/app/services/observable/observable.service';
 import { forEach } from 'jszip';
+import { ChatService } from 'src/app/services/http/chat.http.service';
 
 @Component({
   selector: 'app-contact',
@@ -13,7 +14,7 @@ import { forEach } from 'jszip';
 export class ContactComponent implements OnInit {
 
 
-  get User(): any[] { return this._user; }
+  get User(): any{ return this._user; }
   private _user: any; 
 
   get Friends(): any[] { return this._friends; }
@@ -28,6 +29,8 @@ export class ContactComponent implements OnInit {
   get Users(): any[] { return this._users; }
   private _users: any[] = [];
 
+  private _allUsers: any[] = [];
+
   get ChargingPageMessage(): any { return this._chargingPageMessage; }
   private _chargingPageMessage: string = "Page en chargement ...";
 
@@ -35,22 +38,32 @@ export class ContactComponent implements OnInit {
   constructor(
     private _userHttpService: UserHttpService,
     private _session: UserSessionService,
-    private _observableService : ObservableService
+    private _chatService : ChatService
   ) { }
 
   ngOnInit(): void {
+    this._session.getAllUsers()
     this.getUser();
+    this.getAllUsers()
   }
 
   private getUser() {
     this._session.$user.subscribe((user: any) => {
-      this._user = user;
-      this._likeds = user.likeds
-      this._likers = user.likers
-      this._friends = user.friends
-      this._users = user.contacts
-      this._chargingPageMessage=''
-      //console.log(user)
+        this._user = user;
+        this._likeds = this._user.likeds
+        this._likers = this._user.likers
+        this._friends = this._user.friends
+        this._users = this._user.contacts
+        this._chargingPageMessage= ""
+        //console.log(user)
+    })
+  }
+
+  private getAllUsers(){
+    this._session.$users.subscribe((users: any) => {
+      if(users && users.length>0){
+        this._allUsers = users;
+      }
     })
   }
 
@@ -58,21 +71,21 @@ export class ContactComponent implements OnInit {
 
   like(liked: any) {
     liked.hiddenButtons = true
-    this._userHttpService.like(this._user.id, liked.id).subscribe((data: any[]) => {
+    this._userHttpService.like(this._user.id, liked.id).subscribe((data: any) => {
       this._session.refreshUser(this._user)
     });
   }
 
   unlike(liked: any) {
     liked.hiddenButtons = true
-    this._userHttpService.unlike(this._user.id, liked.id).subscribe((data: any[]) => {
+    this._userHttpService.unlike(this._user.id, liked.id).subscribe((data: any) => {
     this._session.refreshUser(this._user)
     });
   }
 
   deletelike(user : any){
     user.hiddenButtons = true
-    this._userHttpService.deletelike(this._user.id, user.id).subscribe((data: any[]) => {
+    this._userHttpService.deletelike(this._user.id, user.id).subscribe((data: any) => {
       this._session.refreshUser(this._user)
       });
   }

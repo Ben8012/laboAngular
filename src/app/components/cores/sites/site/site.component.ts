@@ -66,6 +66,13 @@ export class SiteComponent implements OnInit {
       // console.log(segments)
       this.getUser()
       this.getSites()
+      if(this._user && this._user.id){
+        this._observableService.getAllSiteAndVote(this._user);
+        //console.log('siteandvote')
+      }
+      else{
+        this._observableService.getAllSite()
+      }
 
     });
     //console.log(this._phoneSize)
@@ -115,13 +122,6 @@ export class SiteComponent implements OnInit {
     this._session.$user.subscribe({
       next : (data :any) =>{
         this._user = data;
-        if(this._user && this._user.id){
-          this._observableService.getAllSiteAndVote(this._user);
-        }
-        else{
-          this._observableService.getAllSite()
-        }
-        
       },
       error : (error) => {
         console.log(error)

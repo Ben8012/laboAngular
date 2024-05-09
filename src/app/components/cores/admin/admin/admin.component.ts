@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserHttpService } from 'src/app/services/http/user.http.service';
+import { ObservableService } from 'src/app/services/observable/observable.service';
 import { UserSessionService } from 'src/app/services/session/user-session.service';
 
 @Component({
@@ -20,9 +21,11 @@ export class AdminComponent implements OnInit {
     private _userHttpService: UserHttpService,
     private _session: UserSessionService,
     private _router : Router,
+
   ) {}
 
   ngOnInit(): void {
+    this._session.getAllUsers()
     this.getUser();
    this.getAllUsers()
   }
@@ -38,7 +41,10 @@ export class AdminComponent implements OnInit {
 
   private getAllUsers() {
     this._session.$users.subscribe((users: any) => {
-      this._users = users;
+      if(users && users.length > 0){
+        //console.log(users)
+        this._users = users;
+      }
       
     })
     // this._userHttpService.getAllUsers().subscribe({
