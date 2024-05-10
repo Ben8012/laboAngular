@@ -55,7 +55,7 @@ export class EventComponent implements OnInit {
     ) { }
 
   ngOnInit(): void {
-    this._observableService.getAllEvents()
+    //this._observableService.getAllEvents()
     // const currentUrl = this.navigationHistoryService.getCurrentUrl();
     // console.log('URL actuelle:', currentUrl);
 

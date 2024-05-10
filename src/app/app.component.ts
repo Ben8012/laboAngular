@@ -48,7 +48,6 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     this._phoneSize = window.innerWidth <= 580
     this.getUser();
-    this._observableService.getAllEvents();
     this._observableService.getAllClubs();
 
     // // Démarrez l'intervalle toutes les 2 minutes (120000 millisecondes)
@@ -84,6 +83,7 @@ export class AppComponent implements OnInit {
               this._chatService.connection()
               this._user= user
               this._session.saveSession(this._user)
+              this._observableService.getAllEvents();
               this._observableService.getAllSiteAndVote(user);
               this._session.getAllUsers()
               this._chargingPageMessage =""

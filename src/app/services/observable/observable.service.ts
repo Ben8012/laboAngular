@@ -10,6 +10,8 @@ import { ClubHttpService } from '../http/club.http.service';
 import { SiteHttpService } from '../http/site.http.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ChatService } from '../http/chat.http.service';
+import { TrainingHttpService } from '../http/training.http.service';
+import { DivelogHttpService } from '../http/divelog.http.service';
 
 @Injectable({
   providedIn: 'root'
@@ -31,7 +33,10 @@ export class ObservableService implements OnInit {
     private _siteHttpService : SiteHttpService,
     private _sanitizer: DomSanitizer,
     private _session : UserSessionService,
-    private _chatService : ChatService
+    private _chatService : ChatService,
+    private _userHttpService : UserHttpService,
+    private _trainngHttpService : TrainingHttpService,
+    private _divelogHttpService : DivelogHttpService
   ) {}
 
   ngOnInit(): void {
@@ -70,14 +75,26 @@ export class ObservableService implements OnInit {
     this.$messages.next(friend);
   }
 
-  getAllEvents(){
+  async getAllEvents(){
     this._eventHttpService.getAllEvent().subscribe({
-      next : (events :any) =>{  
-        //console.log(events)
-        this.formatEventForView(events)
-        this.addLevelToView(events) 
-        this.saveEvents(events)
-        console.log('events chargés')
+      next : async (events :any) =>{  
+        console.log(events)
+        if(events && events.length > 0){
+          // if(await this.getAllEventsInfos(events)){
+          //   this.formatEventForView(events)
+          //   this.addLevelToView(events) 
+          //   this.saveEvents(events)
+          //   console.log(events)
+          //   console.log('events chargés')
+
+          // }
+          this.formatEventForView(events)
+            this.addLevelToView(events) 
+            this.saveEvents(events)
+            console.log(events)
+            console.log('events chargés')
+        }
+        
       },
       error : (error) => {
         console.log(error)
@@ -131,6 +148,7 @@ export class ObservableService implements OnInit {
    }
 
    private formatEventForView(events :any){
+    console.log(events)
     events.forEach((event : any) => {
       event.startDateFrench = this._dateHelperService.formatDateToFrench(new Date(event.startDate))
       event.endDateFrench = this._dateHelperService.formatDateToFrench(new Date(event.endDate))
@@ -254,5 +272,228 @@ export class ObservableService implements OnInit {
       }
     })
   }
+
+
+  // private getAllEventsInfos(events : any){
+  //   let diveplaceok = false
+  //   let clubeok = false
+  //   let creatorok = false
+  //   let trainingok = false
+  //   let prerequisok = false
+  //   let participetrainingsok = false
+  //   let demandtrainingsok = false
+
+  //   events.forEach((e:any)=> {
+  //     console.log(e)
+
+  //     if(e.diveplaceId == 0) {
+  //       e.diveplace = null
+  //     }else{
+  //       this._siteHttpService.getById(e.diveplaceId).subscribe({
+  //         next: (diveplace : any) => {
+  //           e.diveplace = diveplace;
+  //           diveplaceok = true
+  //         },
+  //         error:(data :any) => {
+  //           console.log(data);
+  //         }
+  //       })
+  //     }
+
+  //     if(e.clubId == 0) {
+  //       e.club = null
+  //     }else{
+  //       this._clubHttpService.getClubById(e.clubId).subscribe({
+  //         next: (club : any) => {
+  //           e.club = club;
+  //           clubeok = true
+  //         },
+  //         error:(data :any) => {
+  //           console.log(data);
+  //         }
+  //       })
+  //     }
+
+  //     if(e.creatorId == 0) {
+  //       e.creator = null
+  //     }else{
+  //       this._userHttpService.getUserById(e.creatorId).subscribe({
+  //         next: (user : any) => {
+  //           e.creator = user;
+  //           creatorok = true
+  //         },
+  //         error:(data :any) => {
+  //           console.log(data);
+  //         }
+  //       })
+  //     }
+
+  //     if(e.trainingId == 0) {
+  //       e.training = null
+  //     }else{
+  //       this._trainngHttpService.getById(e.trainingId).subscribe({
+  //         next: (training : any) => {
+  //           e.training = training;
+  //           trainingok = false
+  //         },
+  //         error:(data :any) => {
+  //           console.log(data);
+  //         }
+  //       })
+  //     }
+
+  //     if(e.traning != null){
+  //       if(e.traning.PrerequisiteId == 0) {
+  //         e.traning.PrerequisiteId = null
+  //       }else{
+  //         this._trainngHttpService.getById(e.traning.PrerequisiteId).subscribe({
+  //           next: (training : any) => {
+  //             e.training.prerequis = training;
+  //             prerequisok = true
+  //           },
+  //           error:(data :any) => {
+  //             console.log(data);
+  //           }
+  //         })
+  //       }
+  //     }
+
+  //     this._eventHttpService.getAllParticipeByEventId(e.id).subscribe({
+  //       next: (participes : any) => {
+  //         e.participes = participes;
+  //         e.participes.forEach((participe : any)=> {
+  //           this._trainngHttpService.getTrainingsByUserId(participe.id).subscribe({
+  //             next: (trainings : any) => {
+  //               participe.trainings = trainings;
+  //               participetrainingsok = true
+  //             },
+  //             error:(data :any) => {
+  //               console.log(data);
+  //             }
+  //           })
+  //         })
+  //       },
+  //       error:(data :any) => {
+  //         console.log(data);
+  //       }
+  //     })
+      
+  //     this._eventHttpService.getAllDemandsByEventId(e.id).subscribe({
+  //       next: (demands : any) => {
+  //         e.demands = demands;
+  //         e.demands.forEach((demand : any)=> {
+  //           this._trainngHttpService.getTrainingsByUserId(demand.id).subscribe({
+  //             next: (trainings : any) => {
+  //               demand.trainings = trainings;
+  //               demandtrainingsok = true
+  //             },
+  //             error:(data :any) => {
+  //               console.log(data);
+  //             }
+  //           })
+  //         })
+  //       },
+  //       error:(data :any) => {
+  //         console.log(data);
+  //       }
+  //     })
+  //     console.log(e)
+  //   })
+
+  //   return diveplaceok && clubeok && creatorok && trainingok && prerequisok && participetrainingsok && demandtrainingsok 
+  // }
+
+  private async getAllEventsInfos(events : any ) {
+    try {
+        let promises : any = [];
+
+        events.forEach((e:any) => {
+            promises.push(this.loadEventData(e));
+        });
+
+        await Promise.all(promises);
+
+        return true; // Toutes les données ont été chargées avec succès
+    } catch (error) {
+        console.error('An error occurred while loading event data:', error);
+        return false; // Une erreur s'est produite lors du chargement des données
+    }
+}
+
+private async loadEventData(event : any) {
+    try {
+        // Charger les données supplémentaires pour l'événement
+        await this.loadDivePlace(event);
+        await this.loadClub(event);
+        await this.loadCreator(event);
+        await this.loadTraining(event);
+        await this.loadParticipes(event);
+        await this.loadDemands(event);
+        await this.loadDivelog(event);
+    } catch (error) {
+        console.error('An error occurred while loading event data:', error);
+        throw error;
+    }
+}
+
+private async loadDivePlace(event :any) {
+    if (event.diveplaceId !== 0) {
+        event.diveplace = await this._siteHttpService.getById(event.diveplaceId).toPromise();
+    } else {
+        event.diveplace = null;
+    }
+}
+
+private async loadClub(event :any) {
+  if (event.clubId !== 0) {
+      event.club = await this._clubHttpService.getClubById(event.clubId).toPromise();
+  } else {
+      event.club = null;
+  }
+}
+
+private async loadCreator(event :any) {
+  if (event.creatorId !== 0) {
+      event.creator = await this._userHttpService.getUserById(event.creatorId).toPromise();
+  } else {
+      event.creator = null;
+  }
+}
+
+private async loadTraining(event :any) {
+  if (event.trainingId !== 0) {
+      event.training = await this._trainngHttpService.getById(event.trainingId).toPromise();
+  } else {
+      event.training = null;
+  }
+}
+
+private async loadDivelog(event :any) {
+  if (event.id !== 0) {
+      event.divelog = await this._divelogHttpService.getDivelogByEventId(event.id).toPromise();
+  } else {
+      event.divelog = null;
+  }
+}
+
+
+private async loadParticipes(event :any) {
+    event.participes = await this._eventHttpService.getAllParticipeByEventId(event.id).toPromise();
+    console.log(event.participes)
+    // Charger les données supplémentaires pour chaque participe
+    await Promise.all(event.participes.map(async (participe :any) => {
+        participe.trainings = await this._trainngHttpService.getTrainingsByUserId(participe.id).toPromise();
+    }));
+}
+
+private async loadDemands(event :any) {
+  event.demands = await this._eventHttpService.getAllDemandsByEventId(event.id).toPromise();
+  // Charger les données supplémentaires pour chaque participe
+  await Promise.all(event.demands.map(async (demand :any) => {
+    demand.trainings = await this._trainngHttpService.getTrainingsByUserId(demand.id).toPromise();
+  }));
+}
+
+
 
 }

@@ -90,6 +90,7 @@ export class RoleComponent implements OnInit {
   }
 
   private addMostLevel(elements: any) {
+    console.log(elements)
     elements.map((element: any) => {
       if (element.trainings) {
         element.trainings.map((training: any) => {
@@ -113,9 +114,9 @@ export class RoleComponent implements OnInit {
         });
 
       }
-      this.addMostLevel(user.friends)
-      this.addMostLevel(user.likeds)
-      this.addMostLevel(user.likers)
+      // this.addMostLevel(user.friends)
+      // this.addMostLevel(user.likeds)
+      // this.addMostLevel(user.likers)
     });
   }
 }

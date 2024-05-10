@@ -75,6 +75,9 @@ export class ProfilComponent {
 
   ngOnInit() {
     this.getUser();
+    if(this._user.id){
+      this._session.refreshUser(this._user)
+    }
   }
 
  

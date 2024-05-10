@@ -50,12 +50,13 @@ export class ContactComponent implements OnInit {
   private getUser() {
     this._session.$user.subscribe((user: any) => {
         this._user = user;
-        this._likeds = this._user.likeds
-        this._likers = this._user.likers
-        this._friends = this._user.friends
-        this._users = this._user.contacts
-        this._chargingPageMessage= ""
-        //console.log(user)
+        this._likeds = user.likeds
+        this._likers = user.likers
+        this._friends = user.friends
+        this._users = user.contacts
+        if( user.contacts && user.contacts.length > 0 ){
+          this._chargingPageMessage= ""
+        }
     })
   }
 
@@ -63,6 +64,7 @@ export class ContactComponent implements OnInit {
     this._session.$users.subscribe((users: any) => {
       if(users && users.length>0){
         this._allUsers = users;
+        
       }
     })
   }

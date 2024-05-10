@@ -47,7 +47,7 @@ export class ContactbarComponent implements OnInit {
  
     this._chatService.myHub.on("MessageReaded", (message : any) => {
       if(message.friendId == this._user.id || message.userId == this._user.id){
-        this._session.refreshUser(this._user)
+        this.changeIsReadToUserMessage(message)
         if(message.userId == this._user.id){
           this._route.navigate(['/message', message.friendId]);
         }
@@ -84,17 +84,14 @@ export class ContactbarComponent implements OnInit {
 
   private changeIsReadToUserMessage(message : any){
     this._user.friends.forEach((friend : any)=>{
-      //count all messages
       friend.messages.forEach((m:any)=> {
-        console.log(m)
-        console.log(message)
-        if(m.sender.id == message.friendId  && m.reciever.id == message.userId  && m.isRead == false){
-          console.log('ici')
-          message.isRead = true
+        if(message.friendId == this._user.id || message.userId == this._user.id && m.isRead == false){
+          m.isRead = true
         }
       })
+      this._session.countFriendMessages(friend,this._user)
     })
-    this._session.$user.next(this._user)
+    this._session.countUserMessage(this._user)
   }
 
 }

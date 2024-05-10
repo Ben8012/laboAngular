@@ -43,6 +43,11 @@ export class DivelogHttpService {
     return this.http.delete(apiUrl+id)
   }
 
+  getDivelogByEventId(id : any) : Observable<any>{
+    return this.http.get(apiUrl+"GetDivelogByEventId/"+id,{})
+  }
+
+
 
 
 

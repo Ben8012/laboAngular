@@ -143,11 +143,12 @@ export class UserSessionService implements OnInit {
     });
    }
 
-  private countUserMessage(user :any){
+  countUserMessage(user :any){
     user.countMessages = 0
     user.friends.map((friend : any)=>{
       friend.hiddenButtons = false
       friend.messages.forEach((message:any)=> {
+        //message.createdAt = this._dateHelperService.formatDateToFrench(new Date(message.createdAt))
         if(message.reciever.id == user.id && message.isRead == false){
           user.countMessages++
         }
@@ -155,9 +156,10 @@ export class UserSessionService implements OnInit {
     })
   }
 
-  private countFriendMessages(friend : any, user :any){
+  countFriendMessages(friend : any, user :any){
     friend.countMessages = 0
     friend.messages.forEach((message:any)=> {
+      message.hiddenButtons = false
       message.createdAt = this._dateHelperService.formatDateToFrench(new Date(message.createdAt))
       if(message.reciever.id == user.id  && message.isRead == false){
         friend.countMessages++
