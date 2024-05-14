@@ -32,58 +32,41 @@ const routes: Routes = [
   { path: 'profil', component : ProfilComponent, canActivate : [UserGuardService]},
   { path: 'login', component : LoginComponent},
   { path: 'register', component : RegisterComponent},
-
   { path: 'event', component : EventComponent},
   { path: 'my-events', component : EventComponent, canActivate : [UserGuardService]},
   { path: 'formation', component : EventComponent},
-
   { path: 'club', component : ClubComponent},
   { path: 'my-clubs', component : ClubComponent, canActivate : [UserGuardService]},
-
   { path: 'site', component : SiteComponent},
- 
-
   { path: 'contact', component : ContactComponent, canActivate : [UserGuardService]},
   { path: 'message/:id', component : MessageComponent , canActivate : [UserGuardService]},
-
   { path: 'update-event/:id', component : FormEventComponent, canActivate : [UserGuardService]},
   { path: 'insert-event', component : FormEventComponent , canActivate : [UserGuardService]},
-
   { path: 'update-club/:id', component : FormClubComponent, canActivate : [UserGuardService]},
   { path: 'insert-club', component : FormClubComponent, canActivate : [UserGuardService]},
-
   { path: 'my-book', component : EventComponent, canActivate : [UserGuardService]},
   { path: 'update-book/:id', component : FormBookComponent , canActivate : [UserGuardService]},
   { path: 'insert-book/:id', component : FormBookComponent, canActivate : [UserGuardService]},
-
   {path : 'reset-password/:token', component : ResetPasswordComponent ,canActivate : [ResetPasswordGuardService]},
-
   { path: 'admin-home', component : AdminHomeComponent, canActivate : [AdminGuardService],
     children:[
       { path: 'admin-site', component : SiteComponent},
       { path: 'insert-site', component : FormSiteComponent , canActivate : [AdminGuardService]},
       { path: 'update-site/:id', component : FormSiteComponent , canActivate : [AdminGuardService]},
- 
       { path: 'training', component : TrainingComponent},
       { path: 'insert-training/:id', component : FormTrainingComponent},
       { path: 'update-training/:id', component : FormTrainingComponent},
       { path: 'insert-organisation', component : FormOrganisationComponent},
       { path: 'update-organisation/:id', component : FormOrganisationComponent},
-
       { path: 'role', component : RoleComponent, canActivate : [SuperAdminGuardService]},
       { path: 'admin', component : AdminComponent},
       { path: 'validation/:id', component : ValidationComponent},
-
     ]
   },
   
   { path: '**', component : HomeComponent},
 
 ];
-
-// const routerOptions: ExtraOptions = {
-//   onSameUrlNavigation: 'reload' // Cette ligne force le rafraîchissement de la page si l'URL est la même mais que les paramètres changent
-// };
 
 @NgModule({
   imports: [RouterModule.forRoot(routes,{ useHash: false })],

@@ -78,7 +78,7 @@ export class ObservableService implements OnInit {
   async getAllEvents(){
     this._eventHttpService.getAllEvent().subscribe({
       next : async (events :any) =>{  
-        console.log(events)
+        //console.log(events)
         if(events && events.length > 0){
           // if(await this.getAllEventsInfos(events)){
           //   this.formatEventForView(events)
@@ -91,7 +91,7 @@ export class ObservableService implements OnInit {
           this.formatEventForView(events)
             this.addLevelToView(events) 
             this.saveEvents(events)
-            console.log(events)
+            //console.log(events)
             console.log('events chargés')
         }
         
@@ -148,7 +148,7 @@ export class ObservableService implements OnInit {
    }
 
    private formatEventForView(events :any){
-    console.log(events)
+    //console.log(events)
     events.forEach((event : any) => {
       event.startDateFrench = this._dateHelperService.formatDateToFrench(new Date(event.startDate))
       event.endDateFrench = this._dateHelperService.formatDateToFrench(new Date(event.endDate))

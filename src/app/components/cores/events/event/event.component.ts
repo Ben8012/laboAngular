@@ -55,7 +55,7 @@ export class EventComponent implements OnInit {
     ) { }
 
   ngOnInit(): void {
-    //this._observableService.getAllEvents()
+   
     // const currentUrl = this.navigationHistoryService.getCurrentUrl();
     // console.log('URL actuelle:', currentUrl);
 
@@ -82,7 +82,7 @@ export class EventComponent implements OnInit {
       this._user = user;
       // console.log(this._user)
       if(this._user.id && this._urlSegements.length > 0 && (this._urlSegements[0].path === "my-events" || this._urlSegements[0].path === "my-book" )){
-        //console.log("my-events")
+        this._observableService.getAllEvents()
         this.getEventsByUserId()
         this._activateButtons = true
       }

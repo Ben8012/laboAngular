@@ -49,7 +49,7 @@ export class AppComponent implements OnInit {
     this._phoneSize = window.innerWidth <= 580
     this.getUser();
     this._observableService.getAllClubs();
-
+    this._observableService.getAllEvents();
     // // Démarrez l'intervalle toutes les 2 minutes (120000 millisecondes)
     //this.refreshDatas()
   }
@@ -83,7 +83,6 @@ export class AppComponent implements OnInit {
               this._chatService.connection()
               this._user= user
               this._session.saveSession(this._user)
-              this._observableService.getAllEvents();
               this._observableService.getAllSiteAndVote(user);
               this._session.getAllUsers()
               this._chargingPageMessage =""
